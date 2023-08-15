@@ -1,7 +1,7 @@
 import { ProductManager } from "./productManager.js";
 //CREACIÓN DE LA CLASE:
 
-const productManager = new ProductManager('./products.json')
+export const productManager = new ProductManager("./products.json");
 
 //CREACION DE PRODUCTOS:
 const prod1 = {
@@ -13,78 +13,53 @@ const prod1 = {
   stock: 5,
 };
 const prod2 = {
-  title: "title",
+  title: "title2",
+  description: "descripti3on",
   price: 40,
-  thumbnail: "thumbnail",
-  code: "code2",
+  thumbnail: "thumbnai1l",
+  code: "1asd2h3",
   stock: 5,
 };
 const prod3 = {
-  title: "title",
-  description: "",
+  title: "title3",
+  description: "descripti3on",
   price: 40,
-  thumbnail: "thumbnail",
-  code: "code",
+  thumbnail: "thumbnai1l",
+  code: "1asd2hasdds3",
+  stock: 5,
+};
+const prod4 = {
+  title: "title4",
+  description: "descripti3on",
+  price: 40,
+  thumbnail: "thumbnai1l",
+  code: "1asd2fdssdfh3",
+  stock: 5,
+};const prod5 = {
+  title: "title5",
+  description: "descripti3on",
+  price: 40,
+  thumbnail: "thumbnai1l",
+  code: "1asd2hasdasdds3",
+  stock: 5,
+};
+const prod6 = {
+  title: "title6",
+  description: "descripti3on",
+  price: 40,
+  thumbnail: "thumbnai1l",
+  code: "1asads2d2fdssdfh3",
   stock: 5,
 };
 
+
 const test = async()=>{
-  console.log('test:');
-  console.log('getProducts()=>devuelve un array vacío:');
-  console.log(await productManager.getProducts());
-
-  console.log("test: ");
-  console.log("addProducts(prod1) devuelve el producto creado:");
-  console.log(await productManager.addProduct(prod1));
-
-  console.log("test:");
-  console.log('hago un getProducts():');
-  console.log(await productManager.getProducts());
-
-  console.log('test: ');
-  console.log('addProducts(prod3) tiene un código repetido:');
-  console.log(await productManager.addProduct(prod3));
-  
-  console.log("test:");
-  console.log('hago un getProducts():');
-  console.log(await productManager.getProducts());
-
-  console.log("test");
-  console.log("cargo un producto con campos vacíos:");
-  console.log(await productManager.addProduct(prod2))
-
-  console.log("test:");
-  console.log('hago un getProducts():');
-  console.log(await productManager.getProducts());
- 
-  console.log("test:");
-  console.log('hago un getProductsByID(1) (ID existente):');
-  console.log(await productManager.getProductByID(1));
-
-  console.log("test:");
-  console.log('hago un getProductsByID(2). (ID no existente):');
-  console.log(await productManager.getProductByID(2));
-
-  console.log("test:");
-  console.log("updateProduct(1,(price:250). devuelve el producto actualizado:");
-  console.log(await productManager.updateProduct(1, { price: 250 }));
-
-  console.log("test:");
-  console.log("updateProduct(2,(price:250). devuelve error por producto no encontrado:");
-  console.log(await productManager.updateProduct(2, { price: 250 }));
-
-  console.log("test:");
-  console.log(
-    "deleteProduct(1) devuelve la lista de productos sin el artículo eliminado:"
-  );
-  console.log(await productManager.deleteProduct(1));
-
-  console.log("test:");
-  console.log(
-    "deleteProduct(2) devuelve error por producto inexistente:"
-  );
-  console.log(await productManager.deleteProduct(2));
-
-}
+  await productManager.addProduct(prod1);
+  await productManager.addProduct(prod2);
+  await productManager.addProduct(prod3);
+  await productManager.addProduct(prod4);
+  await productManager.addProduct(prod5);
+  await productManager.addProduct(prod6);
+ }
 
 test()
