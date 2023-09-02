@@ -8,7 +8,7 @@ const socket = io();
   document.getElementById("createBtn").addEventListener("click", async (e) => {
 
     e.preventDefault();
-    //no me dispara este alert... Algo anda mal.
+    
     alert("boton activado");
     //tomo los valores del formulario en el html para generar un nuevo objeto:
     const body = {
@@ -22,7 +22,7 @@ const socket = io();
     };
 
     //cargo ese objeto con el método POST de mi router productRouter.js
-    //pero me está fallando y no encuentro donde...
+
     await fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),
@@ -49,9 +49,14 @@ const socket = io();
         document.getElementById("code").value = "";
         document.getElementById("stock").value = "";
         document.getElementById("category").value = "";
+
+        //resuelvo circunstancialmente la vista dinámica con este método para refrescar y actualizar la página desde el http, WebSocket no me corre bien:
+        window.location.reload();
       })
       .catch((err) => alert(`ocurrió un error: (\n ${err}`));
-  });
+  }
+  
+  );
 ;
 
 //delete products funciona! Elimina los productos pero no actualiza los productos de la tabla :(
@@ -65,6 +70,9 @@ deleteProduct = async (id) => {
 
       socket.emit("productList", result.payload);
       alert("producto eliminado!");
+
+      //resuelvo circunstancialmente la vista dinámica con este método para refrescar y actualizar la página desde el http, WebSocket no me corre bien:
+      window.location.reload();
     })
     .catch((err) => alert(`error! (\n ${err}`));
 };

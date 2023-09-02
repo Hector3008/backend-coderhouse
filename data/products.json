@@ -26,45 +26,6 @@
     "category": "categoria1"
   },
   {
-    "id": 3,
-    "title": "title4",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "123aas",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 4,
-    "title": "title4",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "dswa",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 5,
-    "title": "title4",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "asa",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
     "id": 6,
     "status": true,
     "title": "h",
@@ -75,6 +36,19 @@
     ],
     "code": "das12",
     "stock": "312",
+    "category": "cas"
+  },
+  {
+    "id": 7,
+    "status": true,
+    "title": "1",
+    "description": "d",
+    "price": "2",
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "ads2123124",
+    "stock": "14",
     "category": "cas"
   }
 ]
