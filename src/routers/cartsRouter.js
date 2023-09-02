@@ -1,9 +1,24 @@
 import { Router } from "express"
-import { CartManager } from "../cartManager.js"
+import  CartManager  from "../cartManager.js"
 
-export const cartsRouter = Router()
+const cartsRouter = Router()
 
-const cartManager = new CartManager('../data/carts.json')
+const cartManager = new CartManager('./data/carts.json')
+
+cartsRouter.get(
+"/", async (req, res) => {
+  const result = await cartManager.getCarts();
+  const limit = req.query.limit;
+
+  if (typeof result == "string") {
+    const error = result.split(" ");
+    return res
+      .status(parseInt(error[0].slice(1, 4)))
+      .json({ error: result.slice(6) });
+  }
+  res.status(200).json({ status: "success", payload: result.slice(0, limit) });
+}
+)
 
 cartsRouter.post("/", async (req, res) => {
   const result = await cartManager.createCart();
@@ -40,3 +55,5 @@ cartsRouter.post("/:cid/product/:pid", async (req,res)=>{
   }
    res.status(200).json({ status: "success", payload: result });
 })
+
+export default cartsRouter;

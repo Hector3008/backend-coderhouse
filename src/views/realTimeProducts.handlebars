@@ -1,0 +1,49 @@
+{{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
+
+<h1 class="display-3 text-center">realtime products</h1>
+<hr />
+<div class="container">
+  <form type="onsubmit" id="createForm">
+    <div class="m-2">title: <input type="text" id="title"></div>
+    <div class="m-2">description: <input type="text" id="description"></div>
+    <div class="m-2">price: <input type="number" id="price"></div>
+    <div class="m-2">code: <input type="text" id="code"></div>
+    <div class="m-2">stock: <input type="text" id="stock"></div>
+    <div class="m-2">category: <input type="text" id="category"></div>
+    <button type="submit" id="createBtn" class="btn btn-primary">create product</button>
+  </form>
+
+  <hr />
+  <table id="realProductsTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>title</th>
+        <th>description</th>
+        <th>price</th>
+        <th>code</th>
+        <th>stock</th>
+        <th>category</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+      <tr>
+        <td><button class="btn btn-danger" onclick="deleteProduct({{this.id}})">eliminar</button></td>
+        <td>{{this.title}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.code}}</td>
+        <td>{{this.stock}}</td>
+        <td>{{this.category}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+</div>
+
+
+{{!-- socket: --}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

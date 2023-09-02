@@ -1,6 +1,6 @@
 [
   {
-    "id": 2,
+    "id": 1,
     "title": "title",
     "description": "description",
     "price": 40,
@@ -13,7 +13,7 @@
     "category": "categoria1"
   },
   {
-    "id": 4,
+    "id": 2,
     "title": "title4",
     "description": "descripti3on",
     "price": 40,
@@ -26,54 +26,28 @@
     "category": "categoria1"
   },
   {
-    "id": 6,
-    "title": "title6",
+    "id": 3,
+    "title": "title4",
     "description": "descripti3on",
     "price": 40,
     "status": true,
     "thumbnail": [
       "sin imagen"
     ],
-    "code": "1asads2d2fdssdfh3",
+    "code": "123aas",
     "stock": 5,
     "category": "categoria1"
   },
   {
-    "id": 7,
-    "title": "TITULO",
+    "id": 4,
+    "title": "title4",
     "description": "descripti3on",
     "price": 40,
     "status": true,
     "thumbnail": [
       "sin imagen"
     ],
-    "code": "dsadasd",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 8,
-    "title": "TITULO",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "a",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 9,
-    "title": "TITULO",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "asddwd2d21",
+    "code": "dswa",
     "stock": 5,
     "category": "categoria1"
   }

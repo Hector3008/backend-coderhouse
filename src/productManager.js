@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export class ProductManager {
+class ProductManager {
   #path;
   constructor(path) {
     this.#path = path;
@@ -33,10 +33,12 @@ export class ProductManager {
     let data = await fs.promises.readFile(this.#path, "utf-8");
     let products = JSON.parse(data);
     const found = products.find((i) => i.code === product.code);
+
     if (found) return "[ERR] code already exists";
     //hardcodeo el status en true:
     const productToAdd = { id: this.#generateID(products), status: true, ...product };
     products.push(productToAdd);
+    
     await fs.promises.writeFile(this.#path, JSON.stringify(products, null, 2));
     return productToAdd;
   }
@@ -104,3 +106,5 @@ export class ProductManager {
     return found;
   }
 }
+
+export default ProductManager;
