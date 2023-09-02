@@ -50,5 +50,31 @@
     "code": "dswa",
     "stock": 5,
     "category": "categoria1"
+  },
+  {
+    "id": 5,
+    "status": true,
+    "title": "TITULO NUEVO",
+    "description": "DESCRIPCION NUEVA",
+    "price": 40,
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "CODIGONUEVO",
+    "stock": 5,
+    "category": "CATEGORIA NUEVA"
+  },
+  {
+    "id": 6,
+    "status": true,
+    "title": "ADWWADWWDA NUEVO",
+    "description": "DESCRIPCION NUEVA",
+    "price": 40,
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "DASDWDADW",
+    "stock": 5,
+    "category": "CATEGORIA NUEVA"
   }
 ]

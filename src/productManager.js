@@ -24,7 +24,8 @@ class ProductManager {
       !product.price ||
       !product.thumbnail ||
       !product.code ||
-      !product.category || !stock
+      !product.category ||
+      !product.stock
     )
       return "[ERR] require fields missing";
 
