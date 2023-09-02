@@ -5,7 +5,9 @@
     "description": "description",
     "price": 40,
     "status": true,
-    "thumbnail": ["sin imagen"],
+    "thumbnail": [
+      "sin imagen"
+    ],
     "code": "ASDWDWD",
     "stock": 5,
     "category": "categoria1"
@@ -16,7 +18,9 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": ["sin imagen"],
+    "thumbnail": [
+      "sin imagen"
+    ],
     "code": "1asd2fdssdfh3",
     "stock": 5,
     "category": "categoria1"
@@ -27,7 +31,9 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": ["sin imagen"],
+    "thumbnail": [
+      "sin imagen"
+    ],
     "code": "123aas",
     "stock": 5,
     "category": "categoria1"
@@ -38,7 +44,9 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": ["sin imagen"],
+    "thumbnail": [
+      "sin imagen"
+    ],
     "code": "dswa",
     "stock": 5,
     "category": "categoria1"
@@ -49,9 +57,24 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": ["sin imagen"],
+    "thumbnail": [
+      "sin imagen"
+    ],
     "code": "asa",
     "stock": 5,
     "category": "categoria1"
+  },
+  {
+    "id": 6,
+    "status": true,
+    "title": "h",
+    "description": "d",
+    "price": "132",
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "das12",
+    "stock": "312",
+    "category": "cas"
   }
 ]
