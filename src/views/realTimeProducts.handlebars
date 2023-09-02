@@ -2,18 +2,19 @@
 
 <h1 class="display-3 text-center">realtime products</h1>
 <hr />
-<div class="container">
+<div class="container" style="width: 50%;">
   <form type="onsubmit" id="createForm">
-    <div class="m-2">title: <input type="text" id="title"></div>
-    <div class="m-2">description: <input type="text" id="description"></div>
-    <div class="m-2">price: <input type="number" id="price"></div>
-    <div class="m-2">code: <input type="text" id="code"></div>
-    <div class="m-2">stock: <input type="text" id="stock"></div>
-    <div class="m-2">category: <input type="text" id="category"></div>
+    <div class="m-2 form-label">title: <input type="text" class="form-control" id="title"></div>
+    <div class="m-2 form-label">description: <input type="text" class="form-control" id="description"></div>
+    <div class="m-2 form-label">price: <input type="number" class="form-control" id="price"></div>
+    <div class="m-2 form-label">code: <input type="text" class="form-control" id="code"></div>
+    <div class="m-2 form-label">stock: <input type="text" class="form-control" id="stock"></div>
+    <div class="m-2 form-label">category: <input type="text" class="form-control" id="category"></div>
     
     <button type="submit" id="createBtn" class="btn btn-primary">create product</button>
   </form>
-
+  </div>
+  <div class="container">
   <hr />
   <table id="realProductsTable" class="table table-striped">
     <thead>

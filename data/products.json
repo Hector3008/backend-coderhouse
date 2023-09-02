@@ -50,5 +50,18 @@
     "code": "ads2123124",
     "stock": "14",
     "category": "cas"
+  },
+  {
+    "id": 8,
+    "status": true,
+    "title": "a",
+    "description": "b",
+    "price": "123",
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "ads2",
+    "stock": "123",
+    "category": "cas2"
   }
 ]
