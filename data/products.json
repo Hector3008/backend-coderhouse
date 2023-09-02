@@ -5,9 +5,7 @@
     "description": "description",
     "price": 40,
     "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
+    "thumbnail": ["sin imagen"],
     "code": "ASDWDWD",
     "stock": 5,
     "category": "categoria1"
@@ -18,9 +16,7 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
+    "thumbnail": ["sin imagen"],
     "code": "1asd2fdssdfh3",
     "stock": 5,
     "category": "categoria1"
@@ -31,9 +27,7 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
+    "thumbnail": ["sin imagen"],
     "code": "123aas",
     "stock": 5,
     "category": "categoria1"
@@ -44,37 +38,20 @@
     "description": "descripti3on",
     "price": 40,
     "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
+    "thumbnail": ["sin imagen"],
     "code": "dswa",
     "stock": 5,
     "category": "categoria1"
   },
   {
     "id": 5,
-    "status": true,
-    "title": "TITULO NUEVO",
-    "description": "DESCRIPCION NUEVA",
+    "title": "title4",
+    "description": "descripti3on",
     "price": 40,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "CODIGONUEVO",
-    "stock": 5,
-    "category": "CATEGORIA NUEVA"
-  },
-  {
-    "id": 6,
     "status": true,
-    "title": "ADWWADWWDA NUEVO",
-    "description": "DESCRIPCION NUEVA",
-    "price": 40,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "DASDWDADW",
+    "thumbnail": ["sin imagen"],
+    "code": "asa",
     "stock": 5,
-    "category": "CATEGORIA NUEVA"
+    "category": "categoria1"
   }
 ]

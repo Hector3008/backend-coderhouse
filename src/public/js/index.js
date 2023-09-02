@@ -3,10 +3,10 @@
   //hago el handshake (clientSocket)
 const socket = io();
 
+const test = ()=>{
 const table = document.getElementById("realProductsTable");
 
 document.getElementById("createBtn").addEventListener("click", (e) => {
-  async;
   e.preventDefault();
   alert("boton activado");
 
@@ -16,11 +16,12 @@ document.getElementById("createBtn").addEventListener("click", (e) => {
     price: document.getElementById("price").value,
     thumbnail: ["sin imagen"],
     code: document.getElementById("code").value,
-    category: document.getElementById("category").value,
     stock: document.getElementById("stock").value,
+    category: document.getElementById("category").value,
   };
+
   //me está fallando la consulta al post del api/products...
-  const test = async()=> {await fetch("api/products", {
+  fetch("/api/products", {
     method: "post",
     body: JSON.stringify(body),
     headers: {
@@ -30,24 +31,26 @@ document.getElementById("createBtn").addEventListener("click", (e) => {
     .then((result) => result.json())
     .then((result) => {
       if (result.status === "error") throw alert("error!");
-
+    })
+    .then(() => fetch("/api/products"))
+    .then((result) => result.json)
+    .then((result) => {
+      if (result.status === "error") throw alert("error!");
       socket.emit("productList", result.payload);
+
       alert("El producto se ha agregado con éxito!");
+
+      //limpieza del formulario
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("code").value = "";
+      document.getElementById("stock").value = "";
+      document.getElementById("category").value = "";
     })
     .catch((err) => alert(`ocurrió un error: (\n ${err}`));
-
-  }
-  
-  test()
-
-  //limpieza del formulario
-  document.getElementById("title").value = "";
-  document.getElementById("description").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("code").value = "";
-  document.getElementById("stock").value = "";
-  document.getElementById("category").value = "";
 });
+}
 
 //delete products funciona! Elimina los productos pero no actualiza los productos de la tabla :(
 deleteProduct = async (id)=>{
@@ -60,8 +63,7 @@ deleteProduct = async (id)=>{
 
       socket.emit("productList", result.payload);
       alert("producto eliminado!");
-      
-
+    
     })
     .catch((err) => alert(`error! (\n ${err}`));
 }
@@ -70,10 +72,8 @@ deleteProduct = async (id)=>{
  socket.on("updatedProducts", (data) => {
   alert("io.on recibido")
   data= json.stringify(data)
-  table.innerHTML = `
-
-  `;
-  /*
+  table.innerHTML = `  `
+  
   for (product of data) {
     let tr = document.createElement("tr");
     tr.innerHTML = `
@@ -86,6 +86,6 @@ deleteProduct = async (id)=>{
       <td>${product.stock}</td>
       <td>${product.category}</td>
     `;
-  }*/
+  }
 });
 
