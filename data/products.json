@@ -1,67 +1,41 @@
 [
   {
-    "id": 1,
-    "title": "title",
-    "description": "description",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "ASDWDWD",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 2,
-    "title": "title4",
-    "description": "descripti3on",
-    "price": 40,
-    "status": true,
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "1asd2fdssdfh3",
-    "stock": 5,
-    "category": "categoria1"
-  },
-  {
-    "id": 6,
-    "status": true,
-    "title": "h",
-    "description": "d",
-    "price": "132",
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "das12",
-    "stock": "312",
-    "category": "cas"
-  },
-  {
     "id": 7,
     "status": true,
-    "title": "1",
-    "description": "d",
-    "price": "2",
+    "title": "TITULO7",
+    "description": "DESCRIPCION7",
+    "price": "7",
     "thumbnail": [
       "sin imagen"
     ],
-    "code": "ads2123124",
-    "stock": "14",
-    "category": "cas"
+    "code": "CODIGO7",
+    "stock": "7",
+    "category": "CATEGORIA7"
   },
   {
     "id": 8,
     "status": true,
-    "title": "a",
-    "description": "b",
-    "price": "123",
+    "title": "TITULO8",
+    "description": "DESCRIPCION8",
+    "price": "8",
     "thumbnail": [
       "sin imagen"
     ],
-    "code": "ads2",
-    "stock": "123",
-    "category": "cas2"
+    "code": "CODIGO8",
+    "stock": "8",
+    "category": "CATEGORIA8"
+  },
+  {
+    "id": 9,
+    "status": true,
+    "title": "TITULO9",
+    "description": "DESCRIPCION9",
+    "price": "9",
+    "thumbnail": [
+      "sin imagen"
+    ],
+    "code": "CODIGO9",
+    "stock": "9",
+    "category": "CATEGORIA9"
   }
 ]

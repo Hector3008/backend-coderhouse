@@ -50,6 +50,8 @@ app.set('view engine', 'handlebars')
     //estos mensajes emitidos vienen desde el archivo index.js:
     socket.on("productList", (data) => {
       //se emiten desde el servidor:
-      io.emit('updatedProducts', data);
+//      alert("socket recibido en el servidor")
+      io.emit("updatedProducts", data);
+  //    alert("socket recibido desde el servidor");
     });
   });

@@ -23,7 +23,7 @@ const socket = io();
 
     //cargo ese objeto con el método POST de mi router productRouter.js
 
-    await fetch("/api/products", {
+   fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),
       headers: {
@@ -38,17 +38,21 @@ const socket = io();
       .then((result) => result.json)
       .then((result) => {
         if (result.status === "error") throw alert("error!");
+
         socket.emit("productList", result.payload);
 
         alert("El producto se ha agregado con éxito!");
 
-        //limpieza del formulario
+        //limpieza del formulario:
         document.getElementById("title").value = "";
         document.getElementById("description").value = "";
         document.getElementById("price").value = "";
         document.getElementById("code").value = "";
         document.getElementById("stock").value = "";
         document.getElementById("category").value = "";
+
+        //este alert no se reproduce, no sé por qué:
+          //alert("se han limpiado los values del formulario");
 
         //resuelvo circunstancialmente la vista dinámica con este método para refrescar y actualizar la página desde el http, WebSocket no me corre bien:
         window.location.reload();
@@ -61,7 +65,7 @@ const socket = io();
 
 //delete products funciona! Elimina los productos pero no actualiza los productos de la tabla :(
 deleteProduct = async (id) => {
-  fetch(`/api/products/${id}`, {
+  await fetch(`/api/products/${id}`, {
     method: "delete",
   })
     .then((result) => result.json())
@@ -78,9 +82,13 @@ deleteProduct = async (id) => {
 };
 
 //el socket no me está pintando la lista después de eliminar el producto :(
+
+  //despues de varios testeos: creo que los emits del servidor y del cliente se están golpeando:
 socket.on("updatedProducts", (data) => {
   alert("io.on recibido");
-  data = json.stringify(data);
+   data = json.stringify(data);
+  alert("data stringfied");
+  
   table.innerHTML = `  `;
 
   for (product of data) {
