@@ -1,41 +1,112 @@
 [
   {
-    "id": 7,
+    "id": 1,
+    "title": "titulo1",
+    "description": "descripcion1",
+    "price": 1,
     "status": true,
-    "title": "TITULO7",
-    "description": "DESCRIPCION7",
-    "price": "7",
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "CODIGO7",
-    "stock": "7",
-    "category": "CATEGORIA7"
+    "thumbnail": ["sin imagen"],
+    "code": "codigo1",
+    "stock": 1,
+    "category": "categoria1"
+  },
+  {
+    "id": 2,
+    "title": "titulo2",
+    "description": "descripcion2",
+    "price": 2,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo2",
+    "stock": 2,
+    "category": "categoria2"
+  },
+  {
+    "id": 3,
+    "title": "titulo3",
+    "description": "descripcion3",
+    "price": 3,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo3",
+    "stock": 3,
+    "category": "categoria3"
+  },
+  {
+    "id": 4,
+    "title": "titulo4",
+    "description": "descripcion4",
+    "price": 4,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo4",
+    "stock": 4,
+    "category": "categoria4"
+  },
+  {
+    "id": 5,
+    "title": "titulo5",
+    "description": "descripcion5",
+    "price": 5,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo5",
+    "stock": 5,
+    "category": "categoria5"
+  },
+  {
+    "id": 6,
+    "title": "titulo6",
+    "description": "descripcion6",
+    "price": 6,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo6",
+    "stock": 6,
+    "category": "categoria6"
+  },
+  {
+    "id": 7,
+    "title": "titulo7",
+    "description": "descripcion7",
+    "price": 7,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo7",
+    "stock": 7,
+    "category": "categoria7"
   },
   {
     "id": 8,
+    "title": "titulo8",
+    "description": "descripcion8",
+    "price": 8,
     "status": true,
-    "title": "TITULO8",
-    "description": "DESCRIPCION8",
-    "price": "8",
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "CODIGO8",
-    "stock": "8",
-    "category": "CATEGORIA8"
+    "thumbnail": ["sin imagen"],
+    "code": "codigo8",
+    "stock": 8,
+    "category": "categoria8"
   },
   {
     "id": 9,
+    "title": "titulo9",
+    "description": "descripcion9",
+    "price": 9,
     "status": true,
-    "title": "TITULO9",
-    "description": "DESCRIPCION9",
-    "price": "9",
-    "thumbnail": [
-      "sin imagen"
-    ],
-    "code": "CODIGO9",
-    "stock": "9",
-    "category": "CATEGORIA9"
+    "thumbnail": ["sin imagen"],
+    "code": "codigo9",
+    "stock": 9,
+    "category": "categoria9"
+  },
+  {
+    "id": 10,
+    "title": "titulo10",
+    "description": "descripcion10",
+    "price": 10,
+    "status": true,
+    "thumbnail": ["sin imagen"],
+    "code": "codigo10",
+    "stock": 10,
+    "category": "categoria10"
   }
 ]

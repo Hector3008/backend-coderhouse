@@ -10,11 +10,11 @@
     <div class="m-2 form-label">code: <input type="text" class="form-control" id="code"></div>
     <div class="m-2 form-label">stock: <input type="text" class="form-control" id="stock"></div>
     <div class="m-2 form-label">category: <input type="text" class="form-control" id="category"></div>
-    
+
     <button type="submit" id="createBtn" class="btn btn-primary">create product</button>
   </form>
-  </div>
-  <div class="container">
+</div>
+<div class="container">
   <hr />
   <table id="realProductsTable" class="table table-striped">
     <thead>
@@ -28,7 +28,7 @@
         <th>category</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tbdodyProducts">
       {{#each products}}
       <tr>
         <td><button class="btn btn-danger" onclick="deleteProduct({{this.id}})">eliminar</button></td>

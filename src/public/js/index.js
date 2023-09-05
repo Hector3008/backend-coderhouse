@@ -1,5 +1,3 @@
-//este archivo trabaja con el .handlebar de 'realTimeProducts'.
-
 //hago el handshake (clientSocket)
 const socket = io();
 
@@ -23,7 +21,7 @@ const socket = io();
 
     //cargo ese objeto con el método POST de mi router productRouter.js
 
-   fetch("/api/products", {
+    fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),
       headers: {
@@ -34,8 +32,8 @@ const socket = io();
       .then((result) => {
         if (result.status === "error") throw alert("error!");
       })
-      .then(() => fetch("/api/products"))
-      .then((result) => result.json)
+      .then(() =>  fetch("/api/products"))
+      .then((result) => result.json())
       .then((result) => {
         if (result.status === "error") throw alert("error!");
 
@@ -52,10 +50,9 @@ const socket = io();
         document.getElementById("category").value = "";
 
         //este alert no se reproduce, no sé por qué:
-          //alert("se han limpiado los values del formulario");
+        alert("se han limpiado los values del formulario");
 
-        //resuelvo circunstancialmente la vista dinámica con este método para refrescar y actualizar la página desde el http, WebSocket no me corre bien:
-        window.location.reload();
+
       })
       .catch((err) => alert(`ocurrió un error: (\n ${err}`));
   }
@@ -63,8 +60,8 @@ const socket = io();
   );
 ;
 
-//delete products funciona! Elimina los productos pero no actualiza los productos de la tabla :(
 deleteProduct = async (id) => {
+
   await fetch(`/api/products/${id}`, {
     method: "delete",
   })
@@ -75,21 +72,16 @@ deleteProduct = async (id) => {
       socket.emit("productList", result.payload);
       alert("producto eliminado!");
 
-      //resuelvo circunstancialmente la vista dinámica con este método para refrescar y actualizar la página desde el http, WebSocket no me corre bien:
-      window.location.reload();
     })
     .catch((err) => alert(`error! (\n ${err}`));
 };
 
-//el socket no me está pintando la lista después de eliminar el producto :(
 
-  //despues de varios testeos: creo que los emits del servidor y del cliente se están golpeando:
+  //NOTA: no poner ningún async antes del '(data)' de este socket... :
 socket.on("updatedProducts", (data) => {
-  alert("io.on recibido");
-   data = json.stringify(data);
-  alert("data stringfied");
-  
-  table.innerHTML = `  `;
+  //alert("io.on recibido");
+  const tbdodyProducts = document.getElementById("tbdodyProducts");
+  tbdodyProducts.innerHTML = `  `;
 
   for (product of data) {
     let tr = document.createElement("tr");
@@ -103,5 +95,6 @@ socket.on("updatedProducts", (data) => {
       <td>${product.stock}</td>
       <td>${product.category}</td>
     `;
+    tbdodyProducts.appendChild(tr);
   }
 });

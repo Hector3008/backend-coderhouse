@@ -12,7 +12,6 @@ import  viewsRouter  from './routers/view.router.js'
 //instancio su variable de acceso al servidor express: 
 
 const app = express()
-
 //le aviso a express que el cliente le estará enviando invformación en formato json:
 app.use(express.json())
 //instancio la información estática:
@@ -46,12 +45,12 @@ app.set('view engine', 'handlebars')
   //inicializo el flujo de información cliente/servidor:
   io.on("connection", (socket) => {
     console.log("new client connected");
-    
+
     //estos mensajes emitidos vienen desde el archivo index.js:
     socket.on("productList", (data) => {
-      //se emiten desde el servidor:
-//      alert("socket recibido en el servidor")
-      io.emit("updatedProducts", data);
-  //    alert("socket recibido desde el servidor");
+
+      io.emit("updatedProducts", (data));
+
     });
-  });
+      });
+
