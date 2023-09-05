@@ -1,13 +1,10 @@
 //hago el handshake (clientSocket)
 const socket = io();
 
-  const table = document.getElementById("realProductsTable");
-
   document.getElementById("createBtn").addEventListener("click", async (e) => {
 
     e.preventDefault();
     
-    alert("boton activado");
     //tomo los valores del formulario en el html para generar un nuevo objeto:
     const body = {
       title: document.getElementById("title").value,
@@ -32,7 +29,9 @@ const socket = io();
       .then((result) => {
         if (result.status === "error") throw alert("error!");
       })
+      //aquí capturo la data de mi bdd con un fetch GET que está en mi productRouter:
       .then(() =>  fetch("/api/products"))
+        //NOTA: después de cada .json van SIEMPRE unos parentesis... :
       .then((result) => result.json())
       .then((result) => {
         if (result.status === "error") throw alert("error!");
@@ -41,17 +40,13 @@ const socket = io();
 
         alert("El producto se ha agregado con éxito!");
 
-        //limpieza del formulario:
+        //limpio el formulario:
         document.getElementById("title").value = "";
         document.getElementById("description").value = "";
         document.getElementById("price").value = "";
         document.getElementById("code").value = "";
         document.getElementById("stock").value = "";
         document.getElementById("category").value = "";
-
-        //este alert no se reproduce, no sé por qué:
-        alert("se han limpiado los values del formulario");
-
 
       })
       .catch((err) => alert(`ocurrió un error: (\n ${err}`));
@@ -62,24 +57,25 @@ const socket = io();
 
 deleteProduct = async (id) => {
 
+  //este fetch DELETE está en productRouter.js:
   await fetch(`/api/products/${id}`, {
     method: "delete",
   })
+    //y me devuelve la bdd ya sin el artículo eliminado, por lo cual la cargo directo al siguiente paso:
     .then((result) => result.json())
     .then((result) => {
       if (result.value == "error") throw new Error(result.error);
 
       socket.emit("productList", result.payload);
       alert("producto eliminado!");
-
     })
     .catch((err) => alert(`error! (\n ${err}`));
 };
 
 
-  //NOTA: no poner ningún async antes del '(data)' de este socket... :
+  //NOTA: no poner NUNCA un async antes del '(data)' de este socket... :
 socket.on("updatedProducts", (data) => {
-  //alert("io.on recibido");
+  
   const tbdodyProducts = document.getElementById("tbdodyProducts");
   tbdodyProducts.innerHTML = `  `;
 
