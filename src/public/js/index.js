@@ -55,19 +55,39 @@ const socket = io();
   );
 ;
 
+  //NOTA: no poner NUNCA un async antes del '(data)' de este socket... :
+socket.on("updatedProducts", (data) => {
+  
+  const tbdodyProducts = document.getElementById("tbdodyProducts");
+  tbdodyProducts.innerHTML = `  `;
+
+  for (product of data) {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+              <td><button class="btn btn-danger btnDelete" data-product-id="${product._id}" >eliminar</button></td>      
+      <td>${product.title}</td>
+      <td>${product.description}</td>
+      <td>${product.price}$</td>
+      <td>${product.code}</td>
+      <td>${product.stock}</td>
+      <td>${product.category}</td>
+    `;
+    tbdodyProducts.appendChild(tr);
+  }
+  
+});
+
 const deleteButtons = document.querySelectorAll(".btnDelete");
 
-
-deleteButtons.forEach((deleteButton) => 
-{deleteButton.addEventListener("click", () => {
-  const productId = deleteButton.getAttribute("data-product-id");
-  console.log(`product id: ${productId}`);
-  deleteProduct(productId)
-});});
+deleteButtons.forEach((deleteButton) => {
+  deleteButton.addEventListener("click", () => {
+    const productId = deleteButton.getAttribute("data-product-id");
+    deleteProduct(productId);
+  });
+});
 
 const deleteProduct = async (id) => {
-
-  alert('deleteProduct() iniciado')
+  alert("deleteProduct() iniciado");
 
   //este fetch DELETE está en productRouter.js:
   fetch(`/api/products/${id}`, {
@@ -83,26 +103,3 @@ const deleteProduct = async (id) => {
     })
     .catch((err) => alert(`error! (\n ${err}`));
 };
-
-
-  //NOTA: no poner NUNCA un async antes del '(data)' de este socket... :
-socket.on("updatedProducts", (data) => {
-  
-  const tbdodyProducts = document.getElementById("tbdodyProducts");
-  tbdodyProducts.innerHTML = `  `;
-
-  for (product of data) {
-    let tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><button class="btn btn-danger" onclick="deleteProduct(${product.id})">eliminar</button></td>
-      
-      <td>${product.title}</td>
-      <td>${product.description}</td>
-      <td>${product.price}$</td>
-      <td>${product.code}</td>
-      <td>${product.stock}</td>
-      <td>${product.category}</td>
-    `;
-    tbdodyProducts.appendChild(tr);
-  }
-});
