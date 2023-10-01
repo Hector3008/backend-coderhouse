@@ -55,10 +55,22 @@ const socket = io();
   );
 ;
 
-deleteProduct = async (id) => {
+const deleteButtons = document.querySelectorAll(".btnDelete");
+
+
+deleteButtons.forEach((deleteButton) => 
+{deleteButton.addEventListener("click", () => {
+  const productId = deleteButton.getAttribute("data-product-id");
+  console.log(`product id: ${productId}`);
+  deleteProduct(productId)
+});});
+
+const deleteProduct = async (id) => {
+
+  alert('deleteProduct() iniciado')
 
   //este fetch DELETE está en productRouter.js:
-  await fetch(`/api/products/${id}`, {
+  fetch(`/api/products/${id}`, {
     method: "delete",
   })
     //y me devuelve la bdd ya sin el artículo eliminado, por lo cual la cargo directo al siguiente paso:
@@ -86,7 +98,7 @@ socket.on("updatedProducts", (data) => {
       
       <td>${product.title}</td>
       <td>${product.description}</td>
-      <td>${product.price}</td>
+      <td>${product.price}$</td>
       <td>${product.code}</td>
       <td>${product.stock}</td>
       <td>${product.category}</td>

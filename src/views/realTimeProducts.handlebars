@@ -3,6 +3,7 @@
 <h1 class="display-3 text-center">realtime products</h1>
 <hr />
 <div class="container" style="width: 50%;">
+
   <form type="onsubmit" id="createForm">
     <div class="m-2 form-label">title: <input type="text" class="form-control" id="title"></div>
     <div class="m-2 form-label">description: <input type="text" class="form-control" id="description"></div>
@@ -31,10 +32,10 @@
     <tbody id="tbdodyProducts">
       {{#each products}}
       <tr>
-        <td><button class="btn btn-danger" onclick="deleteProduct({{this.id}})">eliminar</button></td>
+        <td><button class="btn btn-danger btnDelete" data-product-id="{{this._id}}" >eliminar</button></td>
         <td>{{this.title}}</td>
         <td>{{this.description}}</td>
-        <td>{{this.price}}</td>
+        <td>{{this.price}}$</td>
         <td>{{this.code}}</td>
         <td>{{this.stock}}</td>
         <td>{{this.category}}</td>

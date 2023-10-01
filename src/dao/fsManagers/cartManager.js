@@ -1,7 +1,7 @@
-import fs from 'fs'
-import ProductManager from './productManager.js'
+import fs from "fs";
+import ProductManager from "./productManager.js";
 
-const productManager = new ProductManager('./data/products.json')
+const productManager = new ProductManager("./data/products.json");
 
 class CartManager {
   #path;
@@ -27,7 +27,7 @@ class CartManager {
     let carts = JSON.parse(data);
     return carts;
   }
-  
+
   async createCart() {
     if (!fs.existsSync(this.#path)) return "[500] DB file does not exist";
 

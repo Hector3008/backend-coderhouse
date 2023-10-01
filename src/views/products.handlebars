@@ -1,0 +1,50 @@
+{{!-- este .handlebar trabaja con la ruta /products/ --}}
+
+<h2 class="display-3 text-center">Products</h2>
+
+{{!-- este div trabaja la lógica de la barra de páginas utilizando la información del paginate que recibe: --}}
+<div class="paginateBar" align="center">
+
+  {{!-- se condiciona la muestra del 'anterior' al atributo 'hasPrevPage' de mi bson:--}}
+  {{#if paginateInfo.hasPrevPage}}
+  <a href="{{paginateInfo.prevLink}}">Anterior</a>
+  {{/if}}
+  {{#each paginateInfo.totalPages}}
+  <a href="{{this.link}}">{{this.page}}</a>
+  {{/each}}
+  {{!-- ibid pro NextPage: --}}
+  {{#if paginateInfo.hasNextPage}}
+  <a href="{{paginateInfo.nextLink}}">Siguiente</a>
+  {{/if}}
+</div>
+
+<table class="table table-striped container">
+  <thead>
+    <tr>
+      <td></td>
+      <td><strong>producto</strong></td>
+      <td><strong>descripcion</strong></td>
+      <td><strong>precio</strong></td>
+      <td><strong>codigo</strong></td>
+      <td><strong>stock</strong></td>
+      <td><strong>categoria</strong></td>
+    </tr>
+  </thead>
+  
+  <tbody>
+    {{#each products}}
+    <tr>
+      <td><button class="btn btn-success" onclick="addProductToCart('{{this._id}}')">add to cart</button></td>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.price}}$</td>
+      <td>{{this.code}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.category}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+
+</table>
+
+<script src="js/controllers/addProductToCart.js"></script>

@@ -1,0 +1,85 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "CartRouter__2",
+    "dateExported": "2023-09-30T19:59:55.557Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "05c5cf08-82c4-4125-ba38-ce666c12a463",
+            "colId": "8964bd98-eac5-4d67-8f7c-6e2aa97b4ec9",
+            "containerId": "",
+            "name": "PUT a Product from Cart (just quantity)",
+            "url": "http://localhost:8080/api/carts/651872003522c5ee4b357008/product/6513a2268803bccd46fbd690",
+            "method": "PUT",
+            "sortNum": 10000,
+            "created": "2023-09-30T19:25:24.930Z",
+            "modified": "2023-09-30T19:25:24.930Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{      \"quantity\": 4\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8ac248a6-47e7-4521-b26c-09eeb0c626a0",
+            "colId": "8964bd98-eac5-4d67-8f7c-6e2aa97b4ec9",
+            "containerId": "",
+            "name": "PUT a Product from Cart without 'body.quantity'",
+            "url": "http://localhost:8080/api/carts/651872003522c5ee4b357008/product/6513a2268803bccd46fbd690",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-09-30T19:25:33.865Z",
+            "modified": "2023-09-30T19:25:33.865Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{     \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "462caad9-2f40-45a7-ba96-e4af4312aeb3",
+            "colId": "8964bd98-eac5-4d67-8f7c-6e2aa97b4ec9",
+            "containerId": "",
+            "name": "PUT a Product from Cart where quantity is float",
+            "url": "http://localhost:8080/api/carts/651872003522c5ee4b357008/product/6513a2268803bccd46fbd690",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2023-09-30T19:35:00.376Z",
+            "modified": "2023-09-30T19:35:00.376Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{     \"quantity\": 5.5\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b4752f49-4c7b-4cf9-8551-48d94f515335",
+            "colId": "8964bd98-eac5-4d67-8f7c-6e2aa97b4ec9",
+            "containerId": "",
+            "name": "PUT an entire Cart with an object from body",
+            "url": "http://localhost:8080/api/carts/651872003522c5ee4b357008",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-09-30T19:49:32.318Z",
+            "modified": "2023-09-30T19:49:32.319Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"products\": [\n    {\"product\":{\n      \"_id\": \"6513a2268803bccd46fbd690\",\n      \"title\": \"Camisa de Vestir\",\n      \"description\": \"Elegante camisa de vestir para hombres con corte moderno y estilo clásico.\",\n      \"price\": 39.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"P002\",\n      \"stock\": 30,\n      \"category\": \"Ropa\",\n      \"id\": \"6513a2268803bccd46fbd690\"\n    },\n      \"quantity\": 7\n    },\n    {\"product\":{\n      \"_id\": \"6513a2268803bccd46fbd699\",\n      \"title\": \"Vestido de Verano Floral\",\n      \"description\": \"Vestido de verano con estampado floral para disfrutar del sol con estilo.\",\n      \"price\": 29.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"P011\",\n      \"stock\": 70,\n      \"category\": \"Ropa\",\n      \"id\": \"6513a2268803bccd46fbd699\"\n    },\n      \"quantity\": 5\n    },\n    {\"product\":{\n      \"_id\": \"6513a2268803bccd46fbd68f\",\n      \"title\": \"Smartphone Android\",\n      \"description\": \"Potente smartphone Android con pantalla HD y cámara de alta resolución.\",\n      \"price\": 299.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"P001\",\n      \"stock\": 50,\n      \"category\": \"Electrónica\",\n      \"id\": \"6513a2268803bccd46fbd68f\"\n    },\n    \"quantity\": 3\n    },\n    {\"product\":{\n      \"_id\": \"6513a2268803bccd46fbd69a\",\n      \"title\": \"Mesa de Centro de Diseño\",\n      \"description\": \"Mesa de centro de diseño elegante y moderno para tu sala de estar.\",\n      \"price\": 149.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"P012\",\n      \"stock\": 90,\n      \"category\": \"Hogar\",\n      \"id\": \"6513a2268803bccd46fbd69a\"\n    },\n    \"quantity\": 4\n    }]}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

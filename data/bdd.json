@@ -1,0 +1,195 @@
+[{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd690"
+  },
+  "title": "Camisa de Vestir",
+  "description": "Elegante camisa de vestir para hombres con corte moderno y estilo clásico.",
+  "price": 39.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P002",
+  "stock": 30,
+  "category": "Ropa"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd699"
+  },
+  "title": "Vestido de Verano Floral",
+  "description": "Vestido de verano con estampado floral para disfrutar del sol con estilo.",
+  "price": 29.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P011",
+  "stock": 70,
+  "category": "Ropa"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd68f"
+  },
+  "title": "Smartphone Android",
+  "description": "Potente smartphone Android con pantalla HD y cámara de alta resolución.",
+  "price": 299.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P001",
+  "stock": 50,
+  "category": "Electrónica"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd69a"
+  },
+  "title": "Mesa de Centro de Diseño",
+  "description": "Mesa de centro de diseño elegante y moderno para tu sala de estar.",
+  "price": 149.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P012",
+  "stock": 90,
+  "category": "Hogar"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd69d"
+  },
+  "title": "Set de Ollas y Sartenes Antiadherentes",
+  "description": "Set de ollas y sartenes antiadherentes de alta calidad para cocinar sin problemas.",
+  "price": 129.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P015",
+  "stock": 40,
+  "category": "Hogar"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd693"
+  },
+  "title": "Vestido de Noche Elegante",
+  "description": "Vestido de noche elegante para ocasiones especiales con diseño único.",
+  "price": 149.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P005",
+  "stock": 60,
+  "category": "Ropa"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd694"
+  },
+  "title": "Juego de Sábanas de Lujo",
+  "description": "Juego de sábanas de lujo de algodón suave para un confort excepcional.",
+  "price": 69.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P006",
+  "stock": 75,
+  "category": "Hogar"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd69b"
+  },
+  "title": "Cámara DSLR Profesional",
+  "description": "Cámara DSLR profesional con lentes intercambiables para capturar momentos inolvidables.",
+  "price": 699.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P013",
+  "stock": 25,
+  "category": "Electrónica"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd692"
+  },
+  "title": "Laptop de Alto Rendimiento",
+  "description": "Laptop de alto rendimiento con procesador rápido y gráficos impresionantes.",
+  "price": 899.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P004",
+  "stock": 20,
+  "category": "Electrónica"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd697"
+  },
+  "title": "Máquina de Café Automática",
+  "description": "Máquina de café automática con molinillo integrado para café fresco en casa.",
+  "price": 199.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P009",
+  "stock": 80,
+  "category": "Hogar"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd698"
+  },
+  "title": "Auriculares Inalámbricos Bluetooth",
+  "description": "Auriculares inalámbricos Bluetooth con cancelación de ruido para una experiencia de audio inmersiva.",
+  "price": 79.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P010",
+  "stock": 15,
+  "category": "Electrónica"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd695"
+  },
+  "title": "Televisor 4K de 65 Pulgadas",
+  "description": "Televisor 4K de 65 pulgadas con colores vibrantes y sonido envolvente.",
+  "price": 1199.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P007",
+  "stock": 10,
+  "category": "Electrónica"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd691"
+  },
+  "title": "Set de Utensilios de Cocina",
+  "description": "Completo set de utensilios de cocina de acero inoxidable, ideal para cocinar.",
+  "price": 79.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P003",
+  "stock": 100,
+  "category": "Hogar"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd696"
+  },
+  "title": "Pantalones de Mezclilla Modernos",
+  "description": "Pantalones de mezclilla modernos y cómodos para hombres y mujeres.",
+  "price": 49.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P008",
+  "stock": 45,
+  "category": "Ropa"
+},
+{
+  "_id": {
+    "$oid": "6513a2268803bccd46fbd69c"
+  },
+  "title": "Chaqueta de Cuero Clásica",
+  "description": "Chaqueta de cuero clásica para un look atemporal y elegante.",
+  "price": 179.99,
+  "status": true,
+  "thumbnail": [],
+  "code": "P014",
+  "stock": 55,
+  "category": "Ropa"
+}]

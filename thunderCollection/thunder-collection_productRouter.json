@@ -1,0 +1,141 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "productRouter",
+    "dateExported": "2023-09-30T21:26:50.677Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "2139ae75-6f25-415f-8f92-56b4928017e7",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "GET a Products",
+            "url": "http://localhost:8080/api/products/",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-09-30T20:42:11.053Z",
+            "modified": "2023-09-30T20:42:11.053Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "757afb18-65d7-4cfe-8f41-c13d6f060409",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "GET a Product in Products",
+            "url": "http://localhost:8080/api/products/6513a2268803bccd46fbd68f",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-09-30T20:43:55.098Z",
+            "modified": "2023-09-30T20:43:55.098Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "30404fda-7e22-4597-88d8-1e1d96074484",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "GET a product with an invalid id",
+            "url": "http://localhost:8080/api/products/nonValid",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-09-30T20:49:45.856Z",
+            "modified": "2023-09-30T20:49:45.857Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "b4b33eee-e214-4a2b-8db4-e98825213c7f",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "DELETE a product on products with an invalid Id",
+            "url": "http://localhost:8080/api/products/nonValid",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-09-30T21:01:04.352Z",
+            "modified": "2023-09-30T21:01:04.352Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f4da4301-9ec2-46e4-8485-afcad1939f3b",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "POST a new Product to Products",
+            "url": "http://localhost:8080/api/products/",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-09-30T21:14:36.075Z",
+            "modified": "2023-09-30T21:14:36.075Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n      \"title\": \"Camisa de Vestir\",\n      \"description\": \"Elegante camisa de vestir para hombres con corte moderno y estilo clásico.\",\n      \"price\": 39.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"POO123\",\n      \"stock\": 30,\n      \"category\": \"Ropa\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "950191bc-97ba-4e7f-8000-ffd0fd875138",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "PUT a Product on products",
+            "url": "http://localhost:8080/api/products/6513a2268803bccd46fbd69b",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2023-09-30T21:23:55.877Z",
+            "modified": "2023-09-30T21:23:55.877Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n      \"title\": \"Camisa de Vestir\",\n      \"description\": \"Elegante camisa de vestir para hombres con corte moderno y estilo clásico.\",\n      \"price\": 39.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"POO23\",\n      \"stock\": 30,\n      \"category\": \"Ropa\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "dbb6a524-c11f-4744-adaf-67098a31e0b7",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "PUT a Product with non valid Id (queryparams) on products",
+            "url": "http://localhost:8080/api/products/nonValid",
+            "method": "PUT",
+            "sortNum": 70000,
+            "created": "2023-09-30T21:24:40.604Z",
+            "modified": "2023-09-30T21:24:40.604Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n      \"title\": \"Camisa de Vestir\",\n      \"description\": \"Elegante camisa de vestir para hombres con corte moderno y estilo clásico.\",\n      \"price\": 39.99,\n      \"status\": true,\n      \"thumbnail\": [],\n      \"code\": \"POO248\",\n      \"stock\": 30,\n      \"category\": \"Ropa\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e996d205-34a4-4b09-88e8-313a76c68d63",
+            "colId": "53817018-5c8b-4620-a258-1da30eb46b1d",
+            "containerId": "",
+            "name": "PUT a Product with not all atributtes on products",
+            "url": "http://localhost:8080/api/products/6513a2268803bccd46fbd69b",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-09-30T21:26:38.819Z",
+            "modified": "2023-09-30T21:26:38.819Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\n      \"stock\": 900,\n      \"category\": \"Ropa\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
