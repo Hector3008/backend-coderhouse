@@ -33,9 +33,9 @@
   
   <tbody>
     {{#each products}}
-    <tr>
+   <tr>
       <td><button class="btn btn-success" onclick="addProductToCart('{{this._id}}')">add to cart</button></td>
-      <td>{{this.title}}</td>
+      <td><a href="http://localhost:8080/products/{{this._id}}">{{this.title}}</a></td>   
       <td>{{this.description}}</td>
       <td>{{this.price}}$</td>
       <td>{{this.code}}</td>
@@ -47,4 +47,6 @@
 
 </table>
 
-<script src="js/controllers/addProductToCart.js"></script>
+<script src="js/controllers/addProductToCart.js">
+
+</script>

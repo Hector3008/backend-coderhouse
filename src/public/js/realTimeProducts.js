@@ -94,7 +94,6 @@ const deleteProduct = async (id) => {
     .then((result) => result.json())
     .then((result) => {
       if (result.value == "error") throw new Error(result.error);
-
       socket.emit("productList", result.payload);
       alert("producto eliminado!");
     })

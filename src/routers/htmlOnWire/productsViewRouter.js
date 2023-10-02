@@ -1,9 +1,10 @@
 import { Router } from "express";
 import getProducts from "../../controllers/getProducts.js";
 import { PORT } from "../../app.js";
+import productModel from "../../dao/models/product.model.js";
 
 const productsViewsRouter = Router();
-
+//acá visualizo todos los productos en una tabla y los puedo agregar a un carrito:
 productsViewsRouter.get("/", async (req, res) => {
   /*FS manner:
   //const products = await productManager.getProducts();*/
@@ -39,13 +40,14 @@ productsViewsRouter.get("/", async (req, res) => {
       },
       SEO: SEO,
     });
+
   } else {
     res
       .status(result.statusCode)
       .json({ status: "error", error: result.response.error });
   }
 });
-
+//acá visualizo un formulario para crear nuevos productos y una tabla para ver sus cambios en tiempo real (también los puedo eliminar):
 productsViewsRouter.get("/realTimeProducts", async (req, res) => {
   //const products = await productManager.getProducts();
   const SEO = {
@@ -53,6 +55,7 @@ productsViewsRouter.get("/realTimeProducts", async (req, res) => {
   };
   //consulto los productos en mi bdd de productos:
   const result = await getProducts(req, res);
+
   if (result.statusCode === 200) {
     //renderizo la plantilla realTimeProducts y le cargo el resultado de mi consulta a la bdd de productos:
     res.render("realTimeProducts.handlebars", {
@@ -60,11 +63,31 @@ productsViewsRouter.get("/realTimeProducts", async (req, res) => {
       SEO: SEO,
     });
   } else {
-    Z;
+    ;
     res
       .status(result.statusCode)
       .json({ status: "error", error: result.response.error });
   }
 });
+//acá visualizo un producto en específico en una tabla y lo puedo agregar a un carrito:
+productsViewsRouter.get("/:id", async (req, res)=> {
+  const id = req.params.id
+  
+  const product = await productModel.findById(id);
 
+  const SEO = {
+    title: product.title
+  }
+  res.render("product.handlebars", {SEO: SEO, product:{
+    id: product._id,
+    title: product.title,
+    description: product.description,
+    price: product.price,
+    status: product.status,
+    thumbnail: product.thumbnail,
+    code: product.code,
+    stock: product.stock,
+    category: product.category
+  }});
+    })
 export default productsViewsRouter

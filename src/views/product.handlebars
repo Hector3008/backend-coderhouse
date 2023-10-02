@@ -1,0 +1,60 @@
+
+
+<h2 class="display-6 text-center">{{product.title}}</h2>
+
+<table class="table table-striped container">
+<thead>
+  <tr>
+    <td></td>
+    <td><strong>producto</strong></td>
+    <td><strong>descripcion</strong></td>
+    <td><strong>precio</strong></td>
+    <td><strong>codigo</strong></td>
+    <td><strong>stock</strong></td>
+    <td><strong>categoria</strong></td>
+  </tr>
+</thead>
+<tbody>
+  <td><button class="btn btn-success" onclick="addProductToCart('{{product.id}}')">add to cart</button></td>
+  <td>{{product.title}}</td>
+  <td>{{product.description}}</td>
+  <td>{{product.price}}</td>
+  <td>{{product.code}}</td>
+  <td>{{product.stock}}$</td>
+  <td>{{product.category}}</td>
+</tbody>
+</table>
+
+{{!--  --}}
+{{!-- <script src="js/controllers/addProductToCart.js">
+</script> --}}
+
+<script>
+    addProductToCart = (pid) => {
+
+
+      fetch(`/api/carts`, {
+        method: "post",
+      })
+        .then((result) => result.json())
+        .then((result) => {
+          if (result.status === "error") throw new Error(result.error);
+          return result.payload._id;
+        })
+        .then((cid) =>
+          fetch(`/api/carts/${cid}/product/${pid}`, {
+            method: "post",
+          })
+        )
+        .then((result) => result.json())
+        .then((result) => {
+          if (result.status === "error") throw new Error(result.error);
+          alert(
+            `Ok. Todo salió bien! :)\nEl producto se agregó al carrito con id=${result.payload._id}!`
+          );
+        })
+        .catch((err) => alert(`Ocurrió un error :(\n${err}`));
+    };
+
+</script>
+

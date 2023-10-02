@@ -1,5 +1,9 @@
-addProductToCart = (pid) => {
+alert('addProductToCart.js script leído')
+
+let addProductToCart = (pid) => {
+  
   alert("addProductToCart() ejecutado!");
+  
   fetch(`/api/carts`, {
     method: "post",
   })
