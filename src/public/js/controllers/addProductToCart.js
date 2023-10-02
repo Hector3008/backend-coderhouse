@@ -1,4 +1,4 @@
-alert('addProductToCart.js script leído')
+
 
 let addProductToCart = (pid) => {
   

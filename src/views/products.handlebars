@@ -1,24 +1,32 @@
 {{!-- este .handlebar trabaja con la ruta /products/ --}}
 
-<h2 class="display-3 text-center">Products</h2>
+
+
+<div class="container">
+
+<nav aria-label="Page navigation " style="display:flex; justify-content:center">
+  <ul class="pagination" align="center" style="margin-top: 3rem;">
+
+    {{!-- se condiciona la muestra del 'anterior' al atributo 'hasPrevPage' de mi bson:--}}
+    {{#if paginateInfo.hasPrevPage}}
+    <li class="page-item"><a class="page-link" href="{{paginateInfo.prevLink}}">Previous</a></li>
+    {{/if}}
+
+    {{#each paginateInfo.totalPages}}
+    <li class="page-item"><a class="page-link" href="{{this.link}}">{{this.page}}</a></li>
+    {{/each}}
+    {{#if paginateInfo.hasNextPage}}
+    <li class="page-item"><a class="page-link" href="{{paginateInfo.nextLink}}">Next</a></li>
+    {{/if}}
+  </ul>
+</nav>
 
 {{!-- este div trabaja la lógica de la barra de páginas utilizando la información del paginate que recibe: --}}
-<div class="paginateBar" align="center">
+<div class="paginateBar justify-content" align="center"></div>
 
-  {{!-- se condiciona la muestra del 'anterior' al atributo 'hasPrevPage' de mi bson:--}}
-  {{#if paginateInfo.hasPrevPage}}
-  <a href="{{paginateInfo.prevLink}}">Anterior</a>
-  {{/if}}
-  {{#each paginateInfo.totalPages}}
-  <a href="{{this.link}}">{{this.page}}</a>
-  {{/each}}
-  {{!-- ibid pro NextPage: --}}
-  {{#if paginateInfo.hasNextPage}}
-  <a href="{{paginateInfo.nextLink}}">Siguiente</a>
-  {{/if}}
-</div>
 
-<table class="table table-striped container">
+
+<table class="table table-striped">
   <thead>
     <tr>
       <td></td>
@@ -46,7 +54,8 @@
   </tbody>
 
 </table>
-
+</div>
+</div>
 <script src="js/controllers/addProductToCart.js">
 
 </script>

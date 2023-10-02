@@ -54,8 +54,8 @@ try {
   app.get("/", async (req, res) => {
     const productManager = new ProductManager("./data/products.json");
     const products = await productManager.getProducts();
-
-    res.render("index.handlebars", { products });
+    const SEO = {title: "E-Commerce"}
+    res.render("index.handlebars", { products, SEO: SEO });
   });
 
   //data on wire:

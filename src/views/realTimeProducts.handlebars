@@ -1,9 +1,8 @@
 {{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
 
-<h1 class="display-3 text-center">realtime products</h1>
 <hr />
 <div class="container" style="width: 50%;">
-
+  <h2 class="text-center" style="margin: 1rem;">create a new product:</h2>
   <form type="onsubmit" id="createForm">
     <div class="m-2 form-label">title: <input type="text" class="form-control" id="title"></div>
     <div class="m-2 form-label">description: <input type="text" class="form-control" id="description"></div>
@@ -11,11 +10,13 @@
     <div class="m-2 form-label">code: <input type="text" class="form-control" id="code"></div>
     <div class="m-2 form-label">stock: <input type="text" class="form-control" id="stock"></div>
     <div class="m-2 form-label">category: <input type="text" class="form-control" id="category"></div>
-
-    <button type="submit" id="createBtn" class="btn btn-primary">create product</button>
+    <div class="d-flex justify-content-end" style="margin: 1rem;"><button type="submit" id="createBtn" class="btn btn-primary text-center">create product</button>
+    </div>  
   </form>
 </div>
+
 <div class="container">
+  <h2 class="text-center">products database:</h2>
   <hr />
   <table id="realProductsTable" class="table table-striped">
     <thead>
