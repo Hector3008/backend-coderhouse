@@ -69,9 +69,11 @@ productRouter.post("/", async (req, res) => {
 */
   try {
     const product = req.body;
+    console.log('product desde productRouter: ',product);
     const result = await productModel.create(product);
+    console.log('result from productRouter', result);
     const products = await productModel.find().lean().exec();
-
+    console.log("products from productRouter", products);
     try {
       req.originalUrl.emit("updatedProducts", products);
     } catch (err) {

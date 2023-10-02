@@ -1,6 +1,16 @@
+//este script trabaja con el .handlebars de realTimeProducts
 //hago el handshake (clientSocket)
 const socket = io();
 
+function setupDeleteButtonListeners() {
+  const deleteButtons = document.querySelectorAll(".btnDelete");
+  deleteButtons.forEach((deleteButton) => {
+    deleteButton.addEventListener("click", () => {
+      const productId = deleteButton.getAttribute("data-product-id");
+      deleteProduct(productId);
+    });
+  });
+}
   document.getElementById("createBtn").addEventListener("click", async (e) => {
 
     e.preventDefault();
@@ -17,7 +27,7 @@ const socket = io();
     };
 
     //cargo ese objeto con el método POST de mi router productRouter.js
-
+    console.log(body);
     fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),
@@ -27,27 +37,20 @@ const socket = io();
     })
       .then((result) => result.json())
       .then((result) => {
-        if (result.status === "error") throw alert("error!");
+        if (result.error) throw new Error(result.error)
       })
       //aquí capturo la data de mi bdd con un fetch GET que está en mi productRouter:
       .then(() =>  fetch("/api/products"))
         //NOTA: después de cada .json van SIEMPRE unos parentesis... :
       .then((result) => result.json())
       .then((result) => {
-        if (result.status === "error") throw alert("error!");
+        if (result.error) throw new Error(result.error);
 
         socket.emit("productList", result.payload);
 
         alert("El producto se ha agregado con éxito!");
-
         //limpio el formulario:
-        document.getElementById("title").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("price").value = "";
-        document.getElementById("code").value = "";
-        document.getElementById("stock").value = "";
-        document.getElementById("category").value = "";
-
+        document.getElementById("createForm").reset()
       })
       .catch((err) => alert(`ocurrió un error: (\n ${err}`));
   }
@@ -57,11 +60,12 @@ const socket = io();
 
   //NOTA: no poner NUNCA un async antes del '(data)' de este socket... :
 socket.on("updatedProducts", (data) => {
-  
+  //con este socket pinto la tabla de de productos:
   const tbdodyProducts = document.getElementById("tbdodyProducts");
   tbdodyProducts.innerHTML = `  `;
 
   for (product of data) {
+
     let tr = document.createElement("tr");
     tr.innerHTML = `
               <td><button class="btn btn-danger btnDelete" data-product-id="${product._id}" >eliminar</button></td>      
@@ -74,17 +78,10 @@ socket.on("updatedProducts", (data) => {
     `;
     tbdodyProducts.appendChild(tr);
   }
-  
+  setupDeleteButtonListeners();
 });
 
-const deleteButtons = document.querySelectorAll(".btnDelete");
-
-deleteButtons.forEach((deleteButton) => {
-  deleteButton.addEventListener("click", () => {
-    const productId = deleteButton.getAttribute("data-product-id");
-    deleteProduct(productId);
-  });
-});
+setupDeleteButtonListeners()
 
 const deleteProduct = async (id) => {
   alert("deleteProduct() iniciado");
