@@ -19,9 +19,6 @@ const getProducts = async (req, res) => {
     if (req.query.sort === "desc") paginateOptions.sort = { price: -1 };
 
     const result = await productModel.paginate(filterOptions, paginateOptions);
-    console.log("consulta realizada con éxito");
-    console.log(`el query page es: ${req.query.page}`);
-    console.log(`el query limit es: ${req.query.limit}`);
 
     //================================================================//
     //lógica de los enlaces prevPage y nextPage de mi pagination:

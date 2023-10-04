@@ -26,7 +26,7 @@ const MONGO_DB_NAME = "e-comerce";
 
 const app = express();
 
-app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
+app.use(session({ secret: "password", resave: true, saveUninitialized: true }));
 //le aviso a express que el cliente le estará enviando invformación en formato json:
 app.use(express.json());
 //instancio la información estática:
@@ -36,6 +36,9 @@ app.use("/", express.static("./src/public"));
 app.engine("handlebars", handlebars.engine());
 app.set("views", "./src/views");
 app.set("view engine", "handlebars");
+
+//le aviso al servidor que va a trabajar información en formularios:
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser())
 //hago un try para condicionar el runing del servidor a la carga de mi mongoose.conection, es decir, mi bdd:
@@ -60,12 +63,9 @@ try {
   //vista principal (html on wire):
   app.get("/", async (req, res) => {
 
-/*    const productManager = new ProductManager("./data/products.json");
-    const products = await productManager.getProducts();*/
-    
-    const SEO = {title: "E-Commerce"}
+    const SEO = { title: "E-Commerce" };
     res.render("index.handlebars", { SEO: SEO });
-    res.redirect('/sessions/register')
+    res.redirect("/sessions/register");
   });
 
   //data on wire:
@@ -77,8 +77,6 @@ try {
   app.use("/carts", cartsViewsRouter);
   app.use("/sessions/", sessionsViewsRouter);
   
-//le aviso al servidor que va a trabajar información en formularios:
-  app.use(express.urlencoded({ extended: true }));
   //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
   io.on("connection", (socket) => {
     console.log("new client connected");

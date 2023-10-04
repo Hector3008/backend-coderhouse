@@ -1,26 +1,18 @@
 import { Router } from "express";
+import { publicRoutes, privateRoutes  } from "../../middlewares/auth.middleware.js";
 
 const sessionsViewsRouter = Router();
 
-sessionsViewsRouter.get("/register", async (req, res) => {
-  const user= {
-    username: 'hector',
-    role: 'user'
-  } 
-  res.cookie('user',JSON.stringify(user))
+sessionsViewsRouter.get("/register", publicRoutes, async (req, res) => {
   res.render("sessions/register.handlebars");
 });
 
-sessionsViewsRouter.get("/", (req, res) => {
+sessionsViewsRouter.get("/", publicRoutes, (req, res) => {
   res.render("sessions/login.handlebars");
 });
 
-sessionsViewsRouter.get("/profile", (req, res) => {
-  if (req.cookies.user){
-  res.render("sessions/profile.handlebars")
-  } else {
-    res.render("error.handlebars")
-  }
+sessionsViewsRouter.get("/profile", privateRoutes, (req, res) => {
+    res.render("sessions/profile.handlebars", req.session.user);
 });
 
 export default sessionsViewsRouter;

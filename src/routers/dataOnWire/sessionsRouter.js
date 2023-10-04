@@ -11,21 +11,19 @@ sessionsRouter.post("/register", async (req, res) => {
   console.log("Recibiendo solicitud POST en /api/sessions/register");
   const newUser = req.body;
 
-  console.log('el req.body recibido es: ', newUser);
-
   const user = await userModel.create(newUser);
-  
-  console.log("user es: ",user);
+  const SEO = {}
+  res.redirect('/products', {SEO: SEO})
 });
 
 sessionsRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email, password }).lean().exec();
-  console.log(user);
+  
+
 
   if (!user) {
-    alert('usuario no encontrado')
-    return res.redirect("/");
+    return res.send("usuario no encontrado");
   }
   if (
     user.email === "adminCoder@coder.com" &&
@@ -36,15 +34,19 @@ sessionsRouter.post("/login", async (req, res) => {
     user.role = "user";
   }
 
-  req.session.user = user;
+  req.session.user = user
+
   res.redirect("/products");
 });
 
 sessionsRouter.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) return res.send("Logout error");
-    return res.redirect("/");
-  }); 
-});
+  
+   req.session.destroy(err => {
+       if (err) return res.send('Logout error')
+       return res.redirect('/sessions')
+      }) 
+   } )
+
+
 
 export default sessionsRouter
