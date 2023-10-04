@@ -1,11 +1,12 @@
 {{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
 
-<h2 class="display-6 text-center"> Products from Cart with id={{cart._id}}</h2>
+<h2 class="text-center" style="margin-top: 2rem;"> Products from Cart with id={{cart._id}}</h2>
 <hr />
 <div class="container">
   <table class="table table-striped">
     <thead>
       <tr>
+        <td></td>
         <td><strong>Producto</strong></td>
         <td><strong>Descripción</strong></td>
         <td><strong>Precio</strong></td>
@@ -17,6 +18,7 @@
     <tbody>
       {{#each cart.products}}
       <tr>
+        <td><button class="btn btn-danger">delete</button></td>
         <td>{{this.product.title}}</td>
         <td>{{this.product.description}}</td>
         <td>{{this.product.price}}$</td>

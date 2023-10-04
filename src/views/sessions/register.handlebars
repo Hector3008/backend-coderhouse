@@ -1,0 +1,55 @@
+este es el .handlebars de register
+
+
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Registro de Usuario
+        </div>
+        <div class="card-body">
+          <form action="/api/sessions/register" method="post">
+            <div class="form-group">
+              <label for="first_name">First-name</label>
+              <input type="text" class="form-control" id="first_name" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last-name</label>
+              <input type="text" class="form-control" id="last_name" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico">
+            </div>
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" class="form-control" id="age" placeholder="Ingresa tu edad">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
+            </div>
+            <div style="margin-top: 1rem; display: flex; justify-content: end">
+              <button type="submit" class="btn btn-primary" value="Crear">Registrarse</button>
+              <div style="margin: 1rem"><a href="/sessions">login</a></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1>Registrar Usuarios</h1>
+
+<form action="/api/sessions/register" method="post" enctype="multipart/form-data">
+  First Name: <input type="text" name="first_name">
+  Last Name: <input type="text" name="last_name">
+  Email: <input type="text" name="email">
+  Age: <input type="text" name="age">
+  Password: <input type="text" name="password">
+  <button type="submit" value="Crear">crear</button>
+  <a href="products/">Login</a>
+</form>
