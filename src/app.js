@@ -5,12 +5,12 @@ import mongoose from "mongoose";
 import { Server } from "socket.io";
 import session from "express-session";
 
-import productRouter from "./routers/dataOnWire/productsRouter.js";
-import cartsRouter from "./routers/dataOnWire/cartsRouter.js";
-import productsViewsRouter from "./routers/htmlOnWire/productsViewRouter.js";
-import cartsViewsRouter from "./routers/htmlOnWire/cartsViewRouter.js";
-import sessionsRouter from "./routers/dataOnWire/sessionsRouter.js";
-import sessionsViewsRouter from "./routers/htmlOnWire/sessionsViewRouter.js";
+import productRouter from "./routers/productsRouter.js";
+import cartsRouter from "./routers/cartsRouter.js";
+import productsViewsRouter from "./routers/productsViewRouter.js";
+import cartsViewsRouter from "./routers/cartsViewRouter.js";
+import sessionsRouter from "./routers/sessionsRouter.js";
+import sessionsViewsRouter from "./routers/sessionsViewRouter.js";
 
 import cookieParser from "cookie-parser";
 
@@ -40,7 +40,7 @@ app.set("view engine", "handlebars");
 //le aviso al servidor que va a trabajar información en formularios:
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser())
+app.use(cookieParser());
 //hago un try para condicionar el runing del servidor a la carga de mi mongoose.conection, es decir, mi bdd:
 try {
   await mongoose.connect(MONGO_URI, {
@@ -51,18 +51,17 @@ try {
 
   //ejecuto el servidor:
 
-    //instancio el servidor http:
+  //instancio el servidor http:
 
-    const httpServer = app.listen(PORT, () => console.log("server up!"));
-    //instancio el servidor websocket:
-    const io = new Server(httpServer);
+  const httpServer = app.listen(PORT, () => console.log("server up!"));
+  //instancio el servidor websocket:
+  const io = new Server(httpServer);
 
   //genero las rutas del servidor:
 
   //routers:
   //vista principal (html on wire):
   app.get("/", async (req, res) => {
-
     const SEO = { title: "E-Commerce" };
     res.render("index.handlebars", { SEO: SEO });
     res.redirect("/sessions/register");
@@ -76,7 +75,7 @@ try {
   app.use("/products", productsViewsRouter);
   app.use("/carts", cartsViewsRouter);
   app.use("/sessions/", sessionsViewsRouter);
-  
+
   //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
   io.on("connection", (socket) => {
     console.log("new client connected");

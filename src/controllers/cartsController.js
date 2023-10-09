@@ -1,24 +1,19 @@
 import { PORT } from "../app.js";
-import productModel from "../dao/models/product.model.js";
+import cartModeL from "../dao/models/cart.model.js";
 
-const getProducts = async (req, res) => {
+export const getCarts = async (req, res) => {
   try {
     const filterOptions = {};
     //instancio las variables según los queries (parámetros necesarios para el paginate):
-    const limit = req.query.limit || 30;
+    const limit = req.query.limit || 5;
     const page = req.query.page || 1;
 
     const paginateOptions = { lean: true, limit, page };
 
-    //(parámetros opcionales para el paginate):
-    if (req.query.stock) filterOptions.stock = req.query.stock;
-    if (req.query.category) filterOptions.category = req.query.category;
-
-    //queries opcionales del sort según el precio:
-    if (req.query.sort === "asc") paginateOptions.sort = { price: 1 };
-    if (req.query.sort === "desc") paginateOptions.sort = { price: -1 };
-
-    const result = await productModel.paginate(filterOptions, paginateOptions);
+    const result = await cartModeL.paginate(filterOptions, paginateOptions);
+    console.log("consulta realizada con éxito");
+    console.log(`el query page es: ${req.query.page}`);
+    console.log(`el query limit es: ${req.query.limit}`);
 
     //================================================================//
     //lógica de los enlaces prevPage y nextPage de mi pagination:
@@ -68,4 +63,34 @@ const getProducts = async (req, res) => {
   }
 };
 
-export default getProducts
+export const getProductsFromCart = async (req, res) => {
+  try {
+    //instancio la variable de acceso al id del carrito desde el params:
+    const id = req.params.cid;
+
+    //consulto el carrito en la bdd de carritos con el populate de products para que me enseñe todos los productos:
+    const result = await cartModeL
+      .findById(id)
+      .populate("products.product")
+      .lean();
+
+    //validacion1: el carrito no existe en la bdd:
+    if (result === null) {
+      return {
+        statusCode: 404,
+        response: { status: "error", error: "Not found" },
+      };
+    }
+    //finalmente, retorno la respuesta en el payload de mi json:
+    return {
+      statusCode: 200,
+      response: { status: "success", payload: result },
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      response: { status: "error", error: err.message },
+    };
+  }
+};
+

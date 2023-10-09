@@ -1,11 +1,11 @@
 import { PORT } from "../app.js";
 import productModel from "../dao/models/product.model.js";
 
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const filterOptions = {};
     //instancio las variables según los queries (parámetros necesarios para el paginate):
-    const limit = req.query.limit || 30;
+    const limit = req.query.limit || 10;
     const page = req.query.page || 1;
 
     const paginateOptions = { lean: true, limit, page };
@@ -67,5 +67,3 @@ const getProducts = async (req, res) => {
     };
   }
 };
-
-export default getProducts

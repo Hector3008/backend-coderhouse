@@ -1,11 +1,6 @@
 import { Router } from "express";
-import getProductsFromCart from "../../controllers/getProductsFromCart.js";
-import { adminRouter } from "../../middlewares/auth.middleware.js";
-
-/* FS manner:
-//import ProductManager from "../dao/fsManagers/productManager.js";
-//const productManager = new ProductManager("./data/products.json");
-*/
+import { getProductsFromCart } from "../controllers/cartsController.js";
+import { adminRouter } from "../middlewares/auth.middleware.js";
 
 const cartsViewsRouter = Router();
 

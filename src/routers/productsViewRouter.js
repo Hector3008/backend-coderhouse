@@ -1,19 +1,16 @@
 import { Router } from "express";
-import getProducts from "../../controllers/getProducts.js";
-import { PORT } from "../../app.js";
-import productModel from "../../dao/models/product.model.js";
+import { getProducts } from "../controllers/productsControllers.js";
+import { PORT } from "../app.js";
+import productModel from "../dao/models/product.model.js";
 import {
   privateRoutes,
   adminRouter,
-  publicRoutes,
-} from "../../middlewares/auth.middleware.js";
-
+} from "../middlewares/auth.middleware.js";
 
 const productsViewsRouter = Router();
 //acá visualizo todos los productos en una tabla y los puedo agregar a un carrito:
-productsViewsRouter.get("/",privateRoutes, async (req, res) => {
-  /*FS manner:
-  //const products = await productManager.getProducts();*/
+productsViewsRouter.get("/", privateRoutes, async (req, res) => {
+
   const result = await getProducts(req, res);
 
   if (result.statusCode === 200) {
@@ -44,8 +41,8 @@ productsViewsRouter.get("/",privateRoutes, async (req, res) => {
         nextLink: result.response.nextLink,
         totalPages,
       },
-      SEO: SEO, user:
-      req.session.user
+      SEO: SEO,
+      user: req.session.user,
     });
   } else {
     res
@@ -77,25 +74,29 @@ productsViewsRouter.get("/realTimeProducts", adminRouter, async (req, res) => {
   }
 });
 //acá visualizo un producto en específico en una tabla y lo puedo agregar a un carrito:
-productsViewsRouter.get("/:id",privateRoutes, async (req, res)=> {
-  const id = req.params.id
-  
+productsViewsRouter.get("/:id", privateRoutes, async (req, res) => {
+  const id = req.params.id;
+
   const product = await productModel.findById(id);
 
   const SEO = {
-    title: product.title
-  }
-  
-  res.render("product.handlebars", {SEO: SEO, product:{
-    id: product._id,
     title: product.title,
-    description: product.description,
-    price: product.price,
-    status: product.status,
-    thumbnail: product.thumbnail,
-    code: product.code,
-    stock: product.stock,
-    category: product.category
-  },user: req.session.user});
-    })
-export default productsViewsRouter
+  };
+
+  res.render("product.handlebars", {
+    SEO: SEO,
+    product: {
+      id: product._id,
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      status: product.status,
+      thumbnail: product.thumbnail,
+      code: product.code,
+      stock: product.stock,
+      category: product.category,
+    },
+    user: req.session.user,
+  });
+});
+export default productsViewsRouter;

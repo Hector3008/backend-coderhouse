@@ -1,6 +1,6 @@
 import { Router } from "express";
-import productModel from "../../dao/models/product.model.js";
-import getProducts from "../../controllers/getProducts.js";
+import productModel from "../dao/models/product.model.js";
+import { getProducts } from "../controllers/productsControllers.js";
 
 //import ProductManager from "../dao/fsManagers/productManager.js";
 //const productManager = new ProductManager("./data/products.json");
@@ -8,31 +8,13 @@ import getProducts from "../../controllers/getProducts.js";
 const productRouter = Router();
 //testeado.✅
 productRouter.get("/", async (req, res) => {
-  /*FS manner:
-  const result = await productManager.getProducts();
-  const limit = req.query.limit;
-  if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: result.slice(6) });
-  }
-  res.status(200).json({ status: "success", payload: result.slice(0, limit) });
-*/
+
   const result = await getProducts(req, res);
   res.status(result.statusCode).json(result.response);
 });
 
 //testeado.✅ sólo un problema: el query inválido me remite al mensaje del catch y no de la validación que le monto.
 productRouter.get("/:pid", async (req, res) => {
-  /*FS manner:
-    const id = parseInt(req.params.pid);
-    const result = await productManager.getProductByID(id);
-    if (typeof result == "string") {
-      return res.status(404).json({ payload: "error 404", error: result });
-    }
-    res.status(200).json({ status: "success", payload: result });
-*/
 
   try {
     //instancio las variables de acceso al id con el query param:
@@ -46,32 +28,22 @@ productRouter.get("/:pid", async (req, res) => {
     //retorno la respuesta con el resultado de mi consulta en el payload:
     res.status(200).json({ status: "success", payload: result });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: err.message,
-        test: "this is de catch message",
-      });
+    res.status(500).json({
+      status: "error",
+      error: err.message,
+      test: "this is de catch message",
+    });
   }
 });
 
 //testeado.✅ la consulta en TC no me trae la bdd actualizada después pero en compass logro ver el cambio. También hay que trabajar las validaciones.
 productRouter.post("/", async (req, res) => {
-  /*FS manner:
-    const product = req.body;
 
-    const result = await productManager.addProduct(product);
-    if (typeof result == "string") {
-      return res.status(404).json({ payload: "error 404", error: result });
-    }
-    res.status(201).json({ status: "success", payload: result });
-*/
   try {
     const product = req.body;
-    console.log('product desde productRouter: ',product);
+    console.log("product desde productRouter: ", product);
     const result = await productModel.create(product);
-    console.log('result from productRouter', result);
+    console.log("result from productRouter", result);
     const products = await productModel.find().lean().exec();
     console.log("products from productRouter", products);
     try {
@@ -82,31 +54,24 @@ productRouter.post("/", async (req, res) => {
 
     res.status(201).json({ status: "success", payload: result });
   } catch (err) {
-    res.status(500).json({ status: "error", error: err.message, test: "this is the catch error message" });
+    res
+      .status(500)
+      .json({
+        status: "error",
+        error: err.message,
+        test: "this is the catch error message",
+      });
   }
 });
 //testeado.✅
 productRouter.put("/:pid", async (req, res) => {
-  /*FS manner:
-  const id = parseInt(req.params.pid);
-  const data = req.body;
-  const result = await productManager.updateProduct(id, data);
 
-  if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: "product does not exist" });
-  }
-
-  return res.status(201).json({ status: "success", payload: result });
-*/
   try {
     //instancio la variable de acceso al Id del producto desde el param:
     const id = req.params.pid;
     //instancio la data desde el body:
     const data = req.body;
-    //actualizo 
+    //actualizo
     const result = await productModel.findByIdAndUpdate(id, data, {
       returnDocument: "after",
     });
@@ -115,8 +80,12 @@ productRouter.put("/:pid", async (req, res) => {
     }
 
     const products = await productModel.find().lean().exec();
-    try {req.io.emit("updatedProducts", products)} catch(err){console.log(err)}
-    
+    try {
+      req.io.emit("updatedProducts", products);
+    } catch (err) {
+      console.log(err);
+    }
+
     res.status(200).json({ status: "success", payload: result });
   } catch (err) {
     res.status(500).json({ status: "error", error: err.message });
@@ -124,12 +93,7 @@ productRouter.put("/:pid", async (req, res) => {
 });
 //testeado.✅
 productRouter.delete("/:pid", async (req, res) => {
-  /*FS manner:
-  const id = parseInt(req.params.pid);
-  const result = await productManager.deleteProduct(id);
 
-  return res.status(201).json({ status: "success", payload: result });
-*/
   try {
     //accedo al id desde el param:
     const id = req.params.pid;
@@ -148,13 +112,11 @@ productRouter.delete("/:pid", async (req, res) => {
     //cargo la lista al payload de mi respuesta:
     res.status(200).json({ status: "success", payload: products });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: err.message,
-        test: "this is the catch message",
-      });
+    res.status(500).json({
+      status: "error",
+      error: err.message,
+      test: "this is the catch message",
+    });
   }
 });
 

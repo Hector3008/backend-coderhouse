@@ -1,46 +1,21 @@
-/* los artículos FS manner se refieren a los métodos de FileSystem que utilizamos en la entrega anterior. Esto, para reutilizarlos cuando sea necesario */
-
 import { Router } from "express";
-import productModel from "../../dao/models/product.model.js";
-import cartModeL from "../../dao/models/cart.model.js";
-import getProductsFromCart from "../../controllers/getProductsFromCart.js";
-import getCarts from "../../controllers/getCarts.js";
+import productModel from "../dao/models/product.model.js";
+import cartModeL from "../dao/models/cart.model.js";
+import { getProductsFromCart } from "../controllers/cartsController.js";
+import { getCarts } from "../controllers/cartsController.js";
 
-/*FS manner: 
-//import CartManager from "../dao/fsManagers/cartManager.js";
-//const cartManager = new CartManager("./data/carts.json");
-*/
 
 const cartsRouter = Router();
 //testeado.✅
 cartsRouter.get("/", async (req, res) => {
-  /*FS manner: 
-  const result = await cartManager.getCarts();
-  const limit = req.query.limit;
 
-  if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: result.slice(6) });
-  }
-  res.status(200).json({ status: "success", payload: result.slice(0, limit) });
-*/
   const result = await getCarts(req, res);
   res.status(result.statusCode).json(result.response);
 });
 //testeado.✅
-  //creo un nuevo carrito:
+//creo un nuevo carrito:
 cartsRouter.post("/", async (req, res) => {
-  /*FS manner:
-    const result = await cartManager.createCart();
-    if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: result.slice(6) });
-  }
-  res.status(201).json({ status: "success", payload: result });*/
+
   try {
     const result = await cartModeL.create({});
     res.status(500).json({ status: "success", payload: result });
@@ -49,38 +24,17 @@ cartsRouter.post("/", async (req, res) => {
   }
 });
 //testeado.✅
-  //consulto un carrito:
+//consulto un carrito:
 cartsRouter.get("/:cid", async (req, res) => {
-  /*FS manner:
-  const id = parseInt(req.params.cid);
-  const result = await cartManager.getProductsFromCart(id);
-
-  if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: result.slice(6) });
-  }
-  res.status(200).json({ status: "success", payload: result });*/
 
   const result = await getProductsFromCart(req, res);
   res.status(result.statusCode).json(result.response);
 });
 
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
-  //agrego un producto a un carrito:
+//agrego un producto a un carrito:
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
-  /*FS manner:
-  const cid = parseInt(req.params.cid);
-  const pid = parseInt(req.params.pid);
-  const result = await cartManager.addProductToCart(cid, pid);
-  if (typeof result == "string") {
-    const error = result.split(" ");
-    return res
-      .status(parseInt(error[0].slice(1, 4)))
-      .json({ error: result.slice(6) });
-  }
-  res.status(200).json({ status: "success", payload: result });*/
+
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
@@ -119,12 +73,18 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
     //cargo la respuesta exitosa:
     res.status(201).json({ status: "success", payload: result });
   } catch (err) {
-    res.status(500).json({ status: "error", error: err.message, test: 'this is the catch message' });
+    res
+      .status(500)
+      .json({
+        status: "error",
+        error: err.message,
+        test: "this is the catch message",
+      });
   }
 });
 
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
-  //elimino todos los items de un product específico que existan en el carrito:
+//elimino todos los items de un product específico que existan en el carrito:
 cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
   try {
     //instancio las variables de acceso a los params:
@@ -222,7 +182,10 @@ cartsRouter.put("/:cid", async (req, res) => {
       if (products[index].quantity <= 0) {
         return res
           .status(400)
-          .json({ status: "error", error: "there is a product which quantity is 0 nor negative" });
+          .json({
+            status: "error",
+            error: "there is a product which quantity is 0 nor negative",
+          });
       }
       //consulto si el producto existe en el carrito:
       const productToAdd = await productModel.findById(products[index].product);
@@ -231,11 +194,10 @@ cartsRouter.put("/:cid", async (req, res) => {
         return res.status(400).json({
           status: "error",
           error: `Product with id=${products[index].product} doesnot exist. We cannot add this product to the cart with id=${cid}`,
-         
         });
       }
     }
-  //end: validaciones del array enviado por body
+    //end: validaciones del array enviado por body
     //actualizo el array de productos de mi carrito:
     cartToUpdate.products = products;
     //actualizo el documento de mi bdd de cloud.mongo carritos con el nuevo array:
@@ -244,18 +206,16 @@ cartsRouter.put("/:cid", async (req, res) => {
     });
     res.status(200).json({ status: "success", payload: result });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: err.message,
-        test: "this is the catch message",
-      });
+    res.status(500).json({
+      status: "error",
+      error: err.message,
+      test: "this is the catch message",
+    });
   }
 });
 
-//testeado.✅ Solo hay un problema: A excepción del req.body (un bodyParam) cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando. 
-  //actualizo la cantidad de un item específico del carrito:
+//testeado.✅ Solo hay un problema: A excepción del req.body (un bodyParam) cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
+//actualizo la cantidad de un item específico del carrito:
 cartsRouter.put("/:cid/product/:pid", async (req, res) => {
   try {
     //instancio las variables de acceso al id del carrito y al id del producto desde los params:
@@ -295,13 +255,11 @@ cartsRouter.put("/:cid/product/:pid", async (req, res) => {
     }
     //validación 5: el valor de cantidad es 0:
     if (quantity <= 0) {
-      return res
-        .status(400)
-        .json({
-          status: "error",
-          error: "product's quantity cannot be 0 nor negative",
-        });
-    };
+      return res.status(400).json({
+        status: "error",
+        error: "product's quantity cannot be 0 nor negative",
+      });
+    }
     //validación 6: el valor de cantidad es float (decimal):
     function isFloat(numero) {
       return (
@@ -340,7 +298,7 @@ cartsRouter.put("/:cid/product/:pid", async (req, res) => {
 });
 
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando
-  //elimino (vacío) todos los productos de un carrito:
+//elimino (vacío) todos los productos de un carrito:
 cartsRouter.delete("/:cid", async (req, res) => {
   try {
     //instancio la variable de acceso al id del carrito desde el params:
