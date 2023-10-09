@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userModel from "../dao/models/users.model.js";
+import passport from "passport";
 
 const sessionsRouter = Router();
 
@@ -7,35 +7,29 @@ sessionsRouter.get("/", async (req, res) => {
   res.send("sessionsRouter gotten");
 });
 
-sessionsRouter.post("/register", async (req, res) => {
-  console.log("Recibiendo solicitud POST en /api/sessions/register");
-  const newUser = req.body;
-
-  const user = await userModel.create(newUser);
-  const SEO = {};
-  res.redirect("/products", { SEO: SEO });
+sessionsRouter.post("/register", passport.authenticate('register', {failureRedirect: '/error'}), async (req, res) => {
+  res.redirect("/sessions");
 });
 
-sessionsRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await userModel.findOne({ email, password }).lean().exec();
-
-  if (!user) {
-    return res.send("usuario no encontrado");
+sessionsRouter.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/error" }),
+  async (req, res) => {
+    if (!req.user) {
+      return res
+        .status(400)
+        .send({ status: "error", error: "Invalid credentials" });
+    }
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
+    };
+    if (req.user.email === "adminCoder@coder.com") {req.session.user.role = 'admin'} else {req.session.user.role = 'user'}
+    res.redirect("/products");
   }
-  if (
-    user.email === "adminCoder@coder.com" &&
-    user.password === "adminCod3r123"
-  ) {
-    user.role = "admin";
-  } else {
-    user.role = "user";
-  }
-
-  req.session.user = user;
-
-  res.redirect("/products");
-});
+);
 
 sessionsRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {

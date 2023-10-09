@@ -19,7 +19,7 @@ export const adminRouter = (req,res,next)=> {
   console.log("req.session.user.first_name:", req.session.user.first_name);
   console.log("req.session.user:", req.session.user);
   console.log(
-    "req.session.user.rol === 'admin': ",
+    "req.session.user.role === 'admin': ",
     req.session.user.role === "admin"
   );
 

@@ -13,6 +13,8 @@ import sessionsRouter from "./routers/sessionsRouter.js";
 import sessionsViewsRouter from "./routers/sessionsViewRouter.js";
 
 import cookieParser from "cookie-parser";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 //instancio la variable para el puerto del sevidor:
 export const PORT = 8080;
@@ -26,7 +28,14 @@ const MONGO_DB_NAME = "e-comerce";
 
 const app = express();
 
+//ingeniería de session y cookies:
 app.use(session({ secret: "password", resave: true, saveUninitialized: true }));
+
+//ingeniería de passport:
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 //le aviso a express que el cliente le estará enviando invformación en formato json:
 app.use(express.json());
 //instancio la información estática:
@@ -66,7 +75,10 @@ try {
     res.render("index.handlebars", { SEO: SEO });
     res.redirect("/sessions/register");
   });
-
+  //err
+  app.get("/error", async(req, res)=>{
+    res.render('error.handlebars')
+  })
   //data on wire:
   app.use("/api/products", productRouter);
   app.use("/api/carts", cartsRouter);
