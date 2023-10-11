@@ -2,7 +2,10 @@
   {{#if user}}
   <div class="container text-center" style="margin-top: 1rem;">
     <H4>Bienvenido, {{user.first_name}} {{user.last_name}}</H4>
-    <h5> (<a href="sessions/profile">{{user.email}} </a>) role: {{user.role}}</h5>
+    {{#if user.email}}
+    <h5> (<a href="sessions/profile">{{user.email}} </a>)
+    {{/if}}
+     role: {{user.role}}</h5>
   </div>
     <h2 class="text-center">Productos</h2>
   {{/if}}

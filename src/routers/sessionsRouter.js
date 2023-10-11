@@ -11,8 +11,7 @@ sessionsRouter.post("/register", passport.authenticate('register', {failureRedir
   res.redirect("/sessions");
 });
 
-sessionsRouter.post(
-  "/login",
+sessionsRouter.post("/login",
   passport.authenticate("login", { failureRedirect: "/error" }),
   async (req, res) => {
     if (!req.user) {
@@ -37,5 +36,29 @@ sessionsRouter.get("/logout", (req, res) => {
     return res.redirect("/sessions");
   });
 });
+
+sessionsRouter.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  (req, res) => {}
+);
+
+sessionsRouter.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+
+    //console.log("Callback: ", req.user);
+    req.session.user = req.user;
+
+    if (req.user.email === "adminCoder@coder.com") {
+      req.session.user.role = "admin";
+    } else {
+      req.session.user.role = "user";
+    }
+
+    res.redirect("/products");
+  }
+);
 
 export default sessionsRouter;
