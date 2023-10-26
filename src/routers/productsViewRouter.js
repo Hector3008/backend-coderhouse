@@ -9,7 +9,7 @@ import {
 
 const productsViewsRouter = Router();
 //acá visualizo todos los productos en una tabla y los puedo agregar a un carrito:
-productsViewsRouter.get("/", privateRoutes, async (req, res) => {
+productsViewsRouter.get("/", async (req, res) => {
 
   const result = await getProducts(req, res);
 
@@ -51,7 +51,7 @@ productsViewsRouter.get("/", privateRoutes, async (req, res) => {
   }
 });
 //acá visualizo un formulario para crear nuevos productos y una tabla para ver sus cambios en tiempo real (también los puedo eliminar):
-productsViewsRouter.get("/realTimeProducts", adminRouter, async (req, res) => {
+productsViewsRouter.get("/realTimeProducts", async (req, res) => {
   //const products = await productManager.getProducts();
   const SEO = {
     title: "realTimeProducts",
@@ -74,7 +74,7 @@ productsViewsRouter.get("/realTimeProducts", adminRouter, async (req, res) => {
   }
 });
 //acá visualizo un producto en específico en una tabla y lo puedo agregar a un carrito:
-productsViewsRouter.get("/:id", privateRoutes, async (req, res) => {
+productsViewsRouter.get("/:id", async (req, res) => {
   const id = req.params.id;
 
   const product = await productModel.findById(id);

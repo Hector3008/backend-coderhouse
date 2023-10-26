@@ -1,6 +1,6 @@
 import { Router } from "express";
 import productModel from "../dao/models/product.model.js";
-import cartModeL from "../dao/models/cart.model.js";
+import cartModel from "../dao/models/cart.model.js";
 import { getProductsFromCart } from "../controllers/cartsController.js";
 import { getCarts } from "../controllers/cartsController.js";
 
@@ -17,7 +17,7 @@ cartsRouter.get("/", async (req, res) => {
 cartsRouter.post("/", async (req, res) => {
 
   try {
-    const result = await cartModeL.create({});
+    const result = await cartModel.create({});
     res.status(500).json({ status: "success", payload: result });
   } catch (err) {
     res.status(500).json({ status: "error", error: err.message });
@@ -39,7 +39,7 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //accedo al carrito buscandolo por su id:
-    const cartToUpdate = await cartModeL.findById(cid);
+    const cartToUpdate = await cartModel.findById(cid);
     //validación 1: el carrito existe en la bdd de carritos:
     if (cartToUpdate === null) {
       return res
@@ -67,7 +67,7 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
       cartToUpdate.products.push({ product: pid, quantity: 1 });
     }
     //finalmente, actualizo el documento con el método 'findByIdAndUpdate' del modelo:
-    const result = await cartModeL.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
       returnDocument: "after",
     });
     //cargo la respuesta exitosa:
@@ -91,7 +91,7 @@ cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //consulto en la bdd el documento por el id del cart:
-    const cartToUpdate = await cartModeL.findById(cid);
+    const cartToUpdate = await cartModel.findById(cid);
 
     //validación 1: carrito inexiste en la bdd de los carritos:
     if (cartToUpdate === null) {
@@ -125,7 +125,7 @@ cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
       );
     }
     //actualizo la bdd de carritos
-    const result = await cartModeL.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
       returnDocument: "after",
     });
     //cargo la respuesta exitosa:
@@ -141,7 +141,7 @@ cartsRouter.put("/:cid", async (req, res) => {
     //instancio la variable de acceso al id del carrito tomandola desde el param:
     const cid = req.params.cid;
     //hago la consulta a la bdd de carritos para ver si existe:
-    const cartToUpdate = await cartModeL.findById(cid);
+    const cartToUpdate = await cartModel.findById(cid);
 
     //validación 1: el carrito no existe en la bdd de carritos:
     if (cartToUpdate === null) {
@@ -201,7 +201,7 @@ cartsRouter.put("/:cid", async (req, res) => {
     //actualizo el array de productos de mi carrito:
     cartToUpdate.products = products;
     //actualizo el documento de mi bdd de cloud.mongo carritos con el nuevo array:
-    const result = await cartModeL.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });
@@ -222,7 +222,7 @@ cartsRouter.put("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //consulto en la bdd de carritos por un carrito con el id de mi consulta:
-    const cartToUpdate = await cartModeL.findById(cid);
+    const cartToUpdate = await cartModel.findById(cid);
     //validación 1: no existe el carrito en la bdd:
     if (cartToUpdate === null) {
       return res
@@ -288,7 +288,7 @@ cartsRouter.put("/:cid/product/:pid", async (req, res) => {
     }
 
     //actualizo la bdd de carritos en mi mongo con el cambio en la cantidad de mi carrito:
-    const result = await cartModeL.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });
@@ -304,7 +304,7 @@ cartsRouter.delete("/:cid", async (req, res) => {
     //instancio la variable de acceso al id del carrito desde el params:
     const cid = req.params.cid;
     //consulto si el carrito con ese id existe en mi bdd de carritos:
-    const cartToUpdate = await cartModeL.findById(cid);
+    const cartToUpdate = await cartModel.findById(cid);
     //validación 1: el carrito no existe en la bdd de carritos:
     if (cartToUpdate === null) {
       return res
@@ -314,7 +314,7 @@ cartsRouter.delete("/:cid", async (req, res) => {
     //vacío la lista de productos en ese carrito:
     cartToUpdate.products = [];
     //actualizo el carrito en la bdd de carritos:
-    const result = await cartModeL.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });

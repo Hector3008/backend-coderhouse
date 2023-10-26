@@ -1,15 +1,28 @@
-Refactor a nuestro login
 Consigna
 
-Con base en el login de nuestro entregable anterior, refactorizar para incluir los nuevos conceptos.
+Continuar sobre el proyecto que has trabajado para tu ecommerce y configurar los siguientes elementos:
+
 Aspectos a incluir
 
-Se deberá contar con un hasheo de contraseña utilizando bcrypt ✅
-Se deberá contar con una implementación de passport, tanto para register como para login. ✅
-Implementar el método de autenticación de GitHub a la vista de login. ✅
+Crear un modelo User el cual contará con los campos:
+first_name:String,
+last_name:String,
+email:String (único)
+age:Number,
+password:String(Hash)
+cart:Id con referencia a Carts
+role:String(default:’user’)
+Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios
+
+
+Modificar el sistema de login del usuario para poder trabajar con session o con jwt (a tu elección).
+Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
 
 Formato
 
-Link al repositorio de GitHub con el proyecto solicitado.
-Sugerencias 
-El testeo se realizará de manera muy similar al anterior, puedes consultar el documento de testing aquí: 
+Link al repositorio de GitHub con el proyecto completo (No incluir node_modules).
+
+Sugerencias
+
+Te recomendamos trabajar con el modelo de sesión con el cual te sientas más cómodo (sessions / jwt)
+

@@ -1,5 +1,5 @@
 import { PORT } from "../app.js";
-import cartModeL from "../dao/models/cart.model.js";
+import cartModel from "../dao/models/cart.model.js";
 
 export const getCarts = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ export const getCarts = async (req, res) => {
 
     const paginateOptions = { lean: true, limit, page };
 
-    const result = await cartModeL.paginate(filterOptions, paginateOptions);
+    const result = await cartModel.paginate(filterOptions, paginateOptions);
     console.log("consulta realizada con éxito");
     console.log(`el query page es: ${req.query.page}`);
     console.log(`el query limit es: ${req.query.limit}`);
@@ -69,7 +69,7 @@ export const getProductsFromCart = async (req, res) => {
     const id = req.params.cid;
 
     //consulto el carrito en la bdd de carritos con el populate de products para que me enseñe todos los productos:
-    const result = await cartModeL
+    const result = await cartModel
       .findById(id)
       .populate("products.product")
       .lean();

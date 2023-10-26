@@ -6,6 +6,8 @@
     <h5> (<a href="sessions/profile">{{user.email}} </a>)
     {{/if}}
      role: {{user.role}}</h5>
+      <a href="">carrito: {{user.cart}}</a>
+      <p id="cid" data-cid="{{user.cart}}"></p>
   </div>
     <h2 class="text-center">Productos</h2>
   {{/if}}
@@ -47,8 +49,11 @@
   </thead>
   
   <tbody>
+
     {{#each products}}
+    
    <tr>
+      <td>user cart: {{user.cart}}</td>
       <td><button class="btn btn-success" onclick="addProductToCart('{{this._id}}')">add to cart</button></td>
       <td><a href="http://localhost:8080/products/{{this._id}}">{{this.title}}</a></td>   
       <td>{{this.description}}</td>
@@ -64,5 +69,24 @@
 </div>
 </div>
 
-<script src="js/controllers/addProductToCart.js">
+{{!-- <script src="js/controllers/addProductToCart.js">
+</script> --}}
+
+<script>
+  const cartId = document.getElementById("cid")
+  const cid = cartId.getAttribute("data-cid")
+  let addProductToCart = (pid) => {
+      fetch(`/api/carts/${cid}/product/${pid}`, {
+        method: "post",
+      })
+        .then((result) => result.json())
+        .then((result) => {
+          if (result.status === "error") throw new Error(result.error);
+          alert(
+            `Ok. Todo salió bien! :)\nEl producto se agregó al carrito con id=${result.payload._id}!`
+          );
+        })
+        .catch((err) => alert(`Ocurrió un error :(\n${err}`));
+    }
+
 </script>

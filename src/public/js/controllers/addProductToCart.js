@@ -1,22 +1,12 @@
 
 
-let addProductToCart = (pid) => {
+let addProductToCart = (cid, pid) => {
   
-  alert("addProductToCart() ejecutado!");
   
-  fetch(`/api/carts`, {
-    method: "post",
-  })
-    .then((result) => result.json())
-    .then((result) => {
-      if (result.status === "error") throw new Error(result.error);
-      return result.payload._id;
-    })
-    .then((cid) =>
+
       fetch(`/api/carts/${cid}/product/${pid}`, {
         method: "post",
       })
-    )
     .then((result) => result.json())
     .then((result) => {
       if (result.status === "error") throw new Error(result.error);
