@@ -4,21 +4,24 @@ import { adminRouter } from "../middlewares/auth.middleware.js";
 
 const cartsViewsRouter = Router();
 
-cartsViewsRouter.get("/", adminRouter, async (req, res) => {
+cartsViewsRouter.get("/", async (req, res) => {
   res.render("notYet.handlebars");
 });
 
-cartsViewsRouter.get("/:cid", adminRouter, async (req, res) => {
+cartsViewsRouter.get("/:cid", async (req, res) => {
   const id = req.params.cid;
   const result = await getProductsFromCart(req, res);
+  console.log(result);
 
   const SEO = {
     title: `cart: ${id}`,
   };
-
-  if (result.statusCode === 200) {
+  console.log(result.statusCode);
+  console.log("result.response.payload",result.response.payload);
+  if (result.statusCode == "200") {
     res.render("productsFromCart.handlebars", {
-      cart: result.response.payload,
+      cart: result.response.payload._id,
+      products: result.response.payload.products,
       SEO: SEO,
     });
   } else {

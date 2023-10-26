@@ -1,10 +1,15 @@
 {{!-- este .handlebars trabaja con  --}}
 
-este es el .handlebars de profile
 
+<div class="container"> 
+  este es el .handlebars de profile
 <h2>Bienvenido {{first_name}} </h2>
 
-
+<div>
+  <a href="/products">Productos</a> <a href="/api/sessions/logout">Logout</a>
+</div>
+</div>
+<div class="container">
 <div class="user-card">
   <ul>
     <li>Firstname: {{first_name}}</li>
@@ -15,7 +20,39 @@ este es el .handlebars de profile
     <li>cart: {{cart}}</li>
   </ul>
 </div>
+{{#if products}}
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <td></td>
+          <td><strong>producto</strong></td>
+          <td><strong>descripcion</strong></td>
+          <td><strong>precio</strong></td>
+          <td><strong>codigo</strong></td>
+          <td><strong>stock</strong></td>
+          <td><strong>categoria</strong></td>        
+        </tr>
+      </thead>
+    
+      <tbody>
+        
+        {{#each products}}
+    
+        <tr>
+          <td><button class="danger">eliminar producto</button></td>
+          <td><a href="http://localhost:8080/products/{{this._id}}">{{this.title}}</a></td>
+          <td>{{this.description}}</td>
+          <td>{{this.price}}$</td>
+          <td>{{this.code}}</td>
+          <td>{{this.stock}}</td>
+          <td>{{this.category}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    
+    </table>
+  </div>
+  </div>
+{{/if}}
 
-<div>
-  <a href="/products">Productos</a> <a href="/api/sessions/logout">Logout</a>
-</div>

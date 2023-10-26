@@ -1,6 +1,6 @@
 {{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
 
-<h2 class="text-center" style="margin-top: 2rem;"> Products from Cart with id={{cart._id}}</h2>
+<h2 class="text-center" style="margin-top: 2rem;"> Products from Cart with id={{cart}}</h2>
 <hr />
 <div class="container">
   <table class="table table-striped">
@@ -8,13 +8,38 @@
       <tr>
         <td></td>
         <td><strong>Producto</strong></td>
-        <td><strong>Descripción</strong></td>
         <td><strong>Precio</strong></td>
-        <td><strong>Código</strong></td>
-        <td><strong>Stock</strong></td>
         <td><strong>Cantidad</strong></td>
       </tr>
     </thead>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <td></td>
+          <td><strong>producto</strong></td>
+          <td><strong>precio</strong></td>
+          <td><strong>cantidad</strong></td>
+        </tr>
+      </thead>
+    
+      <tbody>
+    
+        {{#each products}}
+    
+        <tr>
+          <td><button class="btn btn-danger" onclick="">delete</button></td>
+ 
+          <td><a href="http://localhost:8080/products/{{this._id}}">{{this.product.title}}</a></td>
+          <td>{{this.product.price}}$</td>
+          <td>{{this.quantity}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    
+    </table>
+    </div>
+{{!--     
     <tbody>
       {{#each cart.products}}
       <tr>
@@ -27,6 +52,6 @@
         <td>{{this.quantity}}</td>
       </tr>
       {{/each}}
-    </tbody>
+    </tbody> --}}
   </table>
 </div>
