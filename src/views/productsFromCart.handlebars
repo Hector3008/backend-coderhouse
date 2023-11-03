@@ -1,17 +1,14 @@
 {{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
 
 <h2 class="text-center" style="margin-top: 2rem;"> Products from Cart with id={{cart}}</h2>
+<p id="cid" data-cid="{{cart}}"></p>
 <hr />
 <div class="container">
+  <div class="container d-flex justify-content-end">
+    <button class="btn btn-danger" onclick="vaciarCarro('{{cart}}')">vaciar carrito</button>
+  </div>
+
   <table class="table table-striped">
-    <thead>
-      <tr>
-        <td></td>
-        <td><strong>Producto</strong></td>
-        <td><strong>Precio</strong></td>
-        <td><strong>Cantidad</strong></td>
-      </tr>
-    </thead>
 
     <table class="table table-striped">
       <thead>
@@ -22,36 +19,46 @@
           <td><strong>cantidad</strong></td>
         </tr>
       </thead>
-    
+
       <tbody>
-    
+
         {{#each products}}
-    
+
         <tr>
-          <td><button class="btn btn-danger" onclick="">delete</button></td>
- 
+          <td><button class="btn btn-danger" onclick="deleteProductFromCart('{{this.product._id}}')">delete</button></td>
           <td><a href="http://localhost:8080/products/{{this._id}}">{{this.product.title}}</a></td>
           <td>{{this.product.price}}$</td>
           <td>{{this.quantity}}</td>
         </tr>
         {{/each}}
       </tbody>
-    
+
     </table>
-    </div>
-{{!--     
-    <tbody>
-      {{#each cart.products}}
-      <tr>
-        <td><button class="btn btn-danger">delete</button></td>
-        <td>{{this.product.title}}</td>
-        <td>{{this.product.description}}</td>
-        <td>{{this.product.price}}$</td>
-        <td>{{this.product.code}}</td>
-        <td>{{this.product.stock}}</td>
-        <td>{{this.quantity}}</td>
-      </tr>
-      {{/each}}
-    </tbody> --}}
-  </table>
 </div>
+</table>
+</div>
+
+<script>
+
+  const vaciarCarro = async (cid) => {
+
+    await fetch(`/api/carts/${cid}`, {
+      method: "delete"
+    })
+      .then((result) => result.json())
+      .then((result) => {
+        if (result.status === "error") throw new Error(result.error);
+        alert(
+          `el  carrito se ha vaciado con éxito!`
+        );
+      })
+      .catch((err) => alert(`Ocurrió un error :(\n${err}`))
+  }
+
+  const deleteProductFromCart = async(pid)=>{
+    alert(`deleteProductFromCart(${pid})`)
+  }
+
+
+
+</script>

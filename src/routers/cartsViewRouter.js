@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getProductsFromCart } from "../controllers/cartsController.js";
-import { adminRouter } from "../middlewares/auth.middleware.js";
+import { handlePolicies } from "../../utils.js";
 
 const cartsViewsRouter = Router();
 
@@ -8,7 +8,7 @@ cartsViewsRouter.get("/", async (req, res) => {
   res.render("notYet.handlebars");
 });
 
-cartsViewsRouter.get("/:cid", async (req, res) => {
+cartsViewsRouter.get("/:cid",handlePolicies(["user","admin"]), async (req, res) => {
   const id = req.params.cid;
   const result = await getProductsFromCart(req, res);
   console.log(result);

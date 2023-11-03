@@ -32,6 +32,7 @@ cartsRouter.get("/:cid", async (req, res) => {
 });
 
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
+
 //agrego un producto a un carrito:
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
 
@@ -84,6 +85,7 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
 });
 
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
+
 //elimino todos los items de un product específico que existan en el carrito:
 cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
   try {
@@ -215,6 +217,7 @@ cartsRouter.put("/:cid", async (req, res) => {
 });
 
 //testeado.✅ Solo hay un problema: A excepción del req.body (un bodyParam) cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
+
 //actualizo la cantidad de un item específico del carrito:
 cartsRouter.put("/:cid/product/:pid", async (req, res) => {
   try {
@@ -297,7 +300,12 @@ cartsRouter.put("/:cid/product/:pid", async (req, res) => {
   }
 });
 
+cartsRouter.delete("/:cid/product/:pid/deleteOne", async(req,res)=>{
+  console.log("/:cid/product/:pid/deleteOne delete fetch");
+  res.send("/:cid/product/:pid/deleteOne done");
+})
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando
+
 //elimino (vacío) todos los productos de un carrito:
 cartsRouter.delete("/:cid", async (req, res) => {
   try {
