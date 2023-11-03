@@ -15,21 +15,35 @@ import sessionsViewsRouter from "./routers/sessionsViewRouter.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import dotenv from "dotenv"
+import { Command } from "commander";
 
-//instancio la variable para el puerto del sevidor:
-export const PORT = 8080;
-//cloud.mongodb variables:
-const MONGO_DB_ADMIN_NAME = "admin";
-const MONGO_DB_CLOUD_ADMIN_DB = "LHHv7KiR2v7XPDja";
+//inicio la ingeniería de dotenv para llamar variables de entorno encriptadas:
 
-const MONGO_URI = `mongodb+srv://${MONGO_DB_ADMIN_NAME}:${MONGO_DB_CLOUD_ADMIN_DB}@e-comerce.bpmaosh.mongodb.net/`;
+dotenv.config()
 
-const MONGO_DB_NAME = "e-comerce";
+  //instancio la variable para el puerto del sevidor:
+  export const PORT = 8080;
+  //cloud.mongodb variables:
+  const MONGO_DB_ADMIN_NAME = process.env.MONGO_DB_ADMIN_NAME;
+  const MONGO_DB_CLOUD_ADMIN_DB = process.env.MONGO_DB_CLOUD_ADMIN_DB;
+  const MONGO_DB_NAME = process.env.MONGO_DB_NAME;
 
+  //deseo instanciar una vde compuesta de otras vde, pero no sé cómo declararla aún.
+  const MONGO_URI = `mongodb+srv://${MONGO_DB_ADMIN_NAME}:${MONGO_DB_CLOUD_ADMIN_DB}@e-comerce.bpmaosh.mongodb.net/`;
+    // const variable = process.env.MONGO_URI;
+    // console.log(MONGO_URI);
+    // console.log(variable);
+
+  const SESSION_SIGN = process.env.SESSION_SIGN;
+
+  
 const app = express();
 
 //ingeniería de session y cookies:
-app.use(session({ secret: "password", resave: true, saveUninitialized: true }));
+app.use(
+  session({ secret: SESSION_SIGN, resave: true, saveUninitialized: true })
+);
 
 //ingeniería de passport:
 initializePassport()
@@ -102,3 +116,5 @@ try {
   //cierro el node con esta línea:
   process.exit(-1);
 }
+
+
