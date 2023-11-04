@@ -1,6 +1,6 @@
 import { getProducts } from "../services/products.services.js";
-import { PORT } from "../app.js";
 import productModel from "../dao/models/product.model.js";
+import cfg from "../config/config.js";
 
 /*1:
 para el catalogo de productos
@@ -15,13 +15,13 @@ export const productsController = async (req, res) => {
 
     for (let index = 1; index <= result.response.totalPages; index++) {
       if (!req.query.page) {
-        link = `http://${req.hostname}:${PORT}${req.originalUrl}?page=${index}`;
+        link = `http://${req.hostname}:${cfg.PORT}${req.originalUrl}?page=${index}`;
       } else {
         const modifiedUrl = req.originalUrl.replace(
           `page=${req.query.page}`,
           `page=${index}`
         );
-        link = `http://${req.hostname}:${PORT}${modifiedUrl}`;
+        link = `http://${req.hostname}:${cfg.PORT}${modifiedUrl}`;
       }
       totalPages.push({ page: index, link });
     }

@@ -1,5 +1,5 @@
-import { PORT } from "../app.js";
 import cartModel from "../dao/models/cart.model.js";
+import cfg from "../config/config.js";
 
 export const getCarts = async (req, res) => {
   try {
@@ -20,24 +20,24 @@ export const getCarts = async (req, res) => {
     //prevLink:
     let prevLink;
     if (!req.query.page) {
-      prevLink = `http://${req.hostname}:${PORT}${req.originalUrl}&page${result.prevPage}`;
+      prevLink = `http://${req.hostname}:${cfg.PORT}${req.originalUrl}&page${result.prevPage}`;
     } else {
       const modifiedUrl = req.originalUrl.replace(
         `page=${req.query.page}`,
         `page=${result.prevPage}`
       );
-      prevLink = `http://${req.hostname}:${PORT}${modifiedUrl}`;
+      prevLink = `http://${req.hostname}:${cfg.PORT}${modifiedUrl}`;
     }
     //nextLink:
     let nextLink;
     if (!req.query.page) {
-      nextLink = `http://${req.hostname}:${PORT}${req.originalUrl}?&page=${result.nextPage}`;
+      nextLink = `http://${req.hostname}:${cfg.PORT}${req.originalUrl}?&page=${result.nextPage}`;
     } else {
       const modifiedUrl = req.originalUrl.replace(
         `page=${req.query.page}`,
         `page=${result.nextPage}`
       );
-      nextLink = `http://${req.hostname}:${PORT}${modifiedUrl}`;
+      nextLink = `http://${req.hostname}:${cfg.PORT}${modifiedUrl}`;
     }
     //armo el json de la response:
     return {
