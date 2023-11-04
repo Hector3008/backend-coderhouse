@@ -23,7 +23,7 @@ import { Command } from "commander";
 dotenv.config()
 
   //instancio la variable para el puerto del sevidor:
-  export const PORT = 8080;
+  export const PORT = process.env.PORT;
   //cloud.mongodb variables:
   const MONGO_DB_ADMIN_NAME = process.env.MONGO_DB_ADMIN_NAME;
   const MONGO_DB_CLOUD_ADMIN_DB = process.env.MONGO_DB_CLOUD_ADMIN_DB;

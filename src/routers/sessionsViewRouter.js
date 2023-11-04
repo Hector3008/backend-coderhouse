@@ -1,19 +1,17 @@
 import { Router } from "express";
-import { handlePolicies } from "../../utils.js";
+import { handlePolicies as hp } from "../../utils.js";
+import {
+  registerController,
+  loginController,
+  profileController,
+} from "../controllers/sessions.controller.js";
+
 const sessionsViewsRouter = Router();
 
-sessionsViewsRouter.get("/register", handlePolicies("public"), async (req, res) => {
-  const SEO = {title: "registro"}
-  res.render("sessions/register.handlebars", {SEO});
-});
+sessionsViewsRouter.get("/register", hp("public"), registerController);
 
-sessionsViewsRouter.get("/", handlePolicies("public"), (req, res) => {
-  const SEO = { title: "login" };
-  res.render("sessions/login.handlebars", { SEO });
-});
+sessionsViewsRouter.get("/", hp("public"), loginController);
 
-sessionsViewsRouter.get("/profile", handlePolicies(["user", "admin"]), (req, res) => {
-  res.render("sessions/profile.handlebars", req.session.user);
-});
+sessionsViewsRouter.get("/profile", hp(["user", "admin"]), profileController);
 
 export default sessionsViewsRouter;

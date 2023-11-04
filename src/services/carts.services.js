@@ -93,4 +93,3 @@ export const getProductsFromCart = async (req, res) => {
     };
   }
 };
-

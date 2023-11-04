@@ -1,6 +1,8 @@
 import { PORT } from "../app.js";
 import productModel from "../dao/models/product.model.js";
-
+/*1
+  me trae todos los productos con formato de paginación:
+*/
 export const getProducts = async (req, res) => {
   try {
     const filterOptions = {};

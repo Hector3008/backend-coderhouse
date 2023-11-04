@@ -14,7 +14,14 @@ export const handlePolicies = policies => (req,res,next)=> {
     if (user) return res.status(400).render("error.handlebars", { error: "not auth" })
     return next();
   } 
+  try {
+      if (!policies.includes(user.role))
+        return res
+          .status(403)
+          .render("error.handlebars", { error: "not auth" });
+      return next();
+  } catch (err) {
+    return res.status(403).send("error.handlebars", { error: err });
+  }
 
-  if (!policies.includes(user.role)) return res.status(403).render("error.handlebars", { error: "not auth" });
-  return next()
 }
