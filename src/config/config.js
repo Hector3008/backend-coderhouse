@@ -11,4 +11,6 @@ export default {
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
   MONGO_URI: process.env.MONGO_URI,
   SESSION_SIGN: process.env.SESSION_SIGN,
+
+  PERSISTENCE: process.env.PERSISTENCE,
 };

@@ -1,6 +1,8 @@
 import express from "express";
-import mongoose from "mongoose";
 import { Server } from "socket.io";
+//import { Command } from "commander";
+import cfg from "./config/config.js";
+import engineer  from "./engineer.js";
 
 import product from "./routers/productsRouter.js";
 import carts from "./routers/cartsRouter.js";
@@ -9,35 +11,15 @@ import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
 
-//import { Command } from "commander";
-import cfg from "./config/config.js";
-import engineer  from "./engineer.js";
 
-
-/*consulta al tutor: 
-//deseo instanciar una vde compuesta de otras vde, pero no sé cómo declararla aún.
-*/
-    const MONGO_URI = `mongodb+srv://${cfg.MONGO_DB_ADMIN_NAME}:${cfg.MONGO_DB_CLOUD_ADMIN_DB}@e-comerce.bpmaosh.mongodb.net/`;
-    /* ejemplo:
-    const variable = process.env.MONGO_URI;
-    console.log(MONGO_URI);
-    console.log(variable);
-    */
 
 /*
-inicializo el servidor:
+//inicializo el servidor:
 */
 const app = express();
 
-engineer(app)
-
-
 try {
-  await mongoose.connect(MONGO_URI, {
-    dbName: cfg.MONGO_DB_NAME,
-    useUnifiedTopology: true,
-  });
-  console.log("mongo conection success!");
+  engineer(app);
 
   /*
   ejecuto el servidor:
