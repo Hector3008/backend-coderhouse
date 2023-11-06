@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { handlePolicies as hp } from "../../utils.js";
 import {
-  registerController as register,
-  loginController as login,
-  profileController as profile,
+  registerViewController as register,
+  loginViewController as login,
+  profileViewController as profile,
 } from "../controllers/sessions.controller.js";
 
 const sessionsViewsRouter = Router();

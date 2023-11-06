@@ -4,7 +4,7 @@ import GitHubStrategy from 'passport-github2';
 import { createHash, isValidPassword } from "../../utils.js";
 import userModel from "../dao/models/users.model.js";
 import cartModel from "../dao/models/cart.model.js";
-
+import cfg from "./config.js";
 const localStrategy = local.Strategy;
 
 const initializePassport = () => {
@@ -17,6 +17,9 @@ const initializePassport = () => {
       },
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
+
+        const admin = email == cfg.ADMIN_EMAIL && password == cfg.ADMIN_PASSWORD
+
         try {
           const user = await userModel.findOne({ email: username });
           if (user) {
@@ -30,7 +33,8 @@ const initializePassport = () => {
             email,
             age,
             password: createHash(password),
-            cart:  cartForNewUser._id,
+            cart: cartForNewUser._id,
+            role: admin ? "admin" : "user",
           };
 
           const result = await userModel.create(newUser);

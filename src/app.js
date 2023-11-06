@@ -11,8 +11,6 @@ import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
 
-
-
 /*
 //inicializo el servidor:
 */
@@ -20,7 +18,6 @@ const app = express();
 
 try {
   engineer(app);
-
   /*
   ejecuto el servidor:
 
@@ -38,6 +35,7 @@ try {
     res.redirect("/sessions/register");
   });
   app.get("/error", async (req, res) => {res.render("error.handlebars")});
+  
   app.use("/api/products", product);
   app.use("/api/carts", carts);
   app.use("/api/sessions/", sessions);
@@ -45,6 +43,7 @@ try {
   app.use("/carts", cartsViews);
   app.use("/sessions/", sessionsViews);
 
+  app.use("*",async (req, res)=> {res.render("error.handlebars")})
   /*
  //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
 
@@ -57,7 +56,8 @@ try {
       io.emit("updatedProducts", data);
     });
   });
-} catch (err) {
+}
+catch (err) {
   console.log("error", err.message);
   /*
   //cierro el node con esta línea:

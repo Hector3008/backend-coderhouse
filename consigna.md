@@ -1,28 +1,16 @@
+Reestructura de nuestro servidor
+
 Consigna
 
-Continuar sobre el proyecto que has trabajado para tu ecommerce y configurar los siguientes elementos:
+Con base en las clases previamente vistas, realizar los cambios necesarios en tu proyecto para que se base en un modelo de capas.
 
 Aspectos a incluir
 
-Crear un modelo User el cual contará con los campos:
-first_name:String,
-last_name:String,
-email:String (único)
-age:Number,
-password:String(Hash)
-cart:Id con referencia a Carts
-role:String(default:’user’)
-Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios
+El proyecto debe contar con capas de routing, controlador, dao, con nuestras vistas bien separadas y con las responsabilidades correctamente delegadas.
 
+Aspectos a incluir
 
-Modificar el sistema de login del usuario para poder trabajar con session o con jwt (a tu elección).
-Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
-
+Además, mover del proyecto todas las partes importantes y comprometedoras en un archivo .env para poder leerlo bajo variables de entorno en un archivo config.js
 Formato
 
-Link al repositorio de GitHub con el proyecto completo (No incluir node_modules).
-
-Sugerencias
-
-Te recomendamos trabajar con el modelo de sesión con el cual te sientas más cómodo (sessions / jwt)
-
+Link al repositorio de Github para poder clonar, además. adjunto el archivo .env para poder relacionar las variables de entorno.

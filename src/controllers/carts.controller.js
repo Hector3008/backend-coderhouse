@@ -1,6 +1,7 @@
 import { getProductsFromCart, getCarts } from "../services/carts.services.js"
 import productModel from "../dao/models/product.model.js";
 import cartModel from "../dao/models/cart.model.js";
+
 export const cartViewController = async (req, res) => {
   const id = req.params.cid;
   const result = await getProductsFromCart(req, res);
@@ -35,12 +36,10 @@ export const createCartController = async (req, res) => {
     res.status(500).json({ status: "error", error: err.message });
   }
 };
-
 export const cartController = async (req, res) => {
   const result = await getProductsFromCart(req, res);
   res.status(result.statusCode).json(result.response);
 };
-
 export const addProductToCartController = async (req, res) => {
   try {
     const cid = req.params.cid;
@@ -87,7 +86,6 @@ export const addProductToCartController = async (req, res) => {
     });
   }
 };
-
 export const deleteProductFromCartController = async (req, res) => {
   try {
     //instancio las variables de acceso a los params:
@@ -137,7 +135,6 @@ export const deleteProductFromCartController = async (req, res) => {
     res.status(500).json({ status: "error", error: err.message });
   }
 };
-
 export const updateCartController = async (req, res) => {
   try {
     //instancio la variable de acceso al id del carrito tomandola desde el param:
@@ -213,7 +210,6 @@ export const updateCartController = async (req, res) => {
     });
   }
 };
-
 export const updateProductFromCartController = async (req, res) => {
   try {
     //instancio las variables de acceso al id del carrito y al id del producto desde los params:
@@ -294,12 +290,10 @@ export const updateProductFromCartController = async (req, res) => {
     res.status(500).json({ status: "error", error: err.message });
   }
 };
-
 export const deleteItemProductFromCartController = async (req, res) => {
   console.log("/:cid/product/:pid/deleteOne delete fetch");
   res.send("/:cid/product/:pid/deleteOne done");
 };
-
 export const deleteCartController = async (req, res) => {
   try {
     //instancio la variable de acceso al id del carrito desde el params:
