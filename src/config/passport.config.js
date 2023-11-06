@@ -1,15 +1,16 @@
-import passport from "passport";
+import ps from "passport";
 import local from "passport-local";
 import GitHubStrategy from 'passport-github2';
 import { createHash, isValidPassword } from "../../utils.js";
 import userModel from "../dao/models/users.model.js";
 import cartModel from "../dao/models/cart.model.js";
 import cfg from "./config.js";
+
 const localStrategy = local.Strategy;
 
 const initializePassport = () => {
   
-  passport.use("register",
+  ps.use("register",
     new localStrategy(
       {
         passReqToCallback: true,
@@ -47,7 +48,7 @@ const initializePassport = () => {
     )
   );
 
-  passport.use("login",
+  ps.use("login",
     new localStrategy(
       {
         usernameField: "email",
@@ -65,7 +66,7 @@ const initializePassport = () => {
     )
   );
 
-  passport.use("github",
+  ps.use("github",
     new GitHubStrategy(
       {
         clientID: "Iv1.293c8ed3f56bf335",
@@ -100,11 +101,11 @@ const initializePassport = () => {
     )
   );
 
-  passport.serializeUser((user, done) => {
+  ps.serializeUser((user, done) => {
     done(null, user._id);
   });
 
-  passport.deserializeUser(async (id, done) => {
+  ps.deserializeUser(async (id, done) => {
     const user = await userModel.findById(id);
     done(null, user);
   });
