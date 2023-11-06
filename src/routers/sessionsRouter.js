@@ -7,9 +7,8 @@ import {
   githubcallbackController as githubcallback,
 
 } from "../controllers/sessions.controller.js";
-import passport from "passport";
+import ps from "passport";
 
-const ps = passport
 const sessionsRouter = Router();
 
 sessionsRouter.post(  "/register",  ps.authenticate("register", { failureRedirect: "/error" }), register
