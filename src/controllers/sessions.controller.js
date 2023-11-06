@@ -14,12 +14,11 @@ export const profileViewController = async (req, res) => {
   res.render("sessions/profile.handlebars", req.session.user);
 };
 
-export const registerController = () => {passport.authenticate('register', {failureRedirect: '/error'}), async (req, res) => {
+export const registerController = async (req, res) => {
   res.redirect("/sessions")
-}}
+}
 
-export const loginController = ()=> {passport.authenticate("login", { failureRedirect: "/error" }),
-  async (req, res) => {
+export const loginController =  async (req, res) => {
     if (!req.user) {
       return resz
         .status(400)
@@ -40,7 +39,7 @@ export const loginController = ()=> {passport.authenticate("login", { failureRed
     }
     res.redirect("/products");
   };
-}
+
 
 export const logoutController = (req, res) => {
   req.session.destroy((err) => {
