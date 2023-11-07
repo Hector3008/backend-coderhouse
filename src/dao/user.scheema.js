@@ -14,6 +14,6 @@ const userScheema = new mongoose.Schema({
 
 mongoose.set("strictQuery", false);
 
-const userModel = mongoose.model(userCollection, userScheema);
+const userModel2 = mongoose.model(userCollection, userScheema);
 
-export default userModel;
+export default userModel2;

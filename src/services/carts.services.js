@@ -62,7 +62,6 @@ export const getCarts = async (req, res) => {
     };
   }
 };
-
 export const getProductsFromCart = async (req, res) => {
   try {
     //instancio la variable de acceso al id del carrito desde el params:

@@ -1,7 +1,7 @@
-import cartModel2 from "./cart.scheema.js";
+import cartModel from "./cart.scheema.js";
 import cfg from "../config/config.js";
 
-export const getCarts2 = async (req, res) => {
+export const getCarts = async (req, res) => {
   try {
     const filterOptions = {};
     //instancio las variables según los queries (parámetros necesarios para el paginate):
@@ -10,7 +10,7 @@ export const getCarts2 = async (req, res) => {
 
     const paginateOptions = { lean: true, limit, page };
 
-    const result = await cartModel2.paginate(filterOptions, paginateOptions);
+    const result = await cartModel.paginate(filterOptions, paginateOptions);
     console.log("consulta realizada con éxito");
     console.log(`el query page es: ${req.query.page}`);
     console.log(`el query limit es: ${req.query.limit}`);
@@ -63,13 +63,13 @@ export const getCarts2 = async (req, res) => {
   }
 };
 
-export const getProductsFromCart2 = async (req, res) => {
+export const getProductsFromCart = async (req, res) => {
   try {
     //instancio la variable de acceso al id del carrito desde el params:
     const id = req.params.cid;
 
     //consulto el carrito en la bdd de carritos con el populate de products para que me enseñe todos los productos:
-    const result = await cartModel2
+    const result = await cartModel
       .findById(id)
       .populate("products.product")
       .lean();
@@ -93,3 +93,18 @@ export const getProductsFromCart2 = async (req, res) => {
     };
   }
 };
+
+    export const getAllCarts = async () =>
+      await cartModel.find().lean().exec();
+    export const getCartById = async (id) =>
+      await cartModel.findById(id).lean().exec();
+    export const createCart = async (data) =>
+      await cartModel.create(data);
+    export const updateCart = async (id, data) =>
+      await cartModel.findByIdAndUpdate(id, data, {
+        returnDocument: "after",
+      });
+    export const deleteCart = async (id) =>
+      await cartModel.findByIdAndDelete(id);
+
+

@@ -1,6 +1,5 @@
 import express from "express";
 import { Server } from "socket.io";
-//import { Command } from "commander";
 import cfg from "./config/config.js";
 import engineer  from "./engineer.js";
 
@@ -11,10 +10,12 @@ import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
 
+
 /*
 //inicializo el servidor:
 */
 const app = express();
+
 
 try {
   engineer(app);
@@ -56,6 +57,7 @@ try {
       io.emit("updatedProducts", data);
     });
   });
+  console.log("all on right!");
 }
 catch (err) {
   console.log("error", err.message);
