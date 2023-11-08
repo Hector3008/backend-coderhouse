@@ -1,7 +1,7 @@
 import express from "express";
 import { Server } from "socket.io";
 import cfg from "./config/config.js";
-import engineer  from "./engineer.js";
+import engineer from "./engineer.js";
 
 import product from "./routers/productsRouter.js";
 import carts from "./routers/cartsRouter.js";
@@ -9,14 +9,17 @@ import productsViews from "./routers/productsViewRouter.js";
 import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
-
+import { productDao } from "./services/persistenceFactory.js";
+import { ProductService } from "./services/index.js";
 
 /*
 //inicializo el servidor:
 */
 const app = express();
 
-
+//console.log("productDao.getAllProducts: ", new productDao());
+console.log("productService ",ProductService);
+console.log("productService.getAll(): ", ProductService.getAll());
 try {
   engineer(app);
   /*
@@ -35,8 +38,10 @@ try {
     res.render("index.handlebars", { SEO: SEO });
     res.redirect("/sessions/register");
   });
-  app.get("/error", async (req, res) => {res.render("error.handlebars")});
-  
+  app.get("/error", async (req, res) => {
+    res.render("error.handlebars");
+  });
+
   app.use("/api/products", product);
   app.use("/api/carts", carts);
   app.use("/api/sessions/", sessions);
@@ -44,7 +49,9 @@ try {
   app.use("/carts", cartsViews);
   app.use("/sessions/", sessionsViews);
 
-  app.use("*",async (req, res)=> {res.render("error.handlebars")})
+  app.use("*", async (req, res) => {
+    res.render("error.handlebars");
+  });
   /*
  //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
 
@@ -58,13 +65,10 @@ try {
     });
   });
   console.log("all on right!");
-}
-catch (err) {
+} catch (err) {
   console.log("error", err.message);
   /*
   //cierro el node con esta línea:
   */
   process.exit(-1);
 }
-
-

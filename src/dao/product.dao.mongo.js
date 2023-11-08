@@ -4,13 +4,14 @@ import cfg from "../config/config.js";
 /*1
   me trae todos los productos con formato de paginación:
 */
-    export const getAllProducts = async() => await productModel.find().lean().exec()
-    export const getProductById = async(id) => await productModel.findById(id).lean().exec()
-    export const createProduct = async(data) => await productModel.create(data)
-    export const updateProduct = async(id, data) => await productModel.findByIdAndUpdate(id, data, { returnDocument: 'after' })
-    export const deleteProduct = async(id) => await productModel.findByIdAndDelete(id)
+export default class ProductMongoDAO {
+     getAllProds = async() => await productModel.find().lean().exec()
+     getProdById = async(id) => await productModel.findById(id).lean().exec()
+     createProd = async(data) => await productModel.create(data)
+     updateProd = async(id, data) => await productModel.findByIdAndUpdate(id, data, { returnDocument: 'after' })
+     deleteProd = async(id) => await productModel.findByIdAndDelete(id)
 
-    export const getAllProductsPaginate = async (req, res) => {
+     getAllProdsPaginate = async (req, res) => {
       try {
         const filterOptions = {};
         //instancio las variables según los queries (parámetros necesarios para el paginate):
@@ -78,4 +79,4 @@ import cfg from "../config/config.js";
           response: { status: "error", error: err.message },
         };
       }
-    };
+    }}
