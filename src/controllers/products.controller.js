@@ -1,4 +1,3 @@
-import productModel from "../dao/models/product.model.js";
 import cfg from "../config/config.js";
 import { ProductService as Prod } from "../services/index.js";
 
@@ -74,7 +73,7 @@ para la página particular de cada producto
 export const productViewController = async (req, res) => {
   const id = req.params.id;
 
-  const product = await productModel.findById(id);
+  const product = await Prod.getById(id);
 
   const SEO = {
     title: product.title,
