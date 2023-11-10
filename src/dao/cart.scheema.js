@@ -23,6 +23,6 @@ const cartScheema = mongoose.Schema({
 mongoose.set("strictQuery", false);
 cartScheema.plugin(mongoosePaginate);
 
-const cartModel2 = mongoose.model("carts", cartScheema);
+const cartModel2 = mongoose.model("cart", cartScheema);
 
 export default cartModel2;

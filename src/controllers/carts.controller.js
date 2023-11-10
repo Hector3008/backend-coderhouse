@@ -31,6 +31,7 @@ export const cartsController = async (req, res) => {
 export const createCartController = async (req, res) => {
   try {
     const result = await cartModel.create({});
+    
     res.status(500).json({ status: "success", payload: result });
   } catch (err) {
     res.status(500).json({ status: "error", error: err.message });

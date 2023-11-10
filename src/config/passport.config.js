@@ -72,15 +72,17 @@ const initializePassport = () => {
         clientID: "Iv1.293c8ed3f56bf335",
         clientSecret: "8665c30412fb636b3449f8a9a3fd897f498527c6",
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        scope: ["user:email"],
       },
       async (accessToken, refreshToken, profile, done) => {
-        //console.log("profile: ",profile);
+
+
         try {
           const user = await userModel.findOne({
             email: profile._json.email,
           });
           if (user) return done(null, user);
-          
+
           const cartForNewUser = await cartModel.create({});
           //console.log('cartfornewuser: ', cartForNewUser);
 

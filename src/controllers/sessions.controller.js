@@ -40,7 +40,6 @@ export const loginController =  async (req, res) => {
     res.redirect("/products");
   };
 
-
 export const logoutController = (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.send("Logout error");

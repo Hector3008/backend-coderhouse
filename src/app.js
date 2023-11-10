@@ -9,8 +9,8 @@ import productsViews from "./routers/productsViewRouter.js";
 import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
-import { productDao } from "./services/persistenceFactory.js";
-import { ProductService } from "./services/index.js";
+// import { productDao } from "./services/persistenceFactory.js";
+// import { ProductService } from "./services/index.js";
 
 /*
 //inicializo el servidor:
@@ -18,8 +18,8 @@ import { ProductService } from "./services/index.js";
 const app = express();
 
 //console.log("productDao.getAllProducts: ", new productDao());
-console.log("productService ",ProductService);
-console.log("productService.getAll(): ", ProductService.getAll());
+// console.log("productService ",ProductService);
+// console.log("productService.getAll(): ", ProductService.getAll());
 try {
   engineer(app);
   /*

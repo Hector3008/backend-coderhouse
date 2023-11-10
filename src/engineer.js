@@ -3,7 +3,7 @@ import handlebars from "express-handlebars";
 import session from "express-session";
 import cfg from "./config/config.js";
 import cookieParser from "cookie-parser";
-import passport from "passport";
+import ps from "passport";
 import initializePassport from "./config/passport.config.js";
 import cors from "cors"
 import mongoClient from "./dao/mongoClient.js";
@@ -19,8 +19,7 @@ export default  (app) => {
     /*
     para gestionar la información en sesiones:
     */
-    app.use(
-      session({
+    app.use(session({
         secret: cfg.SESSION_SIGN,
         resave: true,
         saveUninitialized: true,
@@ -31,8 +30,8 @@ export default  (app) => {
   //ingeniería de passport:
   */
     initializePassport();
-    app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(ps.initialize());
+    app.use(ps.session());
 
     /*
   (ingeniería json)le aviso a express que el cliente le estará enviando invformación en formato json:
