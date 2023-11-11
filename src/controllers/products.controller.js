@@ -1,5 +1,5 @@
 import cfg from "../config/config.js";
-import { ProductService as Prod } from "../services/index.js";
+import { ProductService as Prod } from "../services/services.js";
 
 /*
 para el catalogo de productos

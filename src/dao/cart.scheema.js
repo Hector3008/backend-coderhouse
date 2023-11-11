@@ -10,7 +10,7 @@ const cartScheema = mongoose.Schema({
         _id: false,
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "products",
+          ref: "product",
         },
         quantity: { type: Number, default: 1 },
       },
@@ -21,8 +21,9 @@ const cartScheema = mongoose.Schema({
 
 //flexibilizo las consultas a este modelo con la siguiente línea:
 mongoose.set("strictQuery", false);
+
 cartScheema.plugin(mongoosePaginate);
 
-const cartModel2 = mongoose.model("cart", cartScheema);
+const cartModel2 = mongoose.model("carts", cartScheema);
 
 export default cartModel2;

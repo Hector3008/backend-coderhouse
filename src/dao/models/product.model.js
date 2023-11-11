@@ -18,7 +18,7 @@ mongoose.set("strictQuery", false);
 
 productSchema.plugin(mongoosePaginate);
 //modelo:
-const productModel = mongoose.model('products',productSchema)
+const productModel = mongoose.model('product',productSchema)
 //exportación:
 
 export default productModel

@@ -3,11 +3,11 @@ import cfg from "../config/config.js";
 
 export const registerViewController = async (req, res) => {
   const SEO = { title: "registro" };
-  res.render("sessions/register.handlebars", { SEO });
+  res.render("sessions/register.handlebars",  {SEO} );
 };
 export const loginViewController = async (req, res) => {
-  const SEO = { title: "login" };
-  res.render("sessions/login.handlebars", { SEO });
+ const SEO = { title: "login" };
+  res.render("sessions/login.handlebars", {SEO});
 };
 
 export const profileViewController = async (req, res) => {

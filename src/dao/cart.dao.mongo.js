@@ -3,6 +3,7 @@ import cfg from "../config/config.js";
 
 export default class CartMongoDAO {
   getProductsFromCart = async (req, res) => {
+    ;
     try {
       //instancio la variable de acceso al id del carrito desde el params:
       const id = req.params.cid;
@@ -26,6 +27,7 @@ export default class CartMongoDAO {
         response: { status: "success", payload: result },
       };
     } catch (err) {
+
       return {
         statusCode: 500,
         response: { status: "error", error: err.message },

@@ -1,10 +1,9 @@
-import { getProductsFromCart, getCarts } from "../services/carts.services.js"
-import productModel from "../dao/models/product.model.js";
-import cartModel from "../dao/models/cart.model.js";
+import { getCarts } from "../services/carts.services.js"
+import { CartService, ProductService } from "../services/services.js";
 
 export const cartViewController = async (req, res) => {
   const id = req.params.cid;
-  const result = await getProductsFromCart(req, res);
+  const result = await CartService.getProductsFromCart(req, res);
   console.log(result);
 
   const SEO = {
@@ -26,11 +25,12 @@ export const cartViewController = async (req, res) => {
 };
 export const cartsController = async (req, res) => {
   const result = await getCarts(req, res);
+  
   res.status(result.statusCode).json(result.response);
 };
 export const createCartController = async (req, res) => {
   try {
-    const result = await cartModel.create({});
+    const result = await CartService.createCart({});
     
     res.status(500).json({ status: "success", payload: result });
   } catch (err) {
@@ -38,7 +38,7 @@ export const createCartController = async (req, res) => {
   }
 };
 export const cartController = async (req, res) => {
-  const result = await getProductsFromCart(req, res);
+  const result = await CartService.getProductsFromCart(req, res);
   res.status(result.statusCode).json(result.response);
 };
 export const addProductToCartController = async (req, res) => {
@@ -46,7 +46,7 @@ export const addProductToCartController = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //accedo al carrito buscandolo por su id:
-    const cartToUpdate = await cartModel.findById(cid);
+    const cartToUpdate = await CartService.getCartById(cid);
     //validación 1: el carrito existe en la bdd de carritos:
     if (cartToUpdate === null) {
       return res
@@ -54,7 +54,7 @@ export const addProductToCartController = async (req, res) => {
         .json({ status: "error", error: `Cart with id=${cid} Not found` });
     }
     //accedo al producto buscandolo por su id:
-    const productToAdd = await productModel.findById(pid);
+    const productToAdd = await ProductService.getById(pid);
 
     //validacion 2: el producto existe en la bdd de productos:
     if (productToAdd === null) {
@@ -74,7 +74,7 @@ export const addProductToCartController = async (req, res) => {
       cartToUpdate.products.push({ product: pid, quantity: 1 });
     }
     //finalmente, actualizo el documento con el método 'findByIdAndUpdate' del modelo:
-    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await CartService.updateCart(cid, cartToUpdate, {
       returnDocument: "after",
     });
     //cargo la respuesta exitosa:
@@ -93,7 +93,7 @@ export const deleteProductFromCartController = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //consulto en la bdd el documento por el id del cart:
-    const cartToUpdate = await cartModel.findById(cid);
+    const cartToUpdate = await CartService.getCartById(cid);
 
     //validación 1: carrito inexiste en la bdd de los carritos:
     if (cartToUpdate === null) {
@@ -102,7 +102,7 @@ export const deleteProductFromCartController = async (req, res) => {
         .json({ status: "error", error: `Cart with id=${cid} Not found` });
     }
     //consulto en la bdd de productos el producto a eliminar por su id:
-    const productToDelete = await productModel.findById(pid);
+    const productToDelete = await ProductService.getById(pid);
     //validación 2: producto inexistente en la bdd de los productos:
     if (productToDelete === null) {
       return res
@@ -127,7 +127,7 @@ export const deleteProductFromCartController = async (req, res) => {
       );
     }
     //actualizo la bdd de carritos
-    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await CartService.updateCart(cid, cartToUpdate, {
       returnDocument: "after",
     });
     //cargo la respuesta exitosa:
@@ -141,7 +141,7 @@ export const updateCartController = async (req, res) => {
     //instancio la variable de acceso al id del carrito tomandola desde el param:
     const cid = req.params.cid;
     //hago la consulta a la bdd de carritos para ver si existe:
-    const cartToUpdate = await cartModel.findById(cid);
+    const cartToUpdate = await CartService.getCartById(cid);
 
     //validación 1: el carrito no existe en la bdd de carritos:
     if (cartToUpdate === null) {
@@ -186,7 +186,7 @@ export const updateCartController = async (req, res) => {
         });
       }
       //consulto si el producto existe en el carrito:
-      const productToAdd = await productModel.findById(products[index].product);
+      const productToAdd = await ProductService.getById(products[index].product);
       //validación 6: el producto no existe en el carrito:
       if (productToAdd === null) {
         return res.status(400).json({
@@ -199,7 +199,7 @@ export const updateCartController = async (req, res) => {
     //actualizo el array de productos de mi carrito:
     cartToUpdate.products = products;
     //actualizo el documento de mi bdd de cloud.mongo carritos con el nuevo array:
-    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await CartService.updateCart(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });
@@ -217,7 +217,7 @@ export const updateProductFromCartController = async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     //consulto en la bdd de carritos por un carrito con el id de mi consulta:
-    const cartToUpdate = await cartModel.findById(cid);
+    const cartToUpdate = await CartService.getCartById(cid);
     //validación 1: no existe el carrito en la bdd:
     if (cartToUpdate === null) {
       return res
@@ -225,7 +225,7 @@ export const updateProductFromCartController = async (req, res) => {
         .json({ status: "error", error: `Cart with id=${cid} Not found` });
     }
     //consulto en la bdd de productos por un producto con el id de mi consulta:
-    const productToUpdate = await productModel.findById(pid);
+    const productToUpdate = await ProductService.getById(pid);
     //validación 2: no existe el producto en la bdd:
     if (productToUpdate === null) {
       return res
@@ -283,7 +283,7 @@ export const updateProductFromCartController = async (req, res) => {
     }
 
     //actualizo la bdd de carritos en mi mongo con el cambio en la cantidad de mi carrito:
-    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await CartService.updateCart(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });
@@ -296,11 +296,12 @@ export const deleteItemProductFromCartController = async (req, res) => {
   res.send("/:cid/product/:pid/deleteOne done");
 };
 export const deleteCartController = async (req, res) => {
+  
   try {
     //instancio la variable de acceso al id del carrito desde el params:
     const cid = req.params.cid;
     //consulto si el carrito con ese id existe en mi bdd de carritos:
-    const cartToUpdate = await cartModel.findById(cid);
+    const cartToUpdate = await CartService.getCartById(cid);
     //validación 1: el carrito no existe en la bdd de carritos:
     if (cartToUpdate === null) {
       return res
@@ -310,7 +311,7 @@ export const deleteCartController = async (req, res) => {
     //vacío la lista de productos en ese carrito:
     cartToUpdate.products = [];
     //actualizo el carrito en la bdd de carritos:
-    const result = await cartModel.findByIdAndUpdate(cid, cartToUpdate, {
+    const result = await CartService.updateCart(cid, cartToUpdate, {
       returnDocument: "after",
     });
     res.status(200).json({ status: "success", payload: result });

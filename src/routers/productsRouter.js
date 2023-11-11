@@ -7,6 +7,7 @@ import {
   deleteProductController as deleteProd,
 } from "../controllers/products.controller.js";
 
+
 const productRouter = Router();
 
 /*

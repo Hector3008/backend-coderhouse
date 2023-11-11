@@ -22,6 +22,6 @@ const cartScheema = mongoose.Schema({
 //flexibilizo las consultas a este modelo con la siguiente línea:
 mongoose.set('strictQuery', false)
 cartScheema.plugin(mongoosePaginate);
-const cartModel = mongoose.model("carts", cartScheema);
+const cartModel = mongoose.model("cart", cartScheema);
 
 export default cartModel;
