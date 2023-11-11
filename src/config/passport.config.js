@@ -1,10 +1,11 @@
 import ps from "passport";
 import local from "passport-local";
 import GitHubStrategy from 'passport-github2';
-import { createHash, isValidPassword } from "../../utils.js";
-import userModel from "../dao/models/users.model.js";
-import cartModel from "../dao/models/cart.model.js";
 import cfg from "./config.js";
+import { createHash, isValidPassword } from "../../utils.js";
+import { UserService, CartService } from "../services/services.js";
+
+
 
 const localStrategy = local.Strategy;
 
@@ -22,11 +23,11 @@ const initializePassport = () => {
         const admin = email == cfg.ADMIN_EMAIL && password == cfg.ADMIN_PASSWORD
 
         try {
-          const user = await userModel.findOne({ email: username });
+          const user = await UserService.findOne({ email: username });
           if (user) {
             return done(null, false);
           }
-          const cartForNewUser = await cartModel.create({});
+          const cartForNewUser = await CartService.createCart({});
 
           const newUser = {
             first_name,
@@ -38,7 +39,8 @@ const initializePassport = () => {
             role: admin ? "admin" : "user",
           };
 
-          const result = await userModel.create(newUser);
+
+          const result = await UserService.create(newUser);
           
           return done(null, result);
         } catch (err) {
@@ -55,7 +57,7 @@ const initializePassport = () => {
       },
       async (username, password, done) => {
         try {
-          const user = await userModel.findOne({ email: username });
+          const user = await UserService.findOne({ email: username });
           if (!user) {
             return done(null, false);
           }
@@ -78,15 +80,15 @@ const initializePassport = () => {
 
 
         try {
-          const user = await userModel.findOne({
+          const user = await UserService.findOne({
             email: profile._json.email,
           });
           if (user) return done(null, user);
 
-          const cartForNewUser = await cartModel.create({});
-          //console.log('cartfornewuser: ', cartForNewUser);
+          const cartForNewUser = await CartService.createCart({});
+  
 
-          const newUser = await userModel.create({
+          const newUser = await UserService.create({
             first_name: profile._json.name,
             last_name: "last_name",
             email: profile._json.email,
@@ -94,7 +96,7 @@ const initializePassport = () => {
             cart: cartForNewUser._id,
           });
 
-          //console.log("newUser: ",newUser);
+
           return done(null, newUser);
         } catch (err) {
           return done("Error to login with github");
@@ -108,7 +110,7 @@ const initializePassport = () => {
   });
 
   ps.deserializeUser(async (id, done) => {
-    const user = await userModel.findById(id);
+    const user = await UserService.getById(id);
     done(null, user);
   });
 };

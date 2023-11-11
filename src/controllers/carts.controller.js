@@ -1,4 +1,3 @@
-import { getCarts } from "../services/carts.services.js"
 import { CartService, ProductService } from "../services/services.js";
 
 export const cartViewController = async (req, res) => {
@@ -24,9 +23,10 @@ export const cartViewController = async (req, res) => {
   }
 };
 export const cartsController = async (req, res) => {
-  const result = await getCarts(req, res);
+  //const result = await getCarts(req, res);
   
-  res.status(result.statusCode).json(result.response);
+  //res.status(result.statusCode).json(result.response);
+  res.send("notyet")
 };
 export const createCartController = async (req, res) => {
   try {

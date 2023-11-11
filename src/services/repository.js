@@ -25,3 +25,15 @@ export class CartRepository {
   updateCart = async (id, data) => await this.dao.updateCart(id, data);
   deleteCart = async (id) => await this.dao.deleteCart(id);
 }
+
+export class UserRepository {
+  constructor(dao) {
+    this.dao = dao;
+  }
+  getAll = async () => await this.dao.getAll();
+  getById = async (id) => await this.dao.getById(id);
+  create = async (data) => await this.dao.create(data);
+  update = async (id, data) => await this.dao.update(id, data);
+  delete = async (id) => await this.dao.delete(id);
+  findOne = async (data) => await this.dao.findOne(data);
+}

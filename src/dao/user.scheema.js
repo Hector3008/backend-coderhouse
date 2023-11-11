@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userCollection = "users";
 
 const userScheema = new mongoose.Schema({
-  first_name: { type: String, required: true },
+  first_name: { type: String },
   last_name: { type: String },
   email: { type: String },
   age: { type: Number, default: 21 },

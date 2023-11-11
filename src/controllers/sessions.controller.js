@@ -1,4 +1,4 @@
-import passport from "passport";
+import ps from "passport";
 import cfg from "../config/config.js";
 
 export const registerViewController = async (req, res) => {
@@ -48,11 +48,11 @@ export const logoutController = (req, res) => {
 };
 
 export const githubLoginController = ()=> {
-  passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {};
+  ps.authenticate("github", { scope: ["user:email"] }), (req, res) => {};
 }
 
 export const githubcallbackController = ()=> {
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  ps.authenticate("github", { failureRedirect: "/login" }),
     async (req, res) => {
       //console.log("Callback: ", req.user);
       req.session.user = req.user;
