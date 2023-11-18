@@ -10,6 +10,7 @@ import {
   updateProductFromCartController as updateProd,
   deleteItemProductFromCartController as deleteItemProd,
   deleteCartController as deleteCart,
+  purchaseCartController as purchase,
 } from "../controllers/carts.controller.js";
 
 const cartsRouter = Router();
@@ -48,5 +49,7 @@ cartsRouter.put("/:cid/product/:pid/deleteOne", deleteItemProd);
 
 //elimino (vacío) todos los productos de un carrito:*/
 cartsRouter.delete("/:cid", deleteCart);
+
+cartsRouter.get("/:cid/purchase", purchase);
 
 export default cartsRouter;

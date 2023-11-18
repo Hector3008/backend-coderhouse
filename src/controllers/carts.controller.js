@@ -319,3 +319,9 @@ export const deleteCartController = async (req, res) => {
     res.status(500).json({ status: "error", error: err.message });
   }
 };
+export const purchaseCartController = async (req,res)=>{
+   const cid = req.params.cid;
+   /*
+   validaciones ⬇️⬇️⬇️*/
+  res.status(202).json({ status: "success", payload: `cart with id ${cid}` });
+}

@@ -37,3 +37,14 @@ export class UserRepository {
   delete = async (id) => await this.dao.delete(id);
   findOne = async (data) => await this.dao.findOne(data);
 }
+
+export class TicketRepository {
+  constructor(dao) {
+    this.dao = dao;
+  }
+  getAll = async () => await this.dao.getAllTickets();
+  getById = async (id) => await this.dao.getTicketById(id);
+  create = async (data) => await this.dao.createTicket(data);
+  update = async (id, data) => await this.dao.updateTicket(id, data);
+  delete = async (id) => await this.dao.deleteTicket(id);
+}

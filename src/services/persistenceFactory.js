@@ -4,6 +4,7 @@ console.log("persistencia en: ", cfg.PERSISTENCE);
 export let productDao;
 export let cartDao;
 export let userDao;
+export let ticketDao;
 
 switch (cfg.PERSISTENCE) {
   case "mongo":
@@ -21,7 +22,10 @@ switch (cfg.PERSISTENCE) {
       const { default: UserMongoDao } = await import(
         "../dao/user.dao.mongo.js"
       );
-      userDao = UserMongoDao;      
+      userDao = UserMongoDao; 
+      
+      const { default: TicketMongoDao } = await import( "../dao/ticket.dao.mongo.js")
+      ticketDao = TicketMongoDao
     break;
   default:
     // Handle default case or throw an error
