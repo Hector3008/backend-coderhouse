@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-
+import EErros from "./src/services/errors/enums.js";
 /*
 para encriptar contraseñas: */
 export const createHash = password => bcrypt.hashSync(password,bcrypt.genSaltSync(10))
@@ -44,4 +44,18 @@ export const generateRandomCode = () => {
   }
 
   return code;
+};
+
+
+
+export const errorHandler = async (error, req, res, next) => {
+  console.log("error.cause: ", error.cause);
+  switch (error.code) {
+    case EErros.TITLE_FIELD_EMPTY:
+      res.status(400).send({ status: "error", error: error.name });
+      break;
+    default:
+      res.send({ status: "error", error: "Unhandled error" });
+      break;
+  }
 };

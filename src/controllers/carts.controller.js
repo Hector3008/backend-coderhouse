@@ -49,6 +49,7 @@ export const addProductToCartController = async (req, res) => {
     const cartToUpdate = await CartService.getCartById(cid);
     //validación 1: el carrito existe en la bdd de carritos:
     if (cartToUpdate === null) {
+      
       return res
         .status(404)
         .json({ status: "error", error: `Cart with id=${cid} Not found` });
@@ -63,8 +64,9 @@ export const addProductToCartController = async (req, res) => {
         .json({ status: "error", error: `Product with id=${pid} Not found` });
     }
     //consulto si el producto existe en la lista del carrito:
+    
     const productIndex = cartToUpdate.products.findIndex(
-      (item) => item.product == pid
+      (item) => item.product._id == pid
     );
     //si está, le sumo 1 a la cantidad:
     if (productIndex > -1) {

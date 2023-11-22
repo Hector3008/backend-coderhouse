@@ -37,61 +37,55 @@ export const createTicketController = async (req, res) => {
   
   const cart = await CartService.getCartById(cid);
 
+  let prodsToTicket = []
+  let prodsToCart = []
+
     if (cart === null) {
       return res.status(404).json({ status: "error", error: "Not found" });
     }
       const catalog = await ProductService.getAll();
   let amount = 0;
 
-  for (const i of cart.products) {
+  for (const cartProd of cart.products) {
     for (const product of catalog) {
       const catProdId = product._id.toString();
-      const cartProdId = i.product._id.toString();
+      const cartProdId = cartProd.product._id.toString();
 
       if (catProdId === cartProdId) {
 
         const prodToUpload = await ProductService.getById(catProdId);
 
-        if (prodToUpload.stock < i.quantity) {
-          console.log("your product request exceeds catalog's stock");
+        if (prodToUpload.stock < cartProd.quantity) {
+          prodsToCart.push(cartProd);
         } else {
-          prodToUpload.stock = prodToUpload.stock - i.quantity;
+          prodToUpload.stock = prodToUpload.stock - cartProd.quantity;
           await ProductService.updateProd(catProdId, prodToUpload);
-          amount = i.product.price * i.quantity + amount;      
-/* trabajo para actualizacion del cart:
-        const cartToUpload = await CartService.getCartById(cid);
-        //console.log(cartToUpload.products);
-        let cartToUpload2 = cartToUpload;
-        
-        for (const product of cartToUpload2) {
-          console.log("test 3", product.product._id.toString())
-          console.log("i.product._id: ", i.product._id.toString());
-        }
-        cartToUpload2.products.map(
-          (product) =>
-            product.product._id.toString() !== i.product._id.toString()
-        );
-        await CartService.updateCart(cartToUpload._id, cartToUpload2);
-        console.log("cartToUpload2: ", cartToUpload2);*/
+          prodsToTicket.push(cartProd);
+          amount = cartProd.product.price * cartProd.quantity + amount;
         }
       }
     }
   }
-  const result = users.find(user=>user.cart._id.toString() === cart._id.toString())
-
+  //console.log("final successPruchase: ", successPurchases);
+  console.log("final prodsToCart: ", prodsToCart);
+  const cartData = {
+    _id: cid,
+    products: prodsToCart,
+  };
+  console.log("cid: ", cid);
+      await CartService.updateCart(cid, cartData);
+      const user = users.find(
+  (user) => user.cart._id.toString() === cart._id.toString()
+);
   if (amount > 0) {
-    const data = {
+    const Ticketdata = {
       amount: amount,
-      products: cart.products,
-      purchaser: result.email,
+      products: prodsToTicket,
+      purchaser: user.email,
     };
-    const ticket = await TicketService.create(data);
+    const ticket = await TicketService.create(Ticketdata);
 
-    cart.products = []
-    CartService.updateCart(cid,cart);
-
-
-    res.status(202).json({ status: 202, payload: ticket });
+    res.status(202).json({ status: 202, payload: ticket, prodsToCart: prodsToCart });
   } else {
     console.log("request not possible");
     res.status(500).json({

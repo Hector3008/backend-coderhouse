@@ -1,6 +1,8 @@
 import cfg from "../config/config.js";
 import { ProductService as Prod } from "../services/services.js";
-
+import CustomError from "../services/errors/custom.error.js";
+import EErros from "../services/errors/enums.js";
+import { generateErrorInfo } from "../services/errors/info.js";
 /*
 para el catalogo de productos
 */
@@ -128,6 +130,14 @@ export const productController = async (req, res) => {
 export const createProductController = async (req, res) => {
   try {
     const product = req.body;
+    if (!product.title) {
+      CustomError.createError({
+        name: "product creation error",
+        cause: generateErrorInfo(product),
+        message: "Error trying to create a product",
+        code: EErros.TITLE_FIELD_EMPTY,
+      });
+    }
     console.log("product desde productRouter: ", product);
     const result = await Prod.createProd(product);
     

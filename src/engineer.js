@@ -7,7 +7,8 @@ import ps from "passport";
 import initializePassport from "./config/passport.config.js";
 import cors from "cors"
 import mongoClient from "./dao/mongoClient.js";
-
+import compression from "express-compression";
+import { errorHandler } from "../utils.js";
 
 export default  (app) => {
   try {
@@ -58,6 +59,12 @@ export default  (app) => {
   */
     app.use(cookieParser());
 
+    app.use(
+      compression({
+        brotli: { enabled: true, zlib: {} },
+      })
+);
+    app.use(errorHandler);
     /*
   conecto a mongo: */
     const client = new mongoClient();

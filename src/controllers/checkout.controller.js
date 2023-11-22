@@ -13,7 +13,7 @@ const getbill = (req, res) => {
       pass: cfg.NODEMAILER_PASSWORD,
     },
   };
-   
+
   let transporter = nodemailer.createTransport(config);
   
   let Mailgenerator = new Mailgen({
@@ -44,7 +44,7 @@ const getbill = (req, res) => {
   let mail = Mailgenerator.generate(response);
 
   let message = {
-    from: "Dpto Ventas - Coder Shop <ecommerce@ecommerce.com>",
+    from: "ecommerce <ecommerce@ecommerce.com>",
     to: destinatario,
     subject: `Compra ${numeroPedido} realizada con éxito`,
     html: mail,
@@ -52,7 +52,7 @@ const getbill = (req, res) => {
 
   transporter
     .sendMail(message)
-    .then(() => {
+    .then((res) => {console.log("res from transporter", res);
       return res.status(200).json({ message: "Yo have received an email" });
     })
     .catch((err) => res.status(500).json({ err }));
