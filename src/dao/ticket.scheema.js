@@ -1,10 +1,18 @@
 import mongoose from "mongoose";
+import { generateRandomCode } from "../../utils.js";
+
 
 const ticketCollection = "tickets";
 
 const ticketSchema = new mongoose.Schema(
   {
-    code: { type: String, required: true, unique: true },
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+      default: generateRandomCode,
+    },
+
     products: {
       type: [
         {
@@ -19,6 +27,7 @@ const ticketSchema = new mongoose.Schema(
       ],
     },
     amount: { type: Number },
+
     purchaser: { type: String, ref: "users" },
   },
   {

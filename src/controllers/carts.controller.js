@@ -321,7 +321,13 @@ export const deleteCartController = async (req, res) => {
 };
 export const purchaseCartController = async (req,res)=>{
    const cid = req.params.cid;
+   
    /*
    validaciones ⬇️⬇️⬇️*/
-  res.status(202).json({ status: "success", payload: `cart with id ${cid}` });
+  const cart = await CartService.getCartById(cid)
+
+  if (cart === null) {console.log(cart);
+    return res.status(500).json({ status: "error", message:`cart with id ${cid} not found`})}
+  
+  res.status(202).json({ status: "success", payload: `cart with id ${cid}`});
 }

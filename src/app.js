@@ -3,15 +3,19 @@ import { Server } from "socket.io";
 import cfg from "./config/config.js";
 import engineer from "./engineer.js";
 
+
+import Sockets from './sockets.js'
+
 import product from "./routers/productsRouter.js";
 import carts from "./routers/cartsRouter.js";
 import productsViews from "./routers/productsViewRouter.js";
 import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
-// import { productDao } from "./services/persistenceFactory.js";
-// import { ProductService } from "./services/index.js";
-
+import tickets from "./routers/ticketRouter.js";
+import chat from "./routers/chatRouter.js";
+import twilioRouter from "./routers/twilioRouter.js";
+import checkoutRouter from "./routers/checkoutRouter.js";
 /*
 //inicializo el servidor:
 */
@@ -48,6 +52,11 @@ try {
   app.use("/products", productsViews);
   app.use("/carts", cartsViews);
   app.use("/sessions/", sessionsViews);
+  app.use("/api/tickets", tickets);
+  app.use("/chat", chat)
+
+  app.use("/twilio", twilioRouter)
+  app.use("/checkout", checkoutRouter)
 
   app.use("*", async (req, res) => {
     res.render("error.handlebars");
@@ -56,14 +65,7 @@ try {
  //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
 
  */
-  io.on("connection", (socket) => {
-    console.log("new client connected");
-
-    //estos mensajes emitidos vienen desde el archivo index.js:
-    socket.on("productList", (data) => {
-      io.emit("updatedProducts", data);
-    });
-  });
+  Sockets(io);
   console.log("all on right!");
 } catch (err) {
   console.log("error", err.message);

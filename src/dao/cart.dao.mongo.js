@@ -3,7 +3,6 @@ import cfg from "../config/config.js";
 
 export default class CartMongoDAO {
   getProductsFromCart = async (req, res) => {
-    ;
     try {
       //instancio la variable de acceso al id del carrito desde el params:
       const id = req.params.cid;
@@ -27,7 +26,6 @@ export default class CartMongoDAO {
         response: { status: "success", payload: result },
       };
     } catch (err) {
-
       return {
         statusCode: 500,
         response: { status: "error", error: err.message },
@@ -44,9 +42,6 @@ export default class CartMongoDAO {
       const paginateOptions = { lean: true, limit, page };
 
       const result = await cartModel.paginate(filterOptions, paginateOptions);
-      console.log("consulta realizada con éxito");
-      console.log(`el query page es: ${req.query.page}`);
-      console.log(`el query limit es: ${req.query.limit}`);
 
       //================================================================//
       //lógica de los enlaces prevPage y nextPage de mi pagination:
@@ -96,11 +91,14 @@ export default class CartMongoDAO {
     }
   };
 
-  getAllCarts = async () => await cartModel.find().lean().exec();
-  getCartById = async (id) => await cartModel.findById(id).lean().exec();
+  getAllCarts = async () =>
+    await cartModel.find().populate("products.product").lean().exec();
+    
+  getCartById = async (id) =>
+    await cartModel.findById(id).populate("products.product").lean().exec();
 
   createCart = async (data) => await cartModel.create(data);
-  
+
   updateCart = async (id, data) =>
     await cartModel.findByIdAndUpdate(id, data, {
       returnDocument: "after",

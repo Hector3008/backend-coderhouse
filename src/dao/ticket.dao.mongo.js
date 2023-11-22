@@ -1,9 +1,10 @@
 import ticketModel from "./ticket.scheema.js";
 
 export default class ticketMongoDao {
-  getTicketById = async (id) => await ticketModel.findById(id).lean().exec();
+  getTicketById = async (id) =>
+    await ticketModel.findById(id).populate("products.product").lean().exec();
 
-  getAllTickets = async ()=> await ticketModel.find().lean().exec()
+  getAllTickets = async () => await ticketModel.find().lean().exec();
 
   createTicket = async (data) => await ticketModel.create(data);
 
@@ -12,5 +13,5 @@ export default class ticketMongoDao {
       returnDocument: "after",
     });
 
-    deleteTicket = async (id)=> await ticketModel.findByIdAndDelete(id)
+  deleteTicket = async (id) => await ticketModel.findByIdAndDelete(id);
 }
