@@ -1,5 +1,7 @@
 import ps from "passport";
 import cfg from "../config/config.js";
+import UserDTO from "../dto/users.dto.js";
+import { UserService } from "../services/services.js";
 
 export const registerViewController = async (req, res) => {
   const SEO = { title: "registro" };
@@ -13,7 +15,13 @@ export const loginViewController = async (req, res) => {
 export const profileViewController = async (req, res) => {
   res.render("sessions/profile.handlebars", req.session.user);
 };
+export const profileController = async (req,res)=>{
 
+  const uid = req.params.uid
+  const result = await UserService.getById(uid)
+  const dtoresult = new UserDTO(result);
+  res.status(202).json({ status: "success", payload: dtoresult });
+}
 export const registerController = async (req, res) => {
   res.redirect("/sessions")
 }

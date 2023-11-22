@@ -3,6 +3,7 @@ import {
   TicketService,
   CartService,
   ProductService,
+  UserService
 } from "../services/services.js";
 
 export const getTicketsController = async (req, res) => {
@@ -32,9 +33,14 @@ export const getTicketController = async (req, res) => {
 
 export const createTicketController = async (req, res) => {
   const cid = req.params.cid;
-  const catalog = await ProductService.getAll();
+  const users = await UserService.getAll()
+  
   const cart = await CartService.getCartById(cid);
 
+    if (cart === null) {
+      return res.status(404).json({ status: "error", error: "Not found" });
+    }
+      const catalog = await ProductService.getAll();
   let amount = 0;
 
   for (const i of cart.products) {
@@ -47,28 +53,44 @@ export const createTicketController = async (req, res) => {
         const prodToUpload = await ProductService.getById(catProdId);
 
         if (prodToUpload.stock < i.quantity) {
-          console.log("estoy entrando al if");
           console.log("your product request exceeds catalog's stock");
         } else {
-
-
           prodToUpload.stock = prodToUpload.stock - i.quantity;
           await ProductService.updateProd(catProdId, prodToUpload);
-
-          amount = i.product.price * i.quantity + amount;
-
+          amount = i.product.price * i.quantity + amount;      
+/* trabajo para actualizacion del cart:
+        const cartToUpload = await CartService.getCartById(cid);
+        //console.log(cartToUpload.products);
+        let cartToUpload2 = cartToUpload;
+        
+        for (const product of cartToUpload2) {
+          console.log("test 3", product.product._id.toString())
+          console.log("i.product._id: ", i.product._id.toString());
+        }
+        cartToUpload2.products.map(
+          (product) =>
+            product.product._id.toString() !== i.product._id.toString()
+        );
+        await CartService.updateCart(cartToUpload._id, cartToUpload2);
+        console.log("cartToUpload2: ", cartToUpload2);*/
         }
       }
     }
   }
-
+  const result = users.find(user=>user.cart._id.toString() === cart._id.toString())
 
   if (amount > 0) {
-    const data = { amount: amount, products: cart.products };
+    const data = {
+      amount: amount,
+      products: cart.products,
+      purchaser: result.email,
+    };
     const ticket = await TicketService.create(data);
+
     cart.products = []
     CartService.updateCart(cid,cart);
-    console.log(cart.products);
+
+
     res.status(202).json({ status: 202, payload: ticket });
   } else {
     console.log("request not possible");

@@ -5,6 +5,7 @@ import {
   logoutController as logout,
   githubLoginController as github,
   githubcallbackController as githubcallback,
+  profileController as profile
 
 } from "../controllers/sessions.controller.js";
 import ps from "passport";
@@ -22,5 +23,5 @@ sessionsRouter.get("/logout", logout);
 sessionsRouter.get("/github", github);
 
 sessionsRouter.get("/githubcallback", githubcallback);
-
+sessionsRouter.get("/profile/:uid",profile)
 export default sessionsRouter;

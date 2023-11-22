@@ -1,7 +1,7 @@
 import userModel from "./user.scheema.js";
 
 export default class UserMongoDao {
-  getUser = async () => await userModel.find().lean().exec();
+  getUsers = async () => await userModel.find().lean().exec();
   getById = async (id) => await userModel.findById(id).lean().exec();
   create = async (data) => await userModel.create(data);
   update = async (id, data) =>
