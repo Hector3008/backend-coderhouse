@@ -46,10 +46,9 @@ export const generateRandomCode = () => {
   return code;
 };
 
-
-
-export const errorHandler = async (error, req, res, next) => {
-  console.log("error.cause: ", error.cause);
+export const errorHandler = (error, req, res, next) => {
+  console.log("estoy entrando en errorHandler:");
+  console.log("error: ", error);
   switch (error.code) {
     case EErros.TITLE_FIELD_EMPTY:
       res.status(400).send({ status: "error", error: error.name });

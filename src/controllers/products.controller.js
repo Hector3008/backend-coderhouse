@@ -148,7 +148,7 @@ export const createProductController = async (req, res) => {
     try {
       req.originalUrl.emit("updatedProducts", products);
     } catch (err) {
-      console.log(err);
+      console.log("error on createProductController: ", err);
     }
 
     res.status(201).json({ status: "success", payload: result });
