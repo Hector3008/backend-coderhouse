@@ -138,12 +138,12 @@ export const createProductController = async (req, res) => {
         code: EErros.TITLE_FIELD_EMPTY,
       });
     }
-    console.log("product desde productRouter: ", product);
+    //console.log("product from productRouter: ", product);
     const result = await Prod.createProd(product);
     
-    console.log("result from productRouter", result);
+    //console.log("result from productRouter", result);
     const products = await Prod.getAll();
-    console.log("products from productRouter", products);
+    //console.log("products from productRouter", products);
 
     try {
       req.originalUrl.emit("updatedProducts", products);
