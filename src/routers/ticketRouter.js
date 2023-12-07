@@ -11,7 +11,7 @@ const ticketsRouter = Router();
 
 ticketsRouter.get("/alltickets", tickets);
 ticketsRouter.get("/:tid", ticket);
-ticketsRouter.post("/:cid", createTicket);
+ticketsRouter.post("/cart/:cid", createTicket);
 ticketsRouter.put("/:tid", updateTicket);
 ticketsRouter.delete("/:tid",deleteTicket)
 

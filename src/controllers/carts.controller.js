@@ -3,13 +3,13 @@ import { CartService, ProductService } from "../services/services.js";
 export const cartViewController = async (req, res) => {
   const id = req.params.cid;
   const result = await CartService.getProductsFromCart(req, res);
-  console.log(result);
+  //console.log(result);
 
   const SEO = {
     title: `cart: ${id}`,
   };
-  console.log(result.statusCode);
-  console.log("result.response.payload", result.response.payload);
+  //console.log(result.statusCode);
+  //console.log("result.response.payload", result.response.payload);
   if (result.statusCode == "200") {
     res.render("productsFromCart.handlebars", {
       cart: result.response.payload._id,
@@ -328,7 +328,7 @@ export const purchaseCartController = async (req,res)=>{
    validaciones ⬇️⬇️⬇️*/
   const cart = await CartService.getCartById(cid)
 
-  if (cart === null) {console.log(cart);
+  if (cart === null) {//console.log(cart);
     return res.status(500).json({ status: "error", message:`cart with id ${cid} not found`})}
   
   res.status(202).json({ status: "success", payload: `cart with id ${cid}`});

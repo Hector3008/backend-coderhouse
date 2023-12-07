@@ -66,13 +66,10 @@ export const createTicketController = async (req, res) => {
       }
     }
   }
-  //console.log("final successPruchase: ", successPurchases);
-  console.log("final prodsToCart: ", prodsToCart);
   const cartData = {
     _id: cid,
     products: prodsToCart,
   };
-  console.log("cid: ", cid);
       await CartService.updateCart(cid, cartData);
       const user = users.find(
   (user) => user.cart._id.toString() === cart._id.toString()

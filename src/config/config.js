@@ -17,6 +17,7 @@ export default {
   SESSION_SIGN: opts.Session_sign || process.env.SESSION_SIGN,
 
   PERSISTENCE: opts.Persistence || process.env.PERSISTENCE,
+  ENVIRONMENT: opts.ENVIRONMENT||process.env.ENVIRONMENT,
   NODEMAILER_EMAIL: opts.Nodemailer_email || process.env.NODEMAILER_EMAIL,
   NODEMAILER_PASSWORD:
     opts.Nodemailer_password || process.env.NODEMAILER_PASSWORD,

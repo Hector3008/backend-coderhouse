@@ -9,6 +9,7 @@ import cors from "cors"
 import mongoClient from "./dao/mongoClient.js";
 import compression from "express-compression";
 import { errorHandler } from "../utils.js";
+import logger from "./config/logger.js";
 
 export default  (app) => {
   try {
@@ -71,7 +72,6 @@ export default  (app) => {
     client.connect();
     
   } catch (error) {
-    console.log("error en engineer.js: ",error);
-    
+    logger.fatal("error en engineer.js: ", error);
   }
 }
