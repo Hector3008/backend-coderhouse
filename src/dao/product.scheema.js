@@ -11,6 +11,7 @@ const productSchema = mongoose.Schema({
   code: { type: String, unique: true, required: true },
   stock: { type: Number, required: true },
   category: { type: String, required: true },
+  owner: { type: String, required: true, default: "admin", ref: "users" },
 });
 
 //flexibilizo las consultas a este modelo con la siguiente línea:

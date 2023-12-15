@@ -11,7 +11,9 @@ export const loginViewController = async (req, res) => {
  const SEO = { title: "login" };
   res.render("sessions/login.handlebars", {SEO});
 };
-
+export const forgetPasswordViewController = async (req, res) => {
+  res.render("sessions/forget-password.handlebars");
+};
 export const profileViewController = async (req, res) => {
   res.render("sessions/profile.handlebars", req.session.user);
 };
@@ -75,3 +77,35 @@ export const githubcallbackController = ()=> {
     };
 
 }
+
+export const updateToPremiumController = async (req, res) => {
+  console.log("updateToPremiumController initialized");
+  try {
+
+    console.log("try initialized");
+    const user = await UserService.getById(req.params.uid)
+    let updatedUser
+    switch (user.role) {
+      case "user":
+        user.role = "premium";
+         updatedUser = await UserService.update(req.params.uid, user);
+        break;
+      case "premium":
+        user.role = "user";
+         updatedUser = await UserService.update(req.params.uid, user);
+        break;
+      default:
+        break;
+    }
+
+
+
+    res.json({
+      status: "success",
+      message: "Se ha actualizado el rol del usuario",
+    });
+  } catch (err) {
+    console.log("catch initialized");
+    res.json({ status: "error", error: err.message });
+  }
+};

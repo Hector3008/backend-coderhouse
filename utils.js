@@ -14,11 +14,10 @@ export const handlePolicies = policies => (req,res,next)=> {
   const user = req.session.user || null
 
   if(policies==="public"){
-    if (user) return res.status(400).render("error.handlebars", { error: "not auth" })
+    if (user) return res.status(400).render("error.handlebars", { error: "public rout, you cannot get this while you are logged" })
     return next();
   } 
   try {
-
 
       if (!policies.includes(user.role))
         return res
@@ -47,8 +46,8 @@ export const generateRandomCode = () => {
 };
 
 export const errorHandler = (error, req, res, next) => {
-  console.log("estoy entrando en errorHandler:");
-  console.log("error: ", error);
+  //console.log("estoy entrando en errorHandler:");
+  //console.log("error: ", error);
   switch (error.code) {
     case EErros.TITLE_FIELD_EMPTY:
       res.status(400).send({ status: "error", error: error.name });

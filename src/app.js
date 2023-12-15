@@ -17,6 +17,7 @@ import chat from "./routers/chatRouter.js";
 import twilioRouter from "./routers/twilioRouter.js";
 import checkoutRouter from "./routers/checkoutRouter.js";
 import generateProducts from "./routers/products.mockingRouter.js";
+import testing from "./routers/testingRouter.js";
 /*
 //inicializo el servidor:
 */
@@ -59,6 +60,8 @@ try {
   app.use("/twilio", twilioRouter)
   app.use("/checkout", checkoutRouter)
   app.use("/mockingproducts", generateProducts);
+
+  app.use("/api/testing", testing);
 
   app.use("*", async (req, res) => {
     res.render("error.handlebars");
