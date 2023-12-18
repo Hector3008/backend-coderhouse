@@ -2,6 +2,9 @@
 
 <hr />
 <div class="container" style="width: 50%;">
+    <div id="email" data-value="{{user.email}}"></div>
+    <div id="role" data-value="{{user.role}}"></div>
+
   <h2 class="text-center" style="margin: 1rem;">create a new product:</h2>
   <form type="onsubmit" id="createForm">
     <div class="m-2 form-label">title: <input type="text" class="form-control" id="title"></div>
@@ -18,6 +21,9 @@
 <div class="container">
   <h2 class="text-center">products database:</h2>
   <hr />
+
+
+
   <table id="realProductsTable" class="table table-striped">
     <thead>
       <tr>

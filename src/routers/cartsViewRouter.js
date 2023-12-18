@@ -8,6 +8,6 @@ cartsViewsRouter.get("/", async (req, res) => {
   res.render("notYet.handlebars");
 });
 
-cartsViewsRouter.get("/:cid", hp(["user", "admin"]), cartV);
+cartsViewsRouter.get("/:cid", hp(["user", "admin", "premium"]), cartV);
 
 export default cartsViewsRouter;

@@ -4,12 +4,14 @@ import mongoose from "mongoose";
 
 const CPSolitudeScheema = new mongoose.Schema({
   email: { type: String, ref: "users" },
-  token: { type: String, required: true },
+  code: { type: String, required: true },
   isUsed: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now, expireAfterSeconds: 3600 },
+  createdAt: { type: Date, default: Date.now, expireAfterSeconds: 30 },
 });
 
-mongoose.set("strictQuery", false);
-const UserPasswordModel = mongoose.model("CPSolitudes", CPSolitudeScheema);
+CPSolitudeScheema.index({ createdAt: 1 }, { expireAfterSeconds: 30 });
 
-export default UserPasswordModel;
+mongoose.set("strictQuery", false);
+const CPSolitudeModel  = mongoose.model("CPSolitudes", CPSolitudeScheema);
+
+export default CPSolitudeModel;

@@ -6,7 +6,7 @@ import {
   updateProductController as updateProd,
   deleteProductController as deleteProd,
 } from "../controllers/products.controller.js";
-
+import { handlePolicies as hp } from "../../utils.js";
 
 const productRouter = Router();
 
@@ -18,12 +18,12 @@ productRouter.get("/", products);
 productRouter.get("/:pid", product);
 /*
 //testeado.✅ la consulta en TC no me trae la bdd actualizada después pero en compass logro ver el cambio. También hay que trabajar las validaciones.*/
-productRouter.post("/", createProd);
+productRouter.post("/", hp(["admin", "premium"]), createProd);
 /*
 //testeado.✅*/
-productRouter.put("/:pid", updateProd);
+productRouter.put("/:pid", hp(["admin", "premium"]), updateProd);
 /*
 //testeado.✅*/
-productRouter.delete("/:pid", deleteProd);
+productRouter.delete("/:pid", hp(["admin", "premium"]), deleteProd);
 
 export default productRouter;

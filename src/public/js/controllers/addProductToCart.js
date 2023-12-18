@@ -2,8 +2,6 @@
 
 let addProductToCart = (cid, pid) => {
   
-  
-
       fetch(`/api/carts/${cid}/product/${pid}`, {
         method: "post",
       })

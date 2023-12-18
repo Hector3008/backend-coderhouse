@@ -10,14 +10,14 @@ const productsViewsRouter = Router();
 /*  
 //acá visualizo todos los productos en una tabla y los puedo agregar a un carrito:
 */
-productsViewsRouter.get("/", hp(["user", "admin"]), productsV);
+productsViewsRouter.get("/", hp(["user", "admin","premium"]), productsV);
 /* 
 //acá visualizo un formulario para crear nuevos productos y una tabla para ver sus cambios en tiempo real (también los puedo eliminar):
 */
-productsViewsRouter.get("/realTimeProducts", hp(["admin", "user"]), rtproducts);
+productsViewsRouter.get("/realTimeProducts", hp(["admin", "premium"]), rtproducts);
 /* 
 //acá visualizo un producto en específico en una tabla y lo puedo agregar a un carrito:
 */
-productsViewsRouter.get("/:id", hp(["user", "admin"]), productV);
+productsViewsRouter.get("/:id", hp(["user", "admin", "premium"]), productV);
 
 export default productsViewsRouter;

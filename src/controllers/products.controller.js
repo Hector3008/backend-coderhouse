@@ -1,5 +1,6 @@
 import cfg from "../config/config.js";
-import { ProductService as Prod } from "../services/services.js";
+import { ProductService as Prod,
+UserService as User } from "../services/services.js";
 import CustomError from "../services/errors/custom.error.js";
 import EErros from "../services/errors/enums.js";
 import { generateErrorInfo } from "../services/errors/info.js";
@@ -192,7 +193,19 @@ export const deleteProductController = async (req, res) => {
   try {
     //accedo al id desde el param:
     const id = req.params.pid;
-    3;
+    const prodToDelete = Prod.getById(id)
+    if (!prodToDelete) return res.status(404).json({status: "error", error: "Not found"})
+    if(req.session.user.role=="premium"){
+
+      if(req.session.user.email!==prodToDelete.owner)return res
+        .status(404)
+        .json({
+          status: "error",
+          error: "same user purchase request",
+          description:
+            "un usuario ha querido eliminar un producto del que no es dueño",
+        });
+    }
     //consulto si el producto con ese id existe en mi bdd productos de cloud.mongo:
     const result = await Prod.deleteProd(id);
     //validación 1: el producto con ese id existe en la bdd:

@@ -14,7 +14,14 @@ function setupDeleteButtonListeners() {
   document.getElementById("createBtn").addEventListener("click", async (e) => {
 
     e.preventDefault();
-    
+
+    var emailDiv = document.getElementById("email");
+    var emailValue = emailDiv.getAttribute("data-value");
+    var roleDiv = document.getElementById("role");
+    var roleValue = roleDiv.getAttribute("data-value");
+    let owner 
+    roleValue==="premium"?owner = emailValue:owner=null
+
     //tomo los valores del formulario en el html para generar un nuevo objeto:
     const body = {
       title: document.getElementById("title").value,
@@ -24,10 +31,10 @@ function setupDeleteButtonListeners() {
       code: document.getElementById("code").value,
       stock: document.getElementById("stock").value,
       category: document.getElementById("category").value,
+      owner: owner||"admin"
     };
 
-    //cargo ese objeto con el método POST de mi router productRouter.js
-    console.log(body);
+    
     fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),

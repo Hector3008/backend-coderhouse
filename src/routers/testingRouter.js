@@ -4,6 +4,10 @@ import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
 
 const testingRouter = Router();
+
+/* importante: 
+nodemailer funciona en mi entorno virtual de git codespaces pero no en mi entorno personal. Esto, porque en el entorno personal me arroja un error de credenciales por una configuración de mi node o vsc que aún no entiendo. Ya probé cambiando la versión de node y sigue ocurriendo lo mismo
+ */
 testingRouter.get("/nodemailer", async (req, res)=>{
   //console.log("testing Router Nodemailer initialized");
   try {

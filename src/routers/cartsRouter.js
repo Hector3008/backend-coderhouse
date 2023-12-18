@@ -12,11 +12,11 @@ import {
   deleteCartController as deleteCart,
   purchaseCartController as purchase,
 } from "../controllers/carts.controller.js";
-
+import { handlePolicies as hp } from "../../utils.js";
 const cartsRouter = Router();
 /*
 //testeado.✅*/
-cartsRouter.get("/", carts);
+cartsRouter.get("/",hp(["admin", "premium", "user"]), carts);
 /*
 //testeado.✅
 //creo un nuevo carrito:*/
@@ -24,32 +24,48 @@ cartsRouter.post("/", createCart);
 /*
 //testeado.✅
 //consulto un carrito:*/
-cartsRouter.get("/:cid", cart);
+cartsRouter.get("/:cid", hp(["admin", "premium", "user"]), cart);
 /*
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
 //agrego un producto a un carrito:*/
-cartsRouter.post("/:cid/product/:pid", addProd);
+cartsRouter.post(
+  "/:cid/product/:pid",
+  hp(["premium", "user"]),
+  addProd
+);
 /*
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
 
 //elimino todos los items de un product específico que existan en el carrito:*/
-cartsRouter.delete("/:cid/product/:pid", deleteProd);
+cartsRouter.delete(
+  "/:cid/product/:pid",
+  hp(["admin", "premium"]),
+  deleteProd
+);
 /*
 //testeado.✅   //actualizo toda la lista de productos dentro de un carrito pasandole un objeto products desde el body. El objecto tiene un atributo product y Id por cada item.*/
-cartsRouter.put("/:cid", updateCart);
+cartsRouter.put("/:cid", hp(["admin", "premium", "user"]), updateCart);
 /*
 //testeado.✅ Solo hay un problema: A excepción del req.body (un bodyParam) cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando.
 
 //actualizo la cantidad de un item específico del carrito:*/
-cartsRouter.put("/:cid/product/:pid", updateProd);
+cartsRouter.put(
+  "/:cid/product/:pid",
+  hp(["admin", "premium"]),
+  updateProd
+);
 
-cartsRouter.put("/:cid/product/:pid/deleteOne", deleteItemProd);
+cartsRouter.put(
+  "/:cid/product/:pid/deleteOne",
+  hp(["admin", "premium"]),
+  deleteItemProd
+);
 /*
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando
 
 //elimino (vacío) todos los productos de un carrito:*/
-cartsRouter.delete("/:cid", deleteCart);
+cartsRouter.delete("/:cid", hp(["admin"]), deleteCart);
 
-cartsRouter.get("/:cid/purchase", purchase);
+cartsRouter.get("/:cid/purchase", hp(["admin", "premium", "user"]), purchase);
 
 export default cartsRouter;

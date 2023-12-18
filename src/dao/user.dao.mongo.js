@@ -9,5 +9,5 @@ export default class UserMongoDao {
       returnDocument: "after",
     });
   delete = async (id) => await userModel.findByIdAndDelete(id);
-  findOne = async (data) => await userModel.findOne(data);
+  findOne = async (data) => await userModel.findOne(data).lean().exec();
 }

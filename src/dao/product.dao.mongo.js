@@ -1,7 +1,6 @@
 import productModel from "./product.scheema.js";
 import cfg from "../config/config.js";
 
-
 export default class ProductMongoDAO {
      getAllProds = async() => await productModel.find().lean().exec()
      getProdById = async(id) => await productModel.findById(id).lean().exec()

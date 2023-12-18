@@ -1,7 +1,8 @@
 import ps from "passport";
-import cfg from "../config/config.js";
 import UserDTO from "../dto/users.dto.js";
-import { UserService } from "../services/services.js";
+import { UserService, CPSolitudeService } from "../services/services.js";
+import { generateRandomCode, isValidPassword } from "../../utils.js";
+import { createHash } from "../../utils.js";
 
 export const registerViewController = async (req, res) => {
   const SEO = { title: "registro" };
@@ -11,26 +12,96 @@ export const loginViewController = async (req, res) => {
  const SEO = { title: "login" };
   res.render("sessions/login.handlebars", {SEO});
 };
-export const forgetPasswordViewController = async (req, res) => {
-  res.render("sessions/forget-password.handlebars");
-};
 export const profileViewController = async (req, res) => {
   res.render("sessions/profile.handlebars", req.session.user);
 };
-export const profileController = async (req,res)=>{
+////////////////////////////////////////////////////////////////////////
+export const forgetPasswordViewController = async (req, res) => {
+  res.render("sessions/forget-password.handlebars");
+};
+export const resetPasswordCodeController = async (req, res) => {
+  res.redirect(`/api/sessions/verify-code/${req.params.code}`);
+};
 
-  const uid = req.params.uid
-  const result = await UserService.getById(uid)
+export const postToCPSolitudeController = async(req,res)=>{
+  const email = req.body.email;
+
+  const user = await UserService.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ status: "error", error: "User not found" });
+    }
+  const code = generateRandomCode()
+
+  const CPSolitude = await CPSolitudeService.create({email, code})
+  
+  res.send({
+    message: `request success. we send you an email, look there to continuate or goes redirect directly to http://localhost:8080/api/sessions/cPSolitude/verify-code/${code}`,
+    email: email,
+    code: code,
+  });
+}
+
+export const CPSolitudeVerifyCodeController = async(req,res)=>{
+  const code = req.params.code
+  const search = await CPSolitudeService.findOne({ code: code });
+  if (!search)
+  return res
+    .status(404)
+    .json({
+      status: "error",
+      error: "código no válido / El código ha expirado",
+    });
+  if (search.isUsed)return res.status(404).json({status:"error", error:"código ya usado"})
+  
+  
+  const user = search.email
+  console.log("json: ", {
+    message: "CPSolitudeVerifyCodeController initialized",
+    code: code,
+    search: search,
+    user: user,
+  });
+    res
+      .render("sessions/reset-password.handlebars",{user: user, code: code});
+}
+export const resetPasswordController = async(req, res)=> {
+  try {
+    const code = req.params.code;
+    const email = req.params.email;
+    const user = await UserService.findOne({email: email})
+    
+    const isSamePassword = isValidPassword(user, req.body.newPassword);
+    if(isSamePassword) return res.status(404).json({status:"error", error: "newPassword must be different than original password"})
+    
+    const newPassword = createHash(req.body.newPassword);
+    await UserService.update(user._id, {
+              password: newPassword
+            });
+    const solitude = await CPSolitudeService.findOne({code: code})
+    solitude.isUsed = true
+    await CPSolitudeService.update(solitude._id, solitude)
+    res.json({
+      message: "request success! password changed all right",
+    });
+  } catch (error) {
+    res.status(404).json({ status: "error", error: error.message });
+  }
+  
+}
+////////////////////////////////////////////////////////////////////////
+export const profileController = async (req, res) => {
+  const uid = req.params.uid;
+  const result = await UserService.getById(uid);
   const dtoresult = new UserDTO(result);
   res.status(202).json({ status: "success", payload: dtoresult });
-}
+};
 export const registerController = async (req, res) => {
-  res.redirect("/sessions")
-}
-
+  res.redirect("/sessions");
+};
 export const loginController =  async (req, res) => {
+    console.log("req.user: ", req.user);
     if (!req.user) {
-      return resz
+      return res
         .status(400)
         .send({ status: "error", error: "Invalid credentials" });
     }
@@ -42,26 +113,19 @@ export const loginController =  async (req, res) => {
       cart: req.user.cart,
       role: req.user.role,
     };
-    if (req.user.email === cfg.ADMIN_EMAIL) {
-      req.session.user.role = "admin";
-    } else {
-      req.session.user.role = "user";
-    }
+
     res.redirect("/products");
   };
-
 export const logoutController = (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.send("Logout error");
     return res.redirect("/sessions");
   });
 };
-
-export const githubLoginController = ()=> {
+export const githubLoginController = () => {
   ps.authenticate("github", { scope: ["user:email"] }), (req, res) => {};
-}
-
-export const githubcallbackController = ()=> {
+};
+export const githubcallbackController = () => {
   ps.authenticate("github", { failureRedirect: "/login" }),
     async (req, res) => {
       //console.log("Callback: ", req.user);
@@ -75,9 +139,7 @@ export const githubcallbackController = ()=> {
 
       res.redirect("/products");
     };
-
-}
-
+};
 export const updateToPremiumController = async (req, res) => {
   console.log("updateToPremiumController initialized");
   try {

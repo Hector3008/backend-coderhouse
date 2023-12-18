@@ -38,8 +38,6 @@ const initializePassport = () => {
             cart: cartForNewUser._id,
             role: admin ? "admin" : "user",
           };
-
-
           const result = await UserService.create(newUser);
           
           return done(null, result);

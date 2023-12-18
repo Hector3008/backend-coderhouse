@@ -1,4 +1,4 @@
-import { CartService, ProductService } from "../services/services.js";
+import { CartService, ProductService, UserService } from "../services/services.js";
 
 export const cartViewController = async (req, res) => {
   const id = req.params.cid;
@@ -47,6 +47,7 @@ export const addProductToCartController = async (req, res) => {
     const pid = req.params.pid;
     //accedo al carrito buscandolo por su id:
     const cartToUpdate = await CartService.getCartById(cid);
+    
     //validación 1: el carrito existe en la bdd de carritos:
     if (cartToUpdate === null) {
       
@@ -54,15 +55,27 @@ export const addProductToCartController = async (req, res) => {
         .status(404)
         .json({ status: "error", error: `Cart with id=${cid} Not found` });
     }
+
     //accedo al producto buscandolo por su id:
     const productToAdd = await ProductService.getById(pid);
-
+    
     //validacion 2: el producto existe en la bdd de productos:
     if (productToAdd === null) {
       return res
         .status(404)
         .json({ status: "error", error: `Product with id=${pid} Not found` });
     }
+        const user = UserService.findOne({ cart: cartToUpdate });
+        if (user.role === "premium") {
+          if (user.email === productToAdd.owner) {
+            return res.status(404).json({
+              status: error,
+              error: "same user purchase request",
+              description:
+                "un usuario ha querido cargar a su carrito un producto de su misma tienda",
+            });
+          }
+        }
     //consulto si el producto existe en la lista del carrito:
     
     const productIndex = cartToUpdate.products.findIndex(
