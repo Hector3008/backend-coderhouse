@@ -30,7 +30,7 @@ export const postToCPSolitudeController = async(req,res)=>{
 
   const user = await UserService.findOne({ email });
     if (!user) {
-      return res.status(404).json({ status: "error", error: "User not found" });
+      return res.status(404).json({ status: "error", error: "User does not found" });
     }
   const code = generateRandomCode()
 
@@ -53,12 +53,6 @@ try {
 } catch (err) {
     res.status(500).json({ status: 'error', error: err.message })
 }
-
-  res.send({
-    message: `request success. we send you an email, look there to continuate or goes redirect directly to http://localhost:8080/api/sessions/cPSolitude/verify-code/${code}`,
-    email: email,
-    code: code,
-  });
 }
 
 export const CPSolitudeVerifyCodeController = async(req,res)=>{
@@ -71,12 +65,7 @@ export const CPSolitudeVerifyCodeController = async(req,res)=>{
   if (search.isUsed)return res.status(404).json({status:"error", error:"código ya usado"})
   
   const user = search.email
-  console.log("json: ", {
-    message: "CPSolitudeVerifyCodeController initialized",
-    code: code,
-    search: search,
-    user: user,
-  });
+
     res
       .render("sessions/reset-password.handlebars",{user: user, code: code});
 }
