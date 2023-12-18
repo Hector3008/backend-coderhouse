@@ -3,6 +3,7 @@ import UserDTO from "../dto/users.dto.js";
 import { UserService, CPSolitudeService } from "../services/services.js";
 import { generateRandomCode, isValidPassword } from "../../utils.js";
 import { createHash } from "../../utils.js";
+import cfg from "../config/config.js";
 
 export const registerViewController = async (req, res) => {
   const SEO = { title: "registro" };
@@ -33,7 +34,25 @@ export const postToCPSolitudeController = async(req,res)=>{
   const code = generateRandomCode()
 
   const CPSolitude = await CPSolitudeService.create({email, code})
-  
+
+  const mailerConfig = {
+    service: 'gmail',
+    auth: { user: cfg.NODEMAILER_EMAIL, pass: cfg.NODEMAILER_PASSWORD }
+}
+let transporter = nodemailer.createTransport(mailerConfig)
+let message = {
+    from: cfg.NODEMAILER_EMAIL,
+    to: email,
+    subject: '[ecommerce] Reset your password',
+    html: `<h1>[Coder e-comm API] Reset your password</h1><hr />You have asked to reset your password. You can do it here: <a href="http://${req.hostname}:${cfg.PORT}/api/sessions/reset-password/${email}/code/${code}">http://${req.hostname}:${cfg.PORT}/api/sessions/reset-password/${email}/code/${code}</a><hr />Best regards,<br><strong>e-commerce team</strong>`
+}
+try {
+    await transporter.sendMail(message)
+    res.json({ status: 'success', message: `Email successfully sent to ${email} in order to reset password` })
+} catch (err) {
+    res.status(500).json({ status: 'error', error: err.message })
+}
+
   res.send({
     message: `request success. we send you an email, look there to continuate or goes redirect directly to http://localhost:8080/api/sessions/cPSolitude/verify-code/${code}`,
     email: email,
