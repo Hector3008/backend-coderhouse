@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
+import { generateRandomCode } from "../../utils.js";
 
 //schema (plantilla):
 const productSchema = mongoose.Schema({
@@ -8,7 +9,12 @@ const productSchema = mongoose.Schema({
   price: { type: Number, required: true },
   status: { type: Boolean, default: true },
   thumbnail: { type: [String], default: [] },
-  code: { type: String, unique: true, required: true },
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+    default: generateRandomCode,
+  },
   stock: { type: Number, required: true },
   category: { type: String, required: true },
   owner: { type: String, required: true, default: "admin", ref: "users" },

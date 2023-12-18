@@ -49,16 +49,10 @@ let message = {
 };
 try {
     await transporter.sendMail(message)
-    res.json({ status: 'success', message: `Email successfully sent to ${email} in order to reset password` })
+    return res.json({ status: 'success', message: `Email successfully sent to ${email} in order to reset password` })
 } catch (err) {
     res.status(500).json({ status: 'error', error: err.message })
 }
-
-  res.send({
-    message: `request success. we send you an email, look there to continuate or goes redirect directly to http://localhost:8080/api/sessions/cPSolitude/verify-code/${code}`,
-    email: email,
-    code: code,
-  });
 }
 
 export const CPSolitudeVerifyCodeController = async(req,res)=>{
@@ -115,10 +109,10 @@ export const registerController = async (req, res) => {
   res.redirect("/sessions");
 };
 export const loginController =  async (req, res) => {
-    console.log("req.user: ", req.user);
+
     if (!req.user) {
       return res
-        .status(400)
+        .status(505)
         .send({ status: "error", error: "Invalid credentials" });
     }
     req.session.user = {

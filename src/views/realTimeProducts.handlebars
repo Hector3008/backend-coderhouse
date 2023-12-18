@@ -10,7 +10,6 @@
     <div class="m-2 form-label">title: <input type="text" class="form-control" id="title"></div>
     <div class="m-2 form-label">description: <input type="text" class="form-control" id="description"></div>
     <div class="m-2 form-label">price: <input type="number" class="form-control" id="price"></div>
-    <div class="m-2 form-label">code: <input type="text" class="form-control" id="code"></div>
     <div class="m-2 form-label">stock: <input type="text" class="form-control" id="stock"></div>
     <div class="m-2 form-label">category: <input type="text" class="form-control" id="category"></div>
     <div class="d-flex justify-content-end" style="margin: 1rem;"><button type="submit" id="createBtn" class="btn btn-primary text-center">create product</button>
@@ -23,7 +22,22 @@
   <hr />
 
 
+<nav aria-label="Page navigation " style="display:flex; justify-content:center">
+  <ul class="pagination" align="center" style="margin-top: 1rem;">
 
+    {{!-- se condiciona la muestra del 'anterior' al atributo 'hasPrevPage' de mi bson:--}}
+    {{#if paginateInfo.hasPrevPage}}
+    <li class="page-item"><a class="page-link" href="{{paginateInfo.prevLink}}">Previous</a></li>
+    {{/if}}
+
+    {{#each paginateInfo.totalPages}}
+    <li class="page-item"><a class="page-link" href="{{this.link}}">{{this.page}}</a></li>
+    {{/each}}
+    {{#if paginateInfo.hasNextPage}}
+    <li class="page-item"><a class="page-link" href="{{paginateInfo.nextLink}}">Next</a></li>
+    {{/if}}
+  </ul>
+</nav>
   <table id="realProductsTable" class="table table-striped">
     <thead>
       <tr>

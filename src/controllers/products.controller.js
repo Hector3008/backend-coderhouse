@@ -58,12 +58,33 @@ export const realTimeProductsController = async (req, res) => {
   //consulto los productos en mi bdd de productos:
   const result = await Prod.getAllPaginate(req, res);
   if (result.statusCode === 200) {
+    const totalPages = [];
+    let link;
+
+    for (let index = 1; index <= result.response.totalPages; index++) {
+      if (!req.query.page) {
+        link = `http://${req.hostname}:${cfg.PORT}${req.originalUrl}?page=${index}`;
+      } else {
+        const modifiedUrl = req.originalUrl.replace(
+          `page=${req.query.page}`,
+          `page=${index}`
+        );
+        link = `http://${req.hostname}:${cfg.PORT}${modifiedUrl}`;
+      }
+      totalPages.push({ page: index, link });
+    }
     //renderizo la plantilla realTimeProducts y le cargo el resultado de mi consulta a la bdd de productos:
     res.render("realTimeProducts.handlebars", {
       products: result.response.payload,
       SEO: SEO,
       user: req.session.user,
-    });
+      paginateInfo: {
+        hasPrevPage: result.response.hasPrevPage,
+        hasNextPage: result.response.hasNextPage,
+        prevLink: result.response.prevLink,
+        nextLink: result.response.nextLink,
+        totalPages,
+    }});
   } else {
     res
       .status(result.statusCode)
@@ -139,18 +160,8 @@ export const createProductController = async (req, res) => {
         code: EErros.TITLE_FIELD_EMPTY,
       });
     }
-    //console.log("product from productRouter: ", product);
-    const result = await Prod.createProd(product);
-    
-    //console.log("result from productRouter", result);
-    const products = await Prod.getAll();
-    //console.log("products from productRouter", products);
 
-    try {
-      req.originalUrl.emit("updatedProducts", products);
-    } catch (err) {
-      console.log("error on createProductController: ", err);
-    }
+    const result = await Prod.createProd(product);
 
     res.status(201).json({ status: "success", payload: result });
   } catch (err) {
@@ -190,40 +201,40 @@ export const updateProductController = async (req, res) => {
 /*
  */
 export const deleteProductController = async (req, res) => {
-  try {
-    //accedo al id desde el param:
-    const id = req.params.pid;
-    const prodToDelete = Prod.getById(id)
-    if (!prodToDelete) return res.status(404).json({status: "error", error: "Not found"})
-    if(req.session.user.role=="premium"){
+  const id = req.params.pid;
+  const prodToDelete = await Prod.getById(id);
 
-      if(req.session.user.email!==prodToDelete.owner)return res
-        .status(404)
-        .json({
+    if (prodToDelete === null) {
+      return res.status(404).json({ status: "error", error: "Product does not found" });
+    }
+  let products
+  switch (req.session.user.role) {
+    case "premium":
+      if (req.session.user.email !== prodToDelete.owner){
+        products = await Prod.getAll();
+        return res.json({
           status: "error",
-          error: "same user purchase request",
+          error: "premium user can not delete this product",
           description:
             "un usuario ha querido eliminar un producto del que no es dueño",
-        });
-    }
-    //consulto si el producto con ese id existe en mi bdd productos de cloud.mongo:
-    const result = await Prod.deleteProd(id);
-    //validación 1: el producto con ese id existe en la bdd:
-    if (result === null) {
-      return res.status(404).json({ status: "error", error: "Not found" });
-    }
-    //accedo a la lista de productos en mi bdd:
-    const products = await Prod.getAll();
-
-    //condiciono a un try la lógica del socket:
-
-    //cargo la lista al payload de mi respuesta:
-    res.status(200).json({ status: "success", payload: products });
+          payload: products,
+        })
+      }
+      await Prod.deleteProd(id);
+      break;
+    case "admin":
+      await Prod.deleteProd(id);
+      break
+    default:
+      break;
+  }
+  try {
+      products = await Prod.getAll();
+          res.status(200).json({ status: "success", payload: products });
   } catch (err) {
     res.status(500).json({
       status: "error",
       error: err.message,
-      test: "this is the catch message",
     });
   }
 };

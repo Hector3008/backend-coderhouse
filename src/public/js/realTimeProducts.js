@@ -28,13 +28,11 @@ function setupDeleteButtonListeners() {
       description: document.getElementById("description").value,
       price: document.getElementById("price").value,
       thumbnail: ["sin imagen"],
-      code: document.getElementById("code").value,
       stock: document.getElementById("stock").value,
       category: document.getElementById("category").value,
       owner: owner||"admin"
     };
 
-    
     fetch("/api/products", {
       method: "post",
       body: JSON.stringify(body),
@@ -91,7 +89,6 @@ socket.on("updatedProducts", (data) => {
 setupDeleteButtonListeners()
 
 const deleteProduct = async (id) => {
-  alert("deleteProduct() iniciado");
 
   //este fetch DELETE está en productRouter.js:
   fetch(`/api/products/${id}`, {
@@ -100,9 +97,15 @@ const deleteProduct = async (id) => {
     //y me devuelve la bdd ya sin el artículo eliminado, por lo cual la cargo directo al siguiente paso:
     .then((result) => result.json())
     .then((result) => {
-      if (result.value == "error") throw new Error(result.error);
+      console.log("estoy entrando al then");
+      if (result.status == "error") {
+        console.log("estoy entrando al if result.value");
+        alert("product has been not eliminated")
+        throw new Error(result.error)};
       socket.emit("productList", result.payload);
-      alert("producto eliminado!");
     })
-    .catch((err) => alert(`error! (\n ${err}`));
+    .catch((err) =>{
+      console.log("estoy entrando al catch");
+     alert(`error! (\n ${err}`)}
+     );
 };

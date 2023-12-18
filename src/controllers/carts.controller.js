@@ -65,7 +65,9 @@ export const addProductToCartController = async (req, res) => {
         .status(404)
         .json({ status: "error", error: `Product with id=${pid} Not found` });
     }
-        const user = UserService.findOne({ cart: cartToUpdate });
+        const user = await UserService.findOne({ cart: cartToUpdate });
+        console.log("user: ", user);
+        console.log("user.role: ", user.role);
         if (user.role === "premium") {
           if (user.email === productToAdd.owner) {
             return res.status(404).json({

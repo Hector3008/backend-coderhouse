@@ -22,7 +22,7 @@ El campo owner deberá guardar sólo el correo electrónico ✅(o _id, lo dejamo
 
 Aspectos a incluir
 
-*️⃣ Además, modificar la lógica de carrito para que un usuario premium NO pueda agregar a su carrito un producto que le pertenece 🔜✅
+*️⃣ Además, modificar la lógica de carrito para que un usuario premium NO pueda agregar a su carrito un producto que le pertenece ✅
 *️⃣ Implementar una nueva ruta en el router de api/users, la cual será /api/users/premium/:uid ✅  la cual permitirá cambiar el rol de un usuario, de “user” a “premium” ✅ y viceversa. 
 
 Formato
