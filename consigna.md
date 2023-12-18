@@ -4,7 +4,7 @@ Con base en el proyecto que venimos desarrollando, toca solidificar algunos proc
 
 Aspectos a incluir
 
-*️⃣ Realizar un sistema de recuperación de contraseña, la cual envíe por medio de un correo un botón que redireccione a una página para restablecer la contraseña (no recuperarla). ✅
+*️⃣ Realizar un sistema de recuperación de contraseña, la cual envíe por medio de un correo ✅ un botón que redireccione a una página para restablecer la contraseña (no recuperarla). ✅
 // *️⃣ link del correo debe expirar después de 1 hora de enviado. 🔜
 
 // *️⃣ Si se trata de restablecer la contraseña con la misma contraseña del usuario, debe impedirlo e indicarle que no se puede colocar la misma contraseña ✅
