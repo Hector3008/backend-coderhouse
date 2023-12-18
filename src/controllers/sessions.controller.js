@@ -1,4 +1,5 @@
 import ps from "passport";
+import nodemailer from 'nodemailer';
 import UserDTO from "../dto/users.dto.js";
 import { UserService, CPSolitudeService } from "../services/services.js";
 import { generateRandomCode, isValidPassword } from "../../utils.js";
@@ -41,11 +42,11 @@ export const postToCPSolitudeController = async(req,res)=>{
 }
 let transporter = nodemailer.createTransport(mailerConfig)
 let message = {
-    from: cfg.NODEMAILER_EMAIL,
-    to: email,
-    subject: '[ecommerce] Reset your password',
-    html: `<h1>[Coder e-comm API] Reset your password</h1><hr />You have asked to reset your password. You can do it here: <a href="http://${req.hostname}:${cfg.PORT}/api/sessions/reset-password/${email}/code/${code}">http://${req.hostname}:${cfg.PORT}/api/sessions/reset-password/${email}/code/${code}</a><hr />Best regards,<br><strong>e-commerce team</strong>`
-}
+  from: cfg.NODEMAILER_EMAIL,
+  to: email,
+  subject: "[ecommerce] Reset your password",
+  html: `<h1>[Coder e-comm API] Reset your password</h1><hr />You have asked to reset your password. You can do it here: <a href="http://${req.hostname}:${cfg.PORT}/api/sessions/CPSolitude/verify-code/${code}">http://${req.hostname}:${cfg.PORT}/api/sessions/CPSolitude/verify-code/${code}</a><hr />Best regards,<br><strong>e-commerce team</strong>`,
+};
 try {
     await transporter.sendMail(message)
     res.json({ status: 'success', message: `Email successfully sent to ${email} in order to reset password` })
@@ -66,12 +67,8 @@ export const CPSolitudeVerifyCodeController = async(req,res)=>{
   if (!search)
   return res
     .status(404)
-    .json({
-      status: "error",
-      error: "código no válido / El código ha expirado",
-    });
+    .redirect("/sessions/forget-password");
   if (search.isUsed)return res.status(404).json({status:"error", error:"código ya usado"})
-  
   
   const user = search.email
   console.log("json: ", {
@@ -90,7 +87,7 @@ export const resetPasswordController = async(req, res)=> {
     const user = await UserService.findOne({email: email})
     
     const isSamePassword = isValidPassword(user, req.body.newPassword);
-    if(isSamePassword) return res.status(404).json({status:"error", error: "newPassword must be different than original password"})
+    if(isSamePassword) return res.status(404).redirect("/sessions/forgot-password")
     
     const newPassword = createHash(req.body.newPassword);
     await UserService.update(user._id, {
