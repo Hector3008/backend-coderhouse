@@ -37,9 +37,10 @@ export const postToCPSolitudeController = async(req,res)=>{
   const CPSolitude = await CPSolitudeService.create({email, code})
 
   const mailerConfig = {
-    service: 'gmail',
-    auth: { user: cfg.NODEMAILER_EMAIL, pass: cfg.NODEMAILER_PASSWORD }
-}
+    service: "gmail",
+    auth: { user: cfg.NODEMAILER_EMAIL, pass: cfg.NODEMAILER_PASSWORD },
+    tls: { rejectUnauthorized: false },
+  };
 let transporter = nodemailer.createTransport(mailerConfig)
 let message = {
   from: cfg.NODEMAILER_EMAIL,

@@ -23,6 +23,7 @@ testingRouter.get("/nodemailer", async (req, res)=>{
         user: emailUser,
         pass: emailPassword,
       },
+      tls: { rejectUnauthorized: false },
     };
 
     let transporter = nodemailer.createTransport(config);
