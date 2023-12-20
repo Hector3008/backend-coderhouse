@@ -1,4 +1,3 @@
-// import cfg from "../config/config.js";
 import {
   TicketService,
   CartService,

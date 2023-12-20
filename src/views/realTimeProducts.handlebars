@@ -42,6 +42,7 @@
     <thead>
       <tr>
         <th></th>
+        <th>owner</th>
         <th>title</th>
         <th>description</th>
         <th>price</th>
@@ -54,6 +55,7 @@
       {{#each products}}
       <tr>
         <td><button class="btn btn-danger btnDelete" data-product-id="{{this._id}}" >delete</button></td>
+        <td>{{this.owner}}</td>
         <td>{{this.title}}</td>
         <td>{{this.description}}</td>
         <td>{{this.price}}$</td>

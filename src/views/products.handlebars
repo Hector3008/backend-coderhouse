@@ -79,7 +79,11 @@
       })
         .then((result) => result.json())
         .then((result) => {
-          if (result.status === "error") throw new Error(result.error);
+          if (result.status === "error") {
+            new Error(result.error);
+            console.log("result: ", result)
+            alert("he entrado al condicional del then")
+          } 
           alert(
             `Ok. Todo salió bien! :)\nEl producto se agregó al carrito con id=${result.payload._id}!`
           );

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-/*CP means ChangePassaword */
+/*CPS means ChangePassawordSolicitude */
 
-const CPSolitudeScheema = new mongoose.Schema({
+const CPSScheema = new mongoose.Schema({
   email: { type: String, ref: "users" },
   code: { type: String, required: true },
   isUsed: { type: Boolean, default: false },
@@ -10,6 +10,6 @@ const CPSolitudeScheema = new mongoose.Schema({
 });
 
 mongoose.set("strictQuery", false);
-const CPSolitudeModel  = mongoose.model("CPSolitudes", CPSolitudeScheema);
+const CPSModel = mongoose.model("CPS", CPSScheema);
 
-export default CPSolitudeModel;
+export default CPSModel;

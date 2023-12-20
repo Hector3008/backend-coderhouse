@@ -74,6 +74,7 @@ socket.on("updatedProducts", (data) => {
     let tr = document.createElement("tr");
     tr.innerHTML = `
               <td><button class="btn btn-danger btnDelete" data-product-id="${product._id}" >eliminar</button></td>      
+      <td>${product.owner}</td>
       <td>${product.title}</td>
       <td>${product.description}</td>
       <td>${product.price}$</td>
@@ -99,7 +100,7 @@ const deleteProduct = async (id) => {
     .then((result) => {
       console.log("estoy entrando al then");
       if (result.status == "error") {
-        console.log("estoy entrando al if result.value");
+        
         alert("product has been not eliminated")
         throw new Error(result.error)};
       socket.emit("productList", result.payload);

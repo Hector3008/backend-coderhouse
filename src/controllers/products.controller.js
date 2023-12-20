@@ -55,7 +55,8 @@ export const realTimeProductsController = async (req, res) => {
   const SEO = {
     title: "realTimeProducts",
   };
-  //consulto los productos en mi bdd de productos:
+  /*
+  consulto los productos en mi bdd de productos:*/
   const result = await Prod.getAllPaginate(req, res);
   if (result.statusCode === 200) {
     const totalPages = [];
@@ -73,7 +74,8 @@ export const realTimeProductsController = async (req, res) => {
       }
       totalPages.push({ page: index, link });
     }
-    //renderizo la plantilla realTimeProducts y le cargo el resultado de mi consulta a la bdd de productos:
+    /*
+    renderizo la plantilla realTimeProducts y le cargo el resultado de mi consulta a la bdd de productos:*/
     res.render("realTimeProducts.handlebars", {
       products: result.response.payload,
       SEO: SEO,
@@ -129,15 +131,19 @@ export const productsController = async (req, res) => {
  */
 export const productController = async (req, res) => {
   try {
-    //instancio las variables de acceso al id con el query param:
+    /*
+    instancio las variables de acceso al id con el query param:*/
     const id = req.params.pid;
-    //consulto en la bdd de productos en mi cloud.mongo por un producto con ese id:
+    /*
+    consulto en la bdd de productos en mi cloud.mongo por un producto con ese id:*/
     const result = await Prod.getById(id);
-    //validación 1: producto con id presente en la bdd:
+    /*
+    validación 1: producto con id presente en la bdd:*/
     if (result === null) {
       return res.status(404).json({ status: "error", error: "Not found" });
     }
-    //retorno la respuesta con el resultado de mi consulta en el payload:
+    /*
+    retorno la respuesta con el resultado de mi consulta en el payload:*/
     res.status(200).json({ status: "success", payload: result });
   } catch (err) {
     res.status(500).json({
@@ -176,11 +182,14 @@ export const createProductController = async (req, res) => {
  */
 export const updateProductController = async (req, res) => {
   try {
-    //instancio la variable de acceso al Id del producto desde el param:
+    /*
+    instancio la variable de acceso al Id del producto desde el param:*/
     const id = req.params.pid;
-    //instancio la data desde el body:
+    /*
+    instancio la data desde el body:*/
     const data = req.body;
-    //actualizo
+    /*
+    actualizo*/
     const result = await Prod.updateProd(id, data);
     if (result === null) {
       return res.status(404).json({ status: "error", error: "Not found" });

@@ -5,8 +5,8 @@ import cfg from "../config/config.js";
 const getBill = async (req, res) => {
   try {
     const destinatario = "hectorh3008@gmail.com";
-
-    // Use environment variables for better security
+    /*
+     Use environment variables for better security*/
     const emailUser = cfg.NODEMAILER_EMAIL;
     const emailPassword = cfg.NODEMAILER_PASSWORD;
 
@@ -54,7 +54,8 @@ const getBill = async (req, res) => {
       html: mail,
     };
 
-    // Use async/await for sending emails
+    /*
+    Use async/await for sending emails*/
     await transporter.sendMail(message);
 
     res.status(200).json({

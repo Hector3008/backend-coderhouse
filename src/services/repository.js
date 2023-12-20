@@ -48,7 +48,7 @@ export class TicketRepository {
   update = async (id, data) => await this.dao.updateTicket(id, data);
   delete = async (id) => await this.dao.deleteTicket(id);
 }
-export class CPSolitudeRepository {
+export class CPSRepository {
   constructor(dao) {
     this.dao = dao;
   }

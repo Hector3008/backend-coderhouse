@@ -7,8 +7,8 @@ import {
   githubcallbackController as githubcallback,
   profileController as profile,
   updateToPremiumController as updateToPremium,
-  postToCPSolitudeController as postToCPSolitude,
-  CPSolitudeVerifyCodeController as CPSolitudeVerifyCode,
+  postToCPSController as postToCPS,
+  CPSVerifyCodeController as CPSVerifyCode,
   resetPasswordController as resetPassword,
 } from "../controllers/sessions.controller.js";
 import ps from "passport";
@@ -31,8 +31,8 @@ sessionsRouter.get("/profile/:uid",profile)
 
 sessionsRouter.get("/premium/:uid", hp(["user", "premium"]), updateToPremium);
 
-sessionsRouter.post("/forget-password", postToCPSolitude)
-sessionsRouter.get("/CPsolitude/verify-code/:code", CPSolitudeVerifyCode)
+sessionsRouter.post("/forget-password", postToCPS)
+sessionsRouter.get("/CPS/verify-code/:code", CPSVerifyCode)
 sessionsRouter.post("/reset-password/:email/code/:code", resetPassword);
 
 export default sessionsRouter;

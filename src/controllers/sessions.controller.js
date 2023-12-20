@@ -1,7 +1,7 @@
 import ps from "passport";
 import nodemailer from 'nodemailer';
 import UserDTO from "../dto/users.dto.js";
-import { UserService, CPSolitudeService } from "../services/services.js";
+import { UserService, CPSService } from "../services/services.js";
 import { generateRandomCode, isValidPassword } from "../../utils.js";
 import { createHash } from "../../utils.js";
 import cfg from "../config/config.js";
@@ -25,7 +25,7 @@ export const resetPasswordCodeController = async (req, res) => {
   res.redirect(`/api/sessions/verify-code/${req.params.code}`);
 };
 
-export const postToCPSolitudeController = async(req,res)=>{
+export const postToCPSController = async(req,res)=>{
   const email = req.body.email;
 
   const user = await UserService.findOne({ email });
@@ -34,7 +34,7 @@ export const postToCPSolitudeController = async(req,res)=>{
     }
   const code = generateRandomCode()
 
-  const CPSolitude = await CPSolitudeService.create({email, code})
+  await CPSService.create({ email, code });
 
   const mailerConfig = {
     service: "gmail",
@@ -46,7 +46,7 @@ let message = {
   from: cfg.NODEMAILER_EMAIL,
   to: email,
   subject: "[ecommerce] Reset your password",
-  html: `<h1>[Coder e-comm API] Reset your password</h1><hr />You have asked to reset your password. You can do it here: <a href="http://${req.hostname}:${cfg.PORT}/api/sessions/CPSolitude/verify-code/${code}">http://${req.hostname}:${cfg.PORT}/api/sessions/CPSolitude/verify-code/${code}</a><hr />Best regards,<br><strong>e-commerce team</strong>`,
+  html: `<h1>[Coder e-comm API] Reset your password</h1><hr />You have asked to reset your password. You can do it here: <a href="http://${req.hostname}:${cfg.PORT}/api/sessions/CPS/verify-code/${code}">http://${req.hostname}:${cfg.PORT}/api/sessions/CPS/verify-code/${code}</a><hr />Best regards,<br><strong>e-commerce team</strong>`,
 };
 try {
     await transporter.sendMail(message)
@@ -56,9 +56,9 @@ try {
 }
 }
 
-export const CPSolitudeVerifyCodeController = async(req,res)=>{
+export const CPSVerifyCodeController = async(req,res)=>{
   const code = req.params.code
-  const search = await CPSolitudeService.findOne({ code: code });
+  const search = await CPSService.findOne({ code: code });
   if (!search)
   return res
     .status(404)
@@ -67,7 +67,7 @@ export const CPSolitudeVerifyCodeController = async(req,res)=>{
   
   const user = search.email
   console.log("json: ", {
-    message: "CPSolitudeVerifyCodeController initialized",
+    message: "CPSVerifyCodeController initialized",
     code: code,
     search: search,
     user: user,
@@ -88,9 +88,9 @@ export const resetPasswordController = async(req, res)=> {
     await UserService.update(user._id, {
               password: newPassword
             });
-    const solitude = await CPSolitudeService.findOne({code: code})
-    solitude.isUsed = true
-    await CPSolitudeService.update(solitude._id, solitude)
+    const CPS = await CPSService.findOne({code: code})
+    CPS.isUsed = true
+    await CPSService.update(CPS._id, CPS)
     res.json({
       message: "request success! password changed all right",
     });
@@ -152,12 +152,11 @@ export const githubcallbackController = () => {
     };
 };
 export const updateToPremiumController = async (req, res) => {
-  console.log("updateToPremiumController initialized");
+  
   try {
-
-    console.log("try initialized");
     const user = await UserService.getById(req.params.uid)
     let updatedUser
+
     switch (user.role) {
       case "user":
         user.role = "premium";
@@ -170,9 +169,6 @@ export const updateToPremiumController = async (req, res) => {
       default:
         break;
     }
-
-
-
     res.json({
       status: "success",
       message: "Se ha actualizado el rol del usuario",
