@@ -30,7 +30,7 @@ export const postToCPSController = async(req,res)=>{
 
   const user = await UserService.findOne({ email });
     if (!user) {
-      return res.status(404).json({ status: "error", error: "User not found" });
+      return res.status(404).json({ status: "error", error: "User does not found" });
     }
   const code = generateRandomCode()
 
@@ -67,7 +67,7 @@ export const CPSVerifyCodeController = async(req,res)=>{
   
   const user = search.email
   console.log("json: ", {
-    message: "CPSVerifyCodeController initialized",
+    message: "CPSolitudeVerifyCodeController initialized",
     code: code,
     search: search,
     user: user,
