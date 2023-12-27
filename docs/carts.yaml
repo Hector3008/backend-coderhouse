@@ -1,0 +1,280 @@
+paths:
+
+  /api/carts:
+    get:
+      tags: 
+        - Carts
+      summary: Get all carts
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                status: error
+                error: cart does not found 
+    post:
+      tags: 
+        - Carts
+      summary: Create a new cart
+      responses:
+        200:
+          description: Successful operation. New cart created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /api/carts/{cid}:
+    get:
+      tags: 
+        - Carts
+      summary: Get a cart by ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "400":
+          description: failled operation
+          content: 
+            application/json:
+              example:
+                status: error
+                error: cart not found
+    put:
+      tags: 
+        - Carts
+      summary: Update a cart by ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                products:
+                  type: array
+                  product:
+                    type: object
+                    properties:
+                      producto:
+                        type: string
+                        format: ObjectId
+                        description: ID of the product to add to the cart
+                      cantidad:
+                        type: number
+              required:
+                - products
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: failled operation
+          content:
+            application/json:
+              example:
+                status:
+                error: cart does not found
+    delete:
+      tags: 
+        - Carts
+      summary: Delete a cart by ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation. Cart eliminated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: operation failled
+          content:
+            application/json:
+              example:
+                status: error
+                error: cart does not found
+
+  /api/carts/{cid}/products/{pid}:
+    post:
+      tags: 
+        - Carts
+      summary: push a product to a cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to push
+          schema:
+            type: string
+
+      responses: 
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: operation failled
+          content:
+            application/json:
+              example:
+                status: error
+                error: product/cart does not found
+    delete:
+      tags: 
+        - Carts
+      summary: Delete a product from the cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: operation failled
+          content:
+            application/json:
+              example:
+                status: error
+                error: product/cart does not found
+    put:
+      tags: 
+        - Carts
+      summary: update a product to a cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID of the cart
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID of the product to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: operation failled
+          content:
+            application/json:
+              example:
+                status: error
+                error: product/cart does not found
+  /api/carts/{cid}/purchase:
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: The ID is generated by Mongo
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        status:
+          type: "boolean"
+        thumbnail:
+          type: "string"
+        code:
+          type: string
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string
+
+      required:
+        - title
+        - category
+        - price
+        - stock
+    
+    Cart:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: The ID is generated by Mongo
+        products:
+          type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/Product'
+            quantity:
+              type: number
+      required:
+        - products
+

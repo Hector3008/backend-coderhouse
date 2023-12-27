@@ -354,10 +354,7 @@ export const updateProductFromCartController = async (req, res) => {
     res.status(500).json({ status: "error", error: err.message });
   }
 };
-export const deleteItemProductFromCartController = async (req, res) => {
-  console.log("/:cid/product/:pid/deleteOne delete fetch");
-  res.send("/:cid/product/:pid/deleteOne done");
-};
+
 export const deleteCartController = async (req, res) => {
   
   try {

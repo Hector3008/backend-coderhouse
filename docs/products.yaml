@@ -1,0 +1,194 @@
+paths:
+  /api/products:
+    get:
+      tags: 
+        - Products
+      summary: Get all products
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                status: success
+                payload:
+                  - _id: "6513a2268803bccd46fbd698"
+                    title: "Auriculares Inalámbricos Bluetooth"
+                    description: "Auriculares inalámbricos Bluetooth con cancelación de ruido para una experiencia de audio inmersiva."
+                    price: 79.99
+                    thumbnail: "[]"
+                    code: "P010"
+                    stock: 10
+                    category: Electrónica
+                    owner: "admin"
+                    __v: 0
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                status: error
+                error: product does not found
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                status: error
+                error: server problem here
+
+    post:
+      tags: 
+        - Products
+      security:
+        - bearerAuth: []
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"      
+        responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400: 
+          description: failled operation
+          content:
+            application/json:
+              status: error
+              error: product cannot charged
+
+  /api/products/{pid}:
+    get:
+      tags: 
+        - Products
+      summary: Get a product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      tags: 
+        - Products
+      summary: Update a product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                title:
+                  type: string
+                  required: true
+                category:
+                  type: string
+                  required: true
+                size:
+                  type: string
+                code:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                  required: true
+                stock:
+                  type: number
+                  required: true
+                thumbnail:
+                  type: string
+                status:
+                  type: boolean
+              required:
+                - title
+                - category
+                - price
+                - stock
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    delete:
+      tags: 
+        - Products
+      summary: Delete a product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID of the product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
+          description: if stock = 0 status = false
+        thumbnail:
+          type: string
+          description: array with pictures
+        code:
+          type: string
+          description: code generated automatically
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string
+          description: user who charges the product
+          default: admin
+
+      required:
+        - title
+        - category
+        - price
+        - stock
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

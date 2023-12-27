@@ -10,10 +10,27 @@ import mongoClient from "./dao/mongoClient.js";
 import compression from "express-compression";
 import { errorHandler } from "../utils.js";
 import logger from "./config/logger.js";
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+
 
 export default  (app) => {
   try {
     console.log("engineer up!");
+    /*
+    documentation: */
+    const swaggerOptions = {
+      definition: {
+        openapi: "3.1.0",
+        info: {
+          title: "Ecommerce para Proyecto Final de Coderhouse",
+          version: "1.0.0",
+        },
+      },
+      apis: [`./docs/**/*.yaml`],
+    };
+    const specs = swaggerJsdoc(swaggerOptions);
+    app.use("/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
     /*
     cors es para que se puedan conectar a la app desde varios dominios:
     */

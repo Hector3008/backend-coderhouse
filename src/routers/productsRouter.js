@@ -14,11 +14,12 @@ const productRouter = Router();
 //testeado.✅ */
 productRouter.get("/", products);
 /*
-//testeado.✅ sólo un problema: el query inválido me remite al mensaje del catch y no de la validación que le monto.*/
-productRouter.get("/:pid", product);
-/*
 //testeado.✅ la consulta en TC no me trae la bdd actualizada después pero en compass logro ver el cambio. También hay que trabajar las validaciones.*/
 productRouter.post("/", hp(["admin", "premium"]), createProd);
+/*
+
+//testeado.✅ sólo un problema: el query inválido me remite al mensaje del catch y no de la validación que le monto.*/
+productRouter.get("/:pid", product);
 /*
 //testeado.✅*/
 productRouter.put("/:pid", hp(["admin", "premium"]), updateProd);
