@@ -1,26 +1,6 @@
 paths:
 
   /api/carts:
-    get:
-      tags: 
-        - Carts
-      summary: Get all carts
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cart'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                status: error
-                error: cart does not found 
     post:
       tags: 
         - Carts
@@ -32,6 +12,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
+        500:
+          description: failled operation. Server Problem here
+          content:
+            application/json:
+              example:
+                status: error
+                error: server conection failled.
 
   /api/carts/{cid}:
     get:
@@ -50,8 +37,19 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: [
+                    {product: "6513a2268803bccd46fbd693 (product Id)",
+                    quantity: 5},
+                    {product: "6513a2268803bccd46fbd695 (product Id)",
+                    quantity: 4},
+                    {product: "6513a2268803bccd46fbd692 (product Id)",
+                    quantity: 3},
+                    ]
+                }
         "400":
           description: failled operation
           content: 
@@ -68,26 +66,22 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: "654efb3a29395096d4d464c4"
+
       requestBody:
         required: true
         content:
           application/json:
-            schema: 
-              type: object
-              properties:
-                products:
-                  type: array
-                  product:
-                    type: object
-                    properties:
-                      producto:
-                        type: string
-                        format: ObjectId
-                        description: ID of the product to add to the cart
-                      cantidad:
-                        type: number
+            example: 
+              products: [
+                    {product: "6513a2268803bccd46fbd693 (product Id)",
+                    quantity: 5},
+                    {product: "6513a2268803bccd46fbd695 (product Id)",
+                    quantity: 4},
+                    {product: "6513a2268803bccd46fbd692 (product Id)",
+                    quantity: 3},
+                    ]
+
               required:
                 - products
 
@@ -96,8 +90,19 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: Success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: [
+                    {product: "6513a2268803bccd46fbd693 (product Id)",
+                    quantity: 5},
+                    {product: "6513a2268803bccd46fbd695 (product Id)",
+                    quantity: 4},
+                    {product: "6513a2268803bccd46fbd692 (product Id)",
+                    quantity: 3},
+                    ]
+                }
         '400':
           description: failled operation
           content:
@@ -118,11 +123,17 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful operation. Cart eliminated
+          description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: [
+                    ]
+                }
+
         '400':
           description: operation failled
           content:
@@ -141,22 +152,28 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: "654efb3a29395096d4d464c4"
+          
         - name: pid
           in: path
           required: true
           description: ID of the product to push
-          schema:
-            type: string
+          example: "6513a2268803bccd46fbd69d"
 
       responses: 
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: Success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: [
+                    {product: "6513a2268803bccd46fbd69d (product Id)",
+                    quantity: 1},
+                    ]
+                }
         '400':
           description: operation failled
           content:
@@ -173,21 +190,23 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: "654efb3a29395096d4d464c4"
         - name: pid
           in: path
           required: true
           description: ID of the product to delete
-          schema:
-            type: string
+          example: "6513a2268803bccd46fbd69d"
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: []
+                }
         '400':
           description: operation failled
           content:
@@ -204,21 +223,35 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: 654efb3a29395096d4d464c4
         - name: pid
           in: path
           required: true
           description: ID of the product to update
-          schema:
-            type: string
+          example: 6513a2268803bccd46fbd69d
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              quantity: 7
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
+              example:
+                status: success
+                payload: {
+                  ObjectId: "654efb3a29395096d4d464c4",
+                  products: [
+                    {
+                    product: "6513a2268803bccd46fbd693 (product Id)",
+                    quantity: 7
+                    }
+                  ]
+                }
         '400':
           description: operation failled
           content:
