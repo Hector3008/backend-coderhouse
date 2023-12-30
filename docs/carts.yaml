@@ -30,8 +30,7 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: "654efb3a29395096d4d464c4"
       responses:
         '200':
           description: Successful operation
@@ -119,8 +118,7 @@ paths:
           in: path
           required: true
           description: ID of the cart
-          schema:
-            type: string
+          example: "654efb3a29395096d4d464c4"
       responses:
         '200':
           description: Successful operation

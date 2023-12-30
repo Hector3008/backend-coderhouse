@@ -10,25 +10,86 @@ paths:
           content:
             application/json:
               example:
-                status: success
-                payload:
-                  - _id: "6513a2268803bccd46fbd698"
-                    title: "Auriculares Inalámbricos Bluetooth"
-                    description: "Auriculares inalámbricos Bluetooth con cancelación de ruido para una experiencia de audio inmersiva."
-                    price: 79.99
-                    thumbnail: "[]"
-                    code: "P010"
-                    stock: 10
-                    category: Electrónica
-                    owner: "admin"
-                    __v: 0
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              example:
-                status: error
-                error: product does not found
+                {
+                  status: success,
+                  "payload": [
+                    {
+                      "_id": "6513a2268803bccd46fbd698",
+                      "title": "Auriculares Inalámbricos Bluetooth",
+                      "description": "Auriculares inalámbricos Bluetooth con cancelación de ruido para una experiencia de audio inmersiva.",
+                      "price": 79.99,
+                      "status": true,
+                      "thumbnail": [
+                        
+                      ],
+                      "code": "P010",
+                      "stock": 10,
+                      "category": "Electrónica",
+                      "owner": "admin",
+                      "id": "6513a2268803bccd46fbd698"
+                    },
+                    {
+                      "_id": "6513a2268803bccd46fbd696",
+                      "title": "Pantalones de Mezclilla Modernos",
+                      "description": "Pantalones de mezclilla modernos y cómodos para hombres y mujeres.",
+                      "price": 49.99,
+                      "status": true,
+                      "thumbnail": [
+                        
+                      ],
+                      "code": "P008",
+                      "stock": 38,
+                      "category": "Ropa",
+                      "owner": "admin",
+                      "id": "6513a2268803bccd46fbd696"
+                    },
+                    {
+                      "_id": "6513a2268803bccd46fbd69d",
+                      "title": "Set de Ollas y Sartenes Antiadherentes",
+                      "description": "Set de ollas y sartenes antiadherentes de alta calidad para cocinar sin problemas.",
+                      "price": 129.99,
+                      "status": true,
+                      "thumbnail": [
+                        
+                      ],
+                      "code": "P015",
+                      "stock": 34,
+                      "category": "Hogar",
+                      "owner": "admin",
+                      "id": "6513a2268803bccd46fbd69d"
+                    },
+                    {
+                      "_id": "6513a2268803bccd46fbd69b",
+                      "title": "Cámara DSLR Profesional",
+                      "description": "Cámara DSLR profesional con lentes intercambiables para capturar momentos inolvidables.",
+                      "price": 699.99,
+                      "status": true,
+                      "thumbnail": [
+                        
+                      ],
+                      "code": "P013",
+                      "stock": 21,
+                      "category": "Electrónica",
+                      "owner": "admin",
+                      "id": "6513a2268803bccd46fbd69b"
+                    },
+                    {
+                      "_id": "6513a2268803bccd46fbd694",
+                      "title": "Juego de Sábanas de Lujo",
+                      "description": "Juego de sábanas de lujo de algodón suave para un confort excepcional.",
+                      "price": 69.99,
+                      "status": true,
+                      "thumbnail": [
+                        
+                      ],
+                      "code": "P006",
+                      "stock": 69,
+                      "category": "Hogar",
+                      "owner": "admin",
+                      "id": "6513a2268803bccd46fbd694"
+                    }
+                  ]
+                  }
         "500":
           description: Internal Server Error
           content:
@@ -47,21 +108,45 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/Product"      
-        responses:
-        200:
+            example:
+              "payload": {
+                "title": "new product title",
+                "description": "new product description",
+                "price": 79.99,
+                "status": true,
+                "thumbnail": [
+                          
+                        ],
+                "code": "SADSA4583666",
+                "stock": 40,
+                "category": "new product category",
+              }
+                           
+      responses:
+        "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        400: 
+              example: 
+                {
+                status: "success",              
+                payload: {
+                  "_id":"6513a2268803bccd46fbd698",
+                  "title":"new product title",
+                  "description": "new product description",
+                  "price": 79.99,
+                  "stock": 40,
+                  "category": "new product category",
+                  "owner": "admin",
+                  }
+                  }
+        "500": 
           description: failled operation
           content:
             application/json:
-              status: error
-              error: product cannot charged
+              example:
+                status: error
+                error: internal server error
 
   /api/products/{pid}:
     get:
@@ -73,15 +158,37 @@ paths:
           in: path
           required: true
           description: ID of the product
-          schema:
-            type: string
+          example: "6513a2268803bccd46fbd69d"
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
+              example:
+                {
+                status: success,
+                payload: {
+                  "_id": "6513a2268803bccd46fbd69d",
+                  "title": "Set de Ollas y Sartenes Antiadherentes",
+                  "description": "Set de ollas y sartenes antiadherentes de alta calidad para cocinar sin problemas.",
+                  "price": 129.99,
+                  "status": true,
+                  "thumbnail": [],
+                  "code": "P015",
+                  "stock": 34,
+                  "category": "Hogar",
+                  "owner": "admin"                
+                }
+                }
+        '400':
+          description: product does not found
+          content:
+            application/json:
+              example:
+                {
+                status: "error",
+                error: "product does not found"
+                }
     put:
       tags: 
         - Products
