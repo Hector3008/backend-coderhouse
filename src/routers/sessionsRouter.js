@@ -10,6 +10,7 @@ import {
   postToCPSController as postToCPS,
   CPSVerifyCodeController as CPSVerifyCode,
   resetPasswordController as resetPassword,
+  deleteUserController as deleteUser,
 } from "../controllers/sessions.controller.js";
 import ps from "passport";
 import { handlePolicies as hp } from "../../utils.js";
@@ -28,6 +29,8 @@ sessionsRouter.get("/github", github);
 
 sessionsRouter.get("/githubcallback", githubcallback);
 sessionsRouter.get("/profile/:uid",profile)
+
+sessionsRouter.delete("/delete/:email", deleteUser);
 
 sessionsRouter.get("/premium/:uid", hp(["user", "premium"]), updateToPremium);
 

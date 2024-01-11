@@ -178,3 +178,15 @@ export const updateToPremiumController = async (req, res) => {
     res.json({ status: "error", error: err.message });
   }
 };
+
+export const deleteUserController = async (req, res)=>{
+  console.log("deleteUserController initialized");
+  const email = req.params.email;
+
+  const user = await UserService.findOne({email: email})
+  if (!user) return res.json({ status: error, message: `user with email '${email}' does not found ny email` });
+
+  const result = await UserService.delete(user._id)
+
+  return res.json({status: 'success', message: "user deleted successfully", payload: result})
+}

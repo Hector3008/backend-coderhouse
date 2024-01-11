@@ -8,7 +8,7 @@ import { generateErrorInfo } from "../services/errors/info.js";
 para el catalogo de productos
 */
 export const productsViewController = async (req, res) => {
-  
+
   const result = await Prod.getAllPaginate(req, res);
 
   if (result.statusCode === 200) {
@@ -124,7 +124,9 @@ export const productViewController = async (req, res) => {
 /*
  */
 export const productsController = async (req, res) => {
+  console.log('entré al router de products: ');
   const result = await Prod.getAllPaginate(req, res);
+
   res.status(result.statusCode).json(result.response);
 };
 /*

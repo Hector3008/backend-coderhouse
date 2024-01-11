@@ -23,9 +23,7 @@ import testing from "./routers/testingRouter.js";
 */
 const app = express();
 
-//console.log("productDao.getAllProducts: ", new productDao());
-// console.log("productService ",ProductService);
-// console.log("productService.getAll(): ", ProductService.getAll());
+
 try {
   engineer(app);
   /*

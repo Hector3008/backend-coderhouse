@@ -30,7 +30,7 @@ export const createCartController = async (req, res) => {
   try {
     const result = await CartService.createCart({});
     
-    res.status(500).json({ status: "success", payload: result });
+    res.status(202).json({ status: "success", payload: result });
   } catch (err) {
     res.status(500).json({ status: "error", error: err.message });
   }
@@ -355,7 +355,7 @@ export const updateProductFromCartController = async (req, res) => {
   }
 };
 
-export const deleteCartController = async (req, res) => {
+export const clearCartController = async (req, res) => {
   
   try {
     /*
@@ -396,3 +396,9 @@ export const purchaseCartController = async (req,res)=>{
   
   res.status(202).json({ status: "success", payload: `cart with id ${cid}`});
 }
+export const deleteCartByIdController = async (req, res) => {
+  const cid = req.params.cid
+  const result = await CartService.deleteCart(cid)
+  res.json({status: 'success', message: "cart deleted successfully", payload: result})
+  //
+};

@@ -6,7 +6,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "test": "mocha test/test.test.js"
   },
   "repository": {
     "type": "git",
@@ -41,5 +42,10 @@
     "swagger-ui-express": "^5.0.0",
     "twilio": "^4.19.0",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

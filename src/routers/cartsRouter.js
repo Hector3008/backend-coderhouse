@@ -8,8 +8,9 @@ import {
   deleteProductFromCartController as deleteProd,
   updateCartController as updateCart,
   updateProductFromCartController as updateProd,
-  deleteCartController as deleteCart,
+  clearCartController as clearCart,
   purchaseCartController as purchase,
+  deleteCartByIdController as deleteCartById,
 } from "../controllers/carts.controller.js";
 import { handlePolicies as hp } from "../../utils.js";
 const cartsRouter = Router();
@@ -31,7 +32,9 @@ cartsRouter.put("/:cid", hp(["admin", "premium", "user"]), updateCart);
 //testeado.✅ Solo hay un problema: cuando hay un error a validación me devuelve el return del catch final y no el que le estoy asignando
 
 //elimino (vacío) todos los productos de un carrito:*/
-cartsRouter.delete("/:cid", hp(["admin"]), deleteCart);
+cartsRouter.delete("/:cid", hp(["admin"]), clearCart);
+
+cartsRouter.delete("/delete/:cid", deleteCartById)
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /*
