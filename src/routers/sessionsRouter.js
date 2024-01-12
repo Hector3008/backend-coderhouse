@@ -11,6 +11,7 @@ import {
   CPSVerifyCodeController as CPSVerifyCode,
   resetPasswordController as resetPassword,
   deleteUserController as deleteUser,
+  userByEmailController as userByEmail,
 } from "../controllers/sessions.controller.js";
 import ps from "passport";
 import { handlePolicies as hp } from "../../utils.js";
@@ -29,6 +30,7 @@ sessionsRouter.get("/github", github);
 
 sessionsRouter.get("/githubcallback", githubcallback);
 sessionsRouter.get("/profile/:uid",profile)
+sessionsRouter.get("/user/email/:email",userByEmail)
 
 sessionsRouter.delete("/delete/:email", deleteUser);
 

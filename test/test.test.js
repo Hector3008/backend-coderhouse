@@ -27,7 +27,7 @@ describe("Registro, Login and Current /api/sessions", async () => {
       password: mockUser.password,
     });
     cookieResult = result.headers["set-cookie"][0];
-    console.log("cookieResult: ", cookieResult);
+
     expect(cookieResult).to.not.be.undefined;
   });
 
@@ -38,12 +38,21 @@ describe("Registro, Login and Current /api/sessions", async () => {
 
     expect(result.status).to.be.eq(202);
   });
+  it("el carrito del usuario puede ser eliminado correctamente de la bdd",async()=>{
+    const user = await requester.get(`/api/sessions/user/email/${mockUser.email}`)
+    
+    const cid = user._body.payload.cart
+    
+    const cdel = await requester.delete(`/api/carts/delete/${cid}`);
 
+    expect(cdel.status).to.not.be.undefined
+  })
   it("el usuario registrado se puede eliminar correctamente de la bdd", async ()=> {
-    console.log("mockUser: ", mockUser);
     const result = await requester.delete(`/api/sessions/delete/${mockUser.email}`);
-    console.log("result.status: ", result.status);
+
     expect(result.status).to.be.eq(200);
+    
+    
   })
 });
 
@@ -61,7 +70,7 @@ describe("test de /api/carts/ [POST]", async () => {
     const result = await requester.post("/api/carts");
     
     expect(result.status).to.be.eq(202);  
-    console.log("result._body.payload: ", result._body.payload._id);
+
     const cid = result._body.payload._id;
     expect(result._body.payload).to.not.be.undefined;
 

@@ -106,6 +106,14 @@ export const profileController = async (req, res) => {
   const dtoresult = new UserDTO(result);
   res.status(202).json({ status: "success", payload: dtoresult });
 };
+export const userByEmailController = async (req,res)=>{
+  const email = req.params.email;
+  const result = await UserService.findOne({email:email})
+  if(!result) return res
+    .status(404)
+    .json({ status: "error", error: `user with email ${email} does not found`});
+  res.status(202).json({status: "success", payload: result})
+}
 export const registerController = async (req, res) => {
   res.redirect("/sessions");
 };
