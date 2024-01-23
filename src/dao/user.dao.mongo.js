@@ -10,4 +10,5 @@ export default class UserMongoDao {
     });
   delete = async (id) => await userModel.findByIdAndDelete(id);
   findOne = async (data) => await userModel.findOne(data).lean().exec();
+  getDocuments = async (id)=>await userModel.findById(id).lean().exec().documents
 }

@@ -124,6 +124,12 @@ export const loginController =  async (req, res) => {
         .status(505)
         .send({ status: "error", error: "Invalid credentials" });
     }
+    const user = await UserService.findOne({email: req.user.email})
+
+    user.last_connection = Date.now()
+
+    await UserService.update(user._id,user)
+
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -135,7 +141,13 @@ export const loginController =  async (req, res) => {
 
     res.redirect("/products");
   };
-export const logoutController = (req, res) => {
+export const logoutController = async(req, res) => {
+
+  const user = await UserService.findOne({email: req.session.user.email})
+
+  user.last_connection = Date.now()
+  await UserService.update(user._id,user)
+
   req.session.destroy((err) => {
     if (err) return res.send("Logout error");
     return res.redirect("/sessions");
@@ -180,6 +192,7 @@ export const updateToPremiumController = async (req, res) => {
     res.json({
       status: "success",
       message: "Se ha actualizado el rol del usuario",
+      payload: updatedUser
     });
   } catch (err) {
     console.log("catch initialized");

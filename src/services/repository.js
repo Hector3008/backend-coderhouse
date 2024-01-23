@@ -36,6 +36,7 @@ export class UserRepository {
   update = async (id, data) => await this.dao.update(id, data);
   delete = async (id) => await this.dao.delete(id);
   findOne = async (data) => await this.dao.findOne(data);
+  getDocuments = async (id)=>await this.dao.getDocuments(id)
 }
 
 export class TicketRepository {

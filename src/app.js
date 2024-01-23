@@ -12,6 +12,7 @@ import productsViews from "./routers/productsViewRouter.js";
 import cartsViews from "./routers/cartsViewRouter.js";
 import sessions from "./routers/sessionsRouter.js";
 import sessionsViews from "./routers/sessionsViewRouter.js";
+import users from "./routers/usersRouter.js";
 import tickets from "./routers/ticketRouter.js";
 import chat from "./routers/chatRouter.js";
 import twilioRouter from "./routers/twilioRouter.js";
@@ -22,6 +23,7 @@ import testing from "./routers/testingRouter.js";
 //inicializo el servidor:
 */
 const app = express();
+
 
 
 try {
@@ -54,6 +56,7 @@ try {
   app.use("/sessions/", sessionsViews);
   app.use("/api/tickets", tickets);
   app.use("/chat", chat)
+  app.use("/api/users", users)
 
   app.use("/twilio", twilioRouter)
   app.use("/checkout", checkoutRouter)

@@ -5,7 +5,7 @@ import cfg from "./config/config.js";
 import cookieParser from "cookie-parser";
 import ps from "passport";
 import initializePassport from "./config/passport.config.js";
-import cors from "cors"
+import cors from "cors";
 import mongoClient from "./dao/mongoClient.js";
 import compression from "express-compression";
 import { errorHandler } from "../utils.js";
@@ -13,8 +13,7 @@ import logger from "./config/logger.js";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 
-
-export default  (app) => {
+export default (app) => {
   try {
     console.log("engineer up!");
     /*
@@ -38,7 +37,8 @@ export default  (app) => {
     /*
     para gestionar la información en sesiones:
     */
-    app.use(session({
+    app.use(
+      session({
         secret: cfg.SESSION_SIGN,
         resave: true,
         saveUninitialized: true,
@@ -81,14 +81,13 @@ export default  (app) => {
       compression({
         brotli: { enabled: true, zlib: {} },
       })
-);
+    );
     app.use(errorHandler);
     /*
   conecto a mongo: */
     const client = new mongoClient();
     client.connect();
-    
   } catch (error) {
     logger.fatal("error en engineer.js: ", error);
   }
-}
+};
