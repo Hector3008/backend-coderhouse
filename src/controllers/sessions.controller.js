@@ -159,14 +159,7 @@ export const githubLoginController = () => {
 export const githubcallbackController = () => {
   ps.authenticate("github", { failureRedirect: "/login" }),
     async (req, res) => {
-      //console.log("Callback: ", req.user);
       req.session.user = req.user;
-
-      if (req.user.email === "adminCoder@coder.com") {
-        req.session.user.role = "admin";
-      } else {
-        req.session.user.role = "user";
-      }
 
       res.redirect("/products");
     };

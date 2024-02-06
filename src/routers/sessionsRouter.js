@@ -27,8 +27,8 @@ sessionsRouter.post(  "/login",  ps.authenticate("login", { failureRedirect: "/e
 sessionsRouter.get("/logout", logout);
 
 sessionsRouter.get("/github", github);
-
 sessionsRouter.get("/githubcallback", githubcallback);
+
 sessionsRouter.get("/profile/:uid",profile)
 sessionsRouter.get("/user/email/:email",userByEmail)
 

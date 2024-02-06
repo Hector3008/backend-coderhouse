@@ -19,6 +19,7 @@ import twilioRouter from "./routers/twilioRouter.js";
 import checkoutRouter from "./routers/checkoutRouter.js";
 import generateProducts from "./routers/products.mockingRouter.js";
 import testing from "./routers/testingRouter.js";
+import usersView from "./routers/usersViewRouter.js";
 /*
 //inicializo el servidor:
 */
@@ -54,6 +55,7 @@ try {
   app.use("/products", productsViews);
   app.use("/carts", cartsViews);
   app.use("/sessions/", sessionsViews);
+  app.use("/users", usersView);
   app.use("/api/tickets", tickets);
   app.use("/chat", chat)
   app.use("/api/users", users)

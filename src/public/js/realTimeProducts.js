@@ -50,7 +50,6 @@ function setupDeleteButtonListeners() {
       .then((result) => result.json())
       .then((result) => {
         if (result.error) throw new Error(result.error);
-
         socket.emit("productList", result.payload);
 
         alert("El producto se ha agregado con éxito!");

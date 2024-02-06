@@ -3,7 +3,7 @@
   <div class="container text-center" style="margin-top: 1rem;">
     <H4>Bienvenido, {{user.first_name}} {{user.last_name}}</H4>
     {{#if user.email}}
-    <h5> (<a href="sessions/profile">{{user.email}} </a>)
+    <h5> (<a href="sessions/profile">{{user.email}}</a>)
     {{/if}}
      role: {{user.role}}</h5>
       <a href="">carrito: {{user.cart}}</a>
@@ -73,6 +73,7 @@
 <script>
   const cartId = document.getElementById("cid")
   const cid = cartId.getAttribute("data-cid")
+  
   let addProductToCart = (pid) => {
       fetch(`/api/carts/${cid}/product/${pid}`, {
         method: "post",

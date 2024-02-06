@@ -1,14 +1,16 @@
 import cfg from "../config/config.js";
-import { ProductService as Prod,
-UserService as User } from "../services/services.js";
+import {
+  ProductService as Prod,
+  UserService as User,
+} from "../services/services.js";
 import CustomError from "../services/errors/custom.error.js";
 import EErros from "../services/errors/enums.js";
 import { generateErrorInfo } from "../services/errors/info.js";
+import mailer from "../config/mailer.config.js";
 /*
 para el catalogo de productos
 */
 export const productsViewController = async (req, res) => {
-
   const result = await Prod.getAllPaginate(req, res);
 
   if (result.statusCode === 200) {
@@ -86,7 +88,8 @@ export const realTimeProductsController = async (req, res) => {
         prevLink: result.response.prevLink,
         nextLink: result.response.nextLink,
         totalPages,
-    }});
+      },
+    });
   } else {
     res
       .status(result.statusCode)
@@ -124,7 +127,7 @@ export const productViewController = async (req, res) => {
 /*
  */
 export const productsController = async (req, res) => {
-  console.log('entré al router de products: ');
+  console.log("entré al router de products: ");
   const result = await Prod.getAllPaginate(req, res);
 
   res.status(result.statusCode).json(result.response);
@@ -215,13 +218,27 @@ export const deleteProductController = async (req, res) => {
   const id = req.params.pid;
   const prodToDelete = await Prod.getById(id);
 
-    if (prodToDelete === null) {
-      return res.status(404).json({ status: "error", error: "Product does not found" });
-    }
-  let products
+  if (prodToDelete === null) {
+    return res
+      .status(404)
+      .json({ status: "error", error: "Product does not found" });
+  }
+  const owner = prodToDelete.owner;
+  let products;
+  let body = {
+    intro: "tu producto ha sido eliminado satisfactoriamente",
+    table: {
+      data: [
+        {
+          prodToDelete,
+        },
+      ],
+    },
+    outro: "si crees que ha sido un error por favor comunicate con nosotros",
+  };
   switch (req.session.user.role) {
     case "premium":
-      if (req.session.user.email !== prodToDelete.owner){
+      if (req.session.user.email !== owner) {
         products = await Prod.getAll();
         return res.json({
           status: "error",
@@ -229,19 +246,31 @@ export const deleteProductController = async (req, res) => {
           description:
             "un usuario ha querido eliminar un producto del que no es dueño",
           payload: products,
-        })
-      }
+        });
+      }    
+      await mailer(
+        owner,
+        body,
+        "<E-Commerce>",
+        "has eliminado un producto de tu catalogo"
+      );
       await Prod.deleteProd(id);
       break;
     case "admin":
+      await mailer(
+        owner,
+        body,
+        "<E-Commerce>",
+        "has eliminado un producto de tu catalogo"
+      );
       await Prod.deleteProd(id);
-      break
+      break;
     default:
       break;
   }
   try {
-      products = await Prod.getAll();
-          res.status(200).json({ status: "success", payload: products });
+    products = await Prod.getAll();
+    res.status(200).json({ status: "success", payload: products });
   } catch (err) {
     res.status(500).json({
       status: "error",

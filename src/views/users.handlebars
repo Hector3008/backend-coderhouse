@@ -1,0 +1,88 @@
+<div class="container">
+  <table id="usersTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>name</th>
+        <th>email</th>
+        <th>role</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbodyUsers">
+      {{#each users}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.role}} <a class="btnPremium" data-user-id="{{this._id}}" href=""><br>(cambiar)</a> </td>
+        <td><a style="color: red" class="btnDelete" data-user-id="{{this._id}}">(delete)</a></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  function loadButtons() {
+    
+
+    var premiumButtons = document.querySelectorAll(".btnPremium")
+
+    premiumButtons.forEach((premiumButton) => {
+      const userId = premiumButton.getAttribute("data-user-id");
+      premiumButton.addEventListener("click", async (e) => {
+        e.preventDefault()
+        await fetch(`/api/users/${userId}/premium`)
+        await fetch("/api/users")
+          .then((result) => result.json())
+          .then((result) => {
+            if (result.error) throw new Error(result.error);
+            socket.emit("usersList", result.payload);
+          }
+          )
+          .catch(err => alert(
+            `ocurrió un error: (\n ${err}`
+          ))
+      })
+    })
+
+    var deleteButtons = document.querySelectorAll(".btnDelete")
+
+    deleteButtons.forEach((deleteButton) => {
+      const userId = deleteButton.getAttribute("data-user-id");
+      deleteButton.addEventListener("click", async (e) => {
+        e.preventDefault()
+        await fetch(`/api/users/${userId}`, { method: "DELETE" })
+        await fetch("/api/users")
+          .then((result) => result.json())
+          .then((result) => {
+            if (result.error) throw new Error(result.error);
+            socket.emit("usersList", result.payload);
+          }
+          )
+          .catch(err => alert(
+            `ocurrió un error: (\n ${err}`
+          ))
+      })
+    })
+
+  }
+  
+  const socket = io();
+  socket.on("updatedUsers", (data) => {
+    const tbodyUsers = document.getElementById("tbodyUsers")
+    tbodyUsers.innerHTML = `  `;
+    for (user of data) {
+      let tr = document.createElement("tr");
+      tr.innerHTML = `     
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td>${user.role}<a class="btnPremium" data-user-id="${user._id}" href=""><br>(cambiar)</a> </td></td>
+      <td><a style="color: red" class="btnDelete" data-user-id="${user._id}">(delete)</a></td>
+    `;
+      tbodyUsers.appendChild(tr);
+    }
+    loadButtons();
+  }
+  )
+  loadButtons()
+</script>
