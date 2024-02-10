@@ -61,7 +61,6 @@ function setupDeleteButtonListeners() {
   
   );
 ;
-
   //NOTA: no poner NUNCA un async antes del '(data)' de este socket... :
 socket.on("updatedProducts", (data) => {
   //con este socket pinto la tabla de de productos:
@@ -97,15 +96,16 @@ const deleteProduct = async (id) => {
     //y me devuelve la bdd ya sin el artículo eliminado, por lo cual la cargo directo al siguiente paso:
     .then((result) => result.json())
     .then((result) => {
-      console.log("estoy entrando al then");
+      
       if (result.status == "error") {
         
         alert("product has been not eliminated")
         throw new Error(result.error)};
+
       socket.emit("productList", result.payload);
     })
     .catch((err) =>{
-      console.log("estoy entrando al catch");
+      
      alert(`error! (\n ${err}`)}
      );
 };

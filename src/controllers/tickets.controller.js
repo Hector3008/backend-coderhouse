@@ -2,47 +2,52 @@ import {
   TicketService,
   CartService,
   ProductService,
-  UserService
+  UserService,
 } from "../services/services.js";
 
 export const getTicketsController = async (req, res) => {
   const tickets = await TicketService.getAll();
 
-  res
-    .status(202)
-    .json({
-      status: 202,
-      message: "getTicketsController going on!",
-      payload: tickets,
-    });
+  res.status(202).json({
+    status: 202,
+    message: "getTicketsController going on!",
+    payload: tickets,
+  });
 };
 export const getTicketController = async (req, res) => {
   const tid = req.params.tid;
 
-  const ticket = await TicketService.getById(tid);
+  const ticket = await TicketService.getById(tid).populate("products.product");
 
-  res
-    .status(202)
-    .json({
-      status: 202,
-      message: "getTicketController going on!",
-      payload: ticket,
-    });
+  res.status(202).json({
+    status: 202,
+    message: "getTicketController going on!",
+    payload: ticket,
+  });
 };
-
+export const getTicketsViewController = async (req, res) => {
+  const tickets = await TicketService.getAll();
+  res.send(tickets);
+};
+export const getTicketViewController = async (req, res) => {
+  const tid = req.params.tid;
+  const ticket = await TicketService.getById(tid);
+  console.log("ticket: ", ticket);
+  res.render("ticket.handlebars", {ticket: ticket, user: req.session.user});
+};
 export const createTicketController = async (req, res) => {
   const cid = req.params.cid;
-  const users = await UserService.getAll()
-  
+  const users = await UserService.getAll();
+
   const cart = await CartService.getCartById(cid);
 
-  let prodsToTicket = []
-  let prodsToCart = []
+  let prodsToTicket = [];
+  let prodsToCart = [];
 
-    if (cart === null) {
-      return res.status(404).json({ status: "error", error: "Not found" });
-    }
-      const catalog = await ProductService.getAll();
+  if (cart === null) {
+    return res.status(404).json({ status: "error", error: "Not found" });
+  }
+  const catalog = await ProductService.getAll();
   let amount = 0;
 
   for (const cartProd of cart.products) {
@@ -51,7 +56,6 @@ export const createTicketController = async (req, res) => {
       const cartProdId = cartProd.product._id.toString();
 
       if (catProdId === cartProdId) {
-
         const prodToUpload = await ProductService.getById(catProdId);
 
         if (prodToUpload.stock < cartProd.quantity) {
@@ -69,10 +73,10 @@ export const createTicketController = async (req, res) => {
     _id: cid,
     products: prodsToCart,
   };
-      await CartService.updateCart(cid, cartData);
-      const user = users.find(
-  (user) => user.cart._id.toString() === cart._id.toString()
-);
+  await CartService.updateCart(cid, cartData);
+  const user = users.find(
+    (user) => user.cart._id.toString() === cart._id.toString()
+  );
   if (amount > 0) {
     const Ticketdata = {
       amount: amount,
@@ -81,7 +85,9 @@ export const createTicketController = async (req, res) => {
     };
     const ticket = await TicketService.create(Ticketdata);
 
-    res.status(202).json({ status: 202, payload: ticket, prodsToCart: prodsToCart });
+    res
+      .status(202)
+      .json({ status: 202, payload: ticket, prodsToCart: prodsToCart });
   } else {
     console.log("request not possible");
     res.status(500).json({
@@ -90,7 +96,6 @@ export const createTicketController = async (req, res) => {
     });
   }
 };
-
 export const updateTicketController = async (req, res) => {
   const tid = req.params.tid;
   const data = { code: "5454", amount: 40 };
@@ -98,7 +103,6 @@ export const updateTicketController = async (req, res) => {
   console.log("ticket: ", ticket);
   res.send(ticket);
 };
-
 export const deleteTicketController = async (req, res) => {
   const tid = req.params.tid;
 

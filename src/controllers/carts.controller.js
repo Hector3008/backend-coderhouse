@@ -3,7 +3,7 @@ import { CartService, ProductService, UserService } from "../services/services.j
 export const cartViewController = async (req, res) => {
   const id = req.params.cid;
   const result = await CartService.getProductsFromCart(req, res);
-
+  const user = req.session.user
   const SEO = {
     title: `cart: ${id}`,
   };
@@ -13,6 +13,7 @@ export const cartViewController = async (req, res) => {
       cart: result.response.payload._id,
       products: result.response.payload.products,
       SEO: SEO,
+      user: user
     });
   } else {
     res
@@ -23,8 +24,8 @@ export const cartViewController = async (req, res) => {
 export const cartsController = async (req, res) => {
   /*
   const result = await getCarts(req, res);*/
-
-  res.send("notyet")
+  const carts = CartService.getAll()
+  res.status(200).json({status:"success", message:"carts request successfully", payload:carts})
 };
 export const createCartController = async (req, res) => {
   try {
@@ -68,8 +69,7 @@ export const addProductToCartController = async (req, res) => {
         .json({ status: "error", error: `Product with id=${pid} Not found` });
     }
         const user = await UserService.findOne({ cart: cartToUpdate });
-        //console.log("user: ", user);
-        //console.log("user.role: ", user.role);
+
         if (user.role === "premium") {
           if (user.email === productToAdd.owner) {
             return res.json({
@@ -94,6 +94,7 @@ export const addProductToCartController = async (req, res) => {
       /*
       si no está, lo creo y le asigno valor 1 a la cantidad:*/
       cartToUpdate.products.push({ product: pid, quantity: 1 });
+   
     }
     /*
     finalmente, actualizo el documento con el método 'findByIdAndUpdate' del modelo:*/
@@ -112,64 +113,23 @@ export const addProductToCartController = async (req, res) => {
   }
 };
 export const deleteProductFromCartController = async (req, res) => {
-  try {
-    /*
-    instancio las variables de acceso a los params:*/
-    const cid = req.params.cid;
-    const pid = req.params.pid;
+  
+  console.log("deleteProductFromCartController here!");
+      const cid = req.params.cid;
+      const pid = req.params.pid;
+      console.log("cid: ", cid);
+
     /*
     consulto en la bdd el documento por el id del cart:*/
     const cartToUpdate = await CartService.getCartById(cid);
 
-    /*
-    validación 1: carrito inexiste en la bdd de los carritos:*/
-    if (cartToUpdate === null) {
-      return res
-        .status(404)
-        .json({ status: "error", error: `Cart with id=${cid} Not found` });
-    }
-    /*
-    consulto en la bdd de productos el producto a eliminar por su id:*/
-    const productToDelete = await ProductService.getById(pid);
-    /*
-    validación 2: producto inexistente en la bdd de los productos:*/
-    if (productToDelete === null) {
-      return res
-        .status(404)
-        .json({ status: "error", error: `Product with id=${pid} Not found` });
-    }
-    /*
-    consulto si el producto existe en el array de productos dentro del carrito:*/
-    const productIndex = cartToUpdate.products.findIndex(
-      (item) => item.product == pid
-    );
-    /*
-    validación 3: producto inexistente en el carrito:*/
-    if (productIndex === -1) {
-      return res.status(400).json({
-        status: "error",
-        error: `Product with id=${pid} Not found in Cart with id=${cid}`,
-      });
-    } else {
-      /*
-      elimino el producto del carrito usando un filter:*/
-      cartToUpdate.products = cartToUpdate.products.filter(
-        /*
-        aprovecho que en la consulta sin populate solo me trae el id del producto (que convierto a string porque es un objectId de Mongoose) y lo comparo con el id de mi objeto:*/
-        (item) => item.product.toString() !== pid
-      );
-    }
-    /*
-    actualizo la bdd de carritos*/
-    const result = await CartService.updateCart(cid, cartToUpdate, {
-      returnDocument: "after",
-    });
-    /*
-    cargo la respuesta exitosa:*/
-    res.status(200).json({ status: "success", payload: result });
-  } catch (err) {
-    res.status(500).json({ status: "error", error: err.message });
-  }
+
+    cartToUpdate.products =cartToUpdate.products.filter((prod)=>prod.product._id.toString()!==pid)
+    
+    let updatedCart = await CartService.updateCart(cid, cartToUpdate);
+    updatedCart = await CartService.getCartById(cid)
+    res.status(200).json({ status: "success", message: "cart updated successfully", payload: updatedCart });
+  
 };
 export const updateCartController = async (req, res) => {
   try {
@@ -386,19 +346,22 @@ export const clearCartController = async (req, res) => {
 };
 export const purchaseCartController = async (req,res)=>{
    const cid = req.params.cid;
-   
    /*
    validaciones ⬇️⬇️⬇️*/
   const cart = await CartService.getCartById(cid)
 
   if (cart === null) {
     return res.status(500).json({ status: "error", message:`cart with id ${cid} not found`})}
-  
-  res.status(202).json({ status: "success", payload: `cart with id ${cid}`});
+
+  res.status(202).json({ status: "success", payload: cart});
 }
 export const deleteCartByIdController = async (req, res) => {
   const cid = req.params.cid
   const result = await CartService.deleteCart(cid)
+  /*
+  validation 1: */
+  if(!result)return res.json({ status: "error", message: `cart with id: ${cid} does not found`});
+
   res.json({status: 'success', message: "cart deleted successfully", payload: result})
   //
 };

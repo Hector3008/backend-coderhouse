@@ -15,7 +15,7 @@ export const loginViewController = async (req, res) => {
   res.render("sessions/login.handlebars", {SEO});
 };
 export const profileViewController = async (req, res) => {
-  res.render("sessions/profile.handlebars", req.session.user);
+  res.render("sessions/profile.handlebars", {user: req.session.user});
 };
 ////////////////////////////////////////////////////////////////////////
 export const forgetPasswordViewController = async (req, res) => {

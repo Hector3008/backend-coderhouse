@@ -93,7 +93,7 @@ export default class CartMongoDAO {
 
   getAllCarts = async () =>
     await cartModel.find().populate("products.product").lean().exec();
-    
+
   getCartById = async (id) =>
     await cartModel.findById(id).populate("products.product").lean().exec();
 
@@ -104,5 +104,7 @@ export default class CartMongoDAO {
       returnDocument: "after",
     });
   deleteCart = async (id) => await cartModel.findByIdAndDelete(id);
+
+  findOne = async (data) => await cartModel.findOne(data).lean().exec();
 }
 

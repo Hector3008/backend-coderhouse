@@ -1,63 +1,57 @@
 {{!-- este .handlebars trabaja con la ruta /products/:pid --}}
 
-<div  style="height: 100%; margin: 0;
+<div style="height: 100%; margin: 0;
   display: flex;
   justify-content: center;
   align-items: center">
 
-<table class="table table-striped container shadow-sm p-3 mb-5 bg-body-tertiary rounded" style="margin-top: 10rem">
-  <thead>
-    <tr>
-      <td></td>
-      <td><strong>producto</strong></td>
-      <td><strong>descripcion</strong></td>
-      <td><strong>precio</strong></td>
-      <td><strong>codigo</strong></td>
-      <td><strong>stock</strong></td>
-      <td><strong>categoria</strong></td>
-    </tr>
-  </thead>
-  <tbody>
-    <td><button class="btn btn-success" onclick="addProductToCart('{{product.id}}')">add to cart</button></td>
-    <td>{{product.title}}</td>
-    <td>{{product.description}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.code}}</td>
-    <td>{{product.stock}}$</td>
-    <td>{{product.category}}</td>
-  </tbody>
-</table>
+  <table class="table table-striped container shadow-sm p-3 mb-5 bg-body-tertiary rounded" style="margin-top: 10rem">
+    <thead>
+      <tr>
+        <td></td>
+        <td><strong>producto</strong></td>
+        <td><strong>descripcion</strong></td>
+        <td><strong>precio</strong></td>
+        <td><strong>codigo</strong></td>
+        <td><strong>stock</strong></td>
+        <td><strong>categoria</strong></td>
+      </tr>
+    </thead>
+    <tbody>
+      <td><button class="btn btn-success" onclick="addProductToCart('{{product.id}}')">add to cart</button></td>
+      <td>{{product.title}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.code}}</td>
+      <td>{{product.stock}}$</td>
+      <td>{{product.category}}</td>
+    </tbody>
+  </table>
 </div>
 
-
-{{!-- este script me toca copiarlo en el archivo html porque no me corre la importación que le hago desde la carapeta pública .__. --}}
-
-{{!-- <script src="js/controllers/addProductToCart.js">
-</script> --}}
-
 <script>
-    addProductToCart = (pid) => {
-      fetch(`/api/carts`, {
-        method: "post",
+  addProductToCart = (pid) => {
+    fetch(`/api/carts`, {
+      method: "post",
+    })
+      .then((result) => result.json())
+      .then((result) => {
+        if (result.status === "error") throw new Error(result.error);
+        return result.payload._id;
       })
-        .then((result) => result.json())
-        .then((result) => {
-          if (result.status === "error") throw new Error(result.error);
-          return result.payload._id;
+      .then((cid) =>
+        fetch(`/api/carts/${cid}/product/${pid}`, {
+          method: "post",
         })
-        .then((cid) =>
-          fetch(`/api/carts/${cid}/product/${pid}`, {
-            method: "post",
-          })
-        )
-        .then((result) => result.json())
-        .then((result) => {
-          if (result.status === "error") throw new Error(result.error);
-          alert(
-            `Ok. Todo salió bien! :)\nEl producto se agregó al carrito con id=${result.payload._id}!`
-          );
-        })
-        .catch((err) => alert(`Ocurrió un error :(\n${err}`));
-    };
+      )
+      .then((result) => result.json())
+      .then((result) => {
+        if (result.status === "error") throw new Error(result.error);
+        alert(
+          `Ok. Todo salió bien! :)\nEl producto se agregó al carrito con id=${result.payload._id}!`
+        );
+      })
+      .catch((err) => alert(`Ocurrió un error :(\n${err}`));
+  };
 
 </script>

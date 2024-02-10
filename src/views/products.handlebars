@@ -6,7 +6,7 @@
     <h5> (<a href="sessions/profile">{{user.email}}</a>)
     {{/if}}
      role: {{user.role}}</h5>
-      <a href="">carrito: {{user.cart}}</a>
+      <a href="/carts/{{user.cart}}">cart</a>
       <p id="cid" data-cid="{{user.cart}}"></p>
   </div>
     <h2 class="text-center">Productos</h2>
@@ -53,7 +53,11 @@
     {{#each products}}
     
    <tr>
-      <td><button class="btn btn-success" onclick="addProductToCart('{{this._id}}')">add to cart</button></td>
+      <td>
+        {{#if this.stock}}
+        <button class="btn btn-success" onclick="addProductToCart('{{this._id}}')">add to cart</button>
+        {{/if}}
+        </td>
       <td><a href="http://localhost:8080/products/{{this._id}}">{{this.title}}</a></td>   
       <td>{{this.description}}</td>
       <td>{{this.price}}$</td>

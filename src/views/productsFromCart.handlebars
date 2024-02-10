@@ -1,13 +1,10 @@
 {{!-- este .handlebar trabaja con la ruta /products/home.handlebars --}}
 
-<h2 class="text-center" style="margin-top: 2rem;"> Products from Cart with id={{cart}}</h2>
-<p id="cid" data-cid="{{cart}}"></p>
-<hr />
-
 <div class="container">
-  <div class="container d-flex justify-content-end">
-    <button class="btn btn-danger" onclick="vaciarCarro('{{cart}}')">vaciar carrito</button>
-    <button class="btn btn-success" onclick="checkout('{{cart}}')">checkout</button>
+  <h2 id="cart" value="{{cart}}">Carrito</h2>
+  <div class="container d-flex justify-content-end" style="margin-top: 1rem;">
+    <button class="btn btn-danger" style="margin-right: 1rem;" onclick="vaciarCarro('{{cart}}')">vaciar carrito</button>
+    <button class="btn btn-success" id="checkout">checkout</button>
   </div>
 
 
@@ -23,13 +20,14 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody id="tBodyCartProducts">
 
         {{#each products}}
 
         <tr>
-          <td><button class="btn btn-danger" onclick="deleteProductFromCart('{{this.product._id}}')">delete</button></td>
-          <td><a href="http://localhost:8080/products/{{this._id}}">{{this.product.title}}</a></td>
+          <td><button class="deleteProductBtn btn btn-danger" data-product-id="{{this.product._id}}">delete</button>
+          </td>
+          <td><a href="http://localhost:8080/product/{{this.product._id}}">{{this.product.title}}</a></td>
           <td>{{this.product.price}}$</td>
           <td>{{this.quantity}}</td>
         </tr>
@@ -41,8 +39,25 @@
 </table>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
+  const socket = io();
+  const cid = document.getElementById("cart").getAttribute("value")
+  const cleanTable = () => {
+    const tBodyCartProducts = document.getElementById("tBodyCartProducts")
+    tBodyCartProducts.innerHTML = "<div style='text-align: center' ><p>you have an empty cart</p></div>"
+  }
 
+  const loadDeleteButtons = () => {
+    const buttons = document.querySelectorAll(".deleteProductBtn")
+    buttons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault()
+        const productId = button.getAttribute("data-product-id")
+        deleteProductFromCart(productId, cid)
+      })
+    })
+  }
   const vaciarCarro = async (cid) => {
 
     await fetch(`/api/carts/${cid}`, {
@@ -50,33 +65,55 @@
     })
       .then((result) => result.json())
       .then((result) => {
+        console.log("result1: ", result)
         if (result.status === "error") throw new Error(result.error);
         alert(
           `el  carrito se ha vaciado con éxito!`
-        );
+        )
+        cleanTable()
       })
       .catch((err) => alert(`Ocurrió un error :(\n${err}`))
   }
 
-  const deleteProductFromCart = async(pid)=>{
-    alert(`deleteProductFromCart(${pid})`)
+  const deleteProductFromCart = async (pid, cid) => {
+    await fetch(`/api/carts/${cid}/product/${pid}`, {
+      method: "delete",
+    }).then(result => result.json())
+      .then(result => {
+        socket.emit("cartProductsList", result.payload.products)
+      })
   }
+  socket.on("UpdatedCart", (data) => {
 
-  const checkout = async (cid)=>{
-    
-    alert(`alert: ${cid}`)
+    const tBodyCartProducts = document.getElementById("tBodyCartProducts")
+    tBodyCartProducts.innerHTML = ""
 
-    await fetch(`/api/tickets/cart/${cid}`, {
-      method: "post"
+    for (product of data) {
+
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+          <td><button class="deleteProductBtn btn btn-danger" data-product-id="${product.product._id}">delete</button>
+          </td>
+          <td><a href="http://localhost:8080/product/${product.product._id}">${product.product.title}</a></td>
+          <td>${product.product.price}$</td>
+          <td>${product.quantity}</td>
+          `
+      tBodyCartProducts.appendChild(tr);
+    }
+
+    loadDeleteButtons()
+  });
+  loadDeleteButtons()
+
+</script>
+<script>
+  const button = document.getElementById('checkout')
+  button.addEventListener('click', async (e) => {
+    console.log("listener activated")
+    const res = await fetch('/api/checkout/stripe', {
+      method: 'POST'
     })
-    .then(async(result)=>{
-      alert("entré al then del fetch: ")
-      const data = await result.json()
-
-      console.log("then: ",data)
-      return data
-    })
-    .catch((err)=>{alert("entré al catch del fetch: ", err)})
-  }
-
+    const data = await res.json()
+    window.location.href = data.url
+  })
 </script>

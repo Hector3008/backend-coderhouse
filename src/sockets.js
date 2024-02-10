@@ -9,6 +9,9 @@ export default (io) => {
     socket.on("usersList", (data) => {
       io.emit("updatedUsers", data);
     });
+    socket.on("cartProductsList", (data)=>{
+      io.emit("UpdatedCart", data);
+    });
     socket.broadcast.emit("alerta");
     let messages = await messageModel.find().lean().exec();
     socket.emit("logs", messages);

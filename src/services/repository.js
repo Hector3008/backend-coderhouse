@@ -24,6 +24,7 @@ export class CartRepository {
   createCart = async (data) => await this.dao.createCart(data);
   updateCart = async (id, data) => await this.dao.updateCart(id, data);
   deleteCart = async (id) => await this.dao.deleteCart(id);
+  findOne = async (data)=> await this.dao.findOne(data)
 }
 
 export class UserRepository {

@@ -29,6 +29,8 @@ const ticketSchema = new mongoose.Schema(
     amount: { type: Number },
 
     purchaser: { type: String, ref: "users" },
+    
+    status: {type: String, default: "pending"}
   },
   {
     timestamps: {

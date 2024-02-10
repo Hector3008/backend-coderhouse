@@ -3,8 +3,7 @@ import { Server } from "socket.io";
 import cfg from "./config/config.js";
 import engineer from "./engineer.js";
 
-
-import Sockets from './sockets.js'
+import Sockets from "./sockets.js";
 
 import product from "./routers/productsRouter.js";
 import carts from "./routers/cartsRouter.js";
@@ -15,17 +14,13 @@ import sessionsViews from "./routers/sessionsViewRouter.js";
 import users from "./routers/usersRouter.js";
 import tickets from "./routers/ticketRouter.js";
 import chat from "./routers/chatRouter.js";
-import twilioRouter from "./routers/twilioRouter.js";
-import checkoutRouter from "./routers/checkoutRouter.js";
-import generateProducts from "./routers/products.mockingRouter.js";
-import testing from "./routers/testingRouter.js";
+import checkout from "./routers/checkoutRouter.js";
+import ticketsView from "./routers/ticketViewRouter.js";
 import usersView from "./routers/usersViewRouter.js";
 /*
 //inicializo el servidor:
 */
 const app = express();
-
-
 
 try {
   engineer(app);
@@ -45,11 +40,9 @@ try {
     res.render("index.handlebars", { SEO: SEO });
     res.redirect("/sessions/register");
   });
-  app.get("/error", async (req, res) => {
-    res.render("error.handlebars");
-  });
 
   app.use("/api/products", product);
+  app.use("/api/checkout", checkout);
   app.use("/api/carts", carts);
   app.use("/api/sessions/", sessions);
   app.use("/products", productsViews);
@@ -57,18 +50,18 @@ try {
   app.use("/sessions/", sessionsViews);
   app.use("/users", usersView);
   app.use("/api/tickets", tickets);
-  app.use("/chat", chat)
-  app.use("/api/users", users)
-
-  app.use("/twilio", twilioRouter)
-  app.use("/checkout", checkoutRouter)
-  app.use("/mockingproducts", generateProducts);
-
-  app.use("/api/testing", testing);
+  app.use("/tickets", ticketsView);
+  app.use("/chat", chat);
+  app.use("/api/users", users);
+  app.get("/view", async (req, res) => {
+    const user = req.session.user;
+    res.render("checkout.handlebars", { user: user });
+  });
 
   app.use("*", async (req, res) => {
     res.render("error.handlebars");
   });
+
   /*
  //inicializo el flujo de información cliente/servidor (lógica del real_time_products):
 

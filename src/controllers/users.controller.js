@@ -21,10 +21,10 @@ accesible para el administrador del ecommerce */
   const users = await UserService.getAll();
   const mapResult = users.map((e) => new UserDTO(e));
 
-  res.render("users.handlebars", { users: mapResult });
+  res.render("users.handlebars", { users: mapResult, user: req.session.user });
 };
 export const formToDocumentsController = async (req, res) => {
-  res.render("formToDocuments.handlebars");
+  res.render("formToDocuments.handlebars", {user: req.session.user});
 };
 export const deleteUsersController = async (req, res) => {
   const currentDate = moment();

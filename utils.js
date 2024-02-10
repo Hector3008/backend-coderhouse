@@ -22,7 +22,7 @@ export const handlePolicies = policies => (req,res,next)=> {
       if (!policies.includes(user.role))
         return res
           .status(403)
-          .render("error.handlebars", { error: "not auth" });
+          .render("error.handlebars", { error: "not auth", user: req.session.user});
       return next();
 
 

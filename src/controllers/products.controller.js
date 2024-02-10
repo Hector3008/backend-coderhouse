@@ -278,3 +278,7 @@ export const deleteProductController = async (req, res) => {
     });
   }
 };
+
+export const viewController = async(req, res)=>{
+  res.status(200).json({message: "viewController"});
+}

@@ -1,0 +1,39 @@
+<div class="container" style="text-align: center">
+  <h3>purchaser: {{ticket.purchaser}}</h3>
+  <h4>code: {{ticket.code}}</h4>
+  <table class="table table-striped container shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <thead>
+      <tr>
+        <td>Title</td>
+        <td>Price by unity</td>
+        <td>Quantity</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each ticket.products}}
+      <tr>
+        <td>
+          {{this.product.title}}
+        </td>
+
+        <td>
+          {{this.product.price}}
+        </td>
+
+        <td>
+          {{this.quantity}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+    <thead>
+      <tr>
+        <td></td>
+        <td>amount:</td>
+        <td>{{ticket.amount}} usd</td>
+      </tr>
+    </thead>
+  </table>
+  <h4>{{ticket.purchase_datetime}}</h4>
+  <h4>status: {{ticket.status}}</h4>
+</div>

@@ -1,0 +1,14 @@
+<button id="checkout">Pay</button>
+user.role: 
+{{user.role}}
+<script>
+  const button = document.getElementById('checkout')
+  button.addEventListener('click', async (e) => {
+    console.log("listener activated")
+    const res = await fetch('/api/checkout/stripe', {
+      method: 'POST'
+    })
+    const data = await res.json()
+    window.location.href = data.url
+  })
+</script>

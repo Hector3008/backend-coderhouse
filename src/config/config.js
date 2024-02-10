@@ -17,12 +17,14 @@ export default {
   SESSION_SIGN: opts.Session_sign || process.env.SESSION_SIGN,
 
   PERSISTENCE: opts.Persistence || process.env.PERSISTENCE,
-  ENVIRONMENT: opts.ENVIRONMENT||process.env.ENVIRONMENT,
+  ENVIRONMENT: opts.ENVIRONMENT || process.env.ENVIRONMENT,
   NODEMAILER_EMAIL: opts.Nodemailer_email || process.env.NODEMAILER_EMAIL,
   NODEMAILER_PASSWORD:
     opts.Nodemailer_password || process.env.NODEMAILER_PASSWORD,
   TWILIO_ACCOUNT_SID: opts.TWILIO_ACCOUNT_SID || process.env.TWILIO_ACCOUNT_SID,
   TWILIO_AUTH_TOKEN: opts.TWILIO_AUTH_TOKEN || process.env.TWILIO_AUTH_TOKEN,
-  TWILIO_AUTH_TLF: opts.TWILIO_AUTH_TLF||process.env.TWILIO_AUTH_TLF
+  TWILIO_AUTH_TLF: opts.TWILIO_AUTH_TLF || process.env.TWILIO_AUTH_TLF,
+  STRIPE_API_PUBLISH: process.env.STRIPE_API_PUBLISH,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
 };
 
