@@ -61,10 +61,33 @@ export default (app) => {
   */
     app.use("/", express.static("./src/public"));
 
+    // Registro de helpers personalizados
+    const hbs = handlebars.create({
+      helpers: {
+        eq: function (arg1, arg2, options) {
+          // Verificar si options está definido y es una función
+          if (
+            options &&
+            typeof options.fn === "function" &&
+            typeof options.inverse === "function"
+          ) {
+            if (arg1 === arg2) {
+              return options.fn(this); // Ejecuta el bloque de código de {{#eq}}
+            } else {
+              return options.inverse(this); // Ejecuta el bloque de código de {{else}}
+            }
+          } else {
+            return ""; // Devuelve una cadena vacía si las opciones no son válidas
+          }
+        },
+      },
+    });
+
     /*
   //instancio la ingeniería de handlebars:
   */
-    app.engine("handlebars", handlebars.engine());
+    app.engine("handlebars", hbs.engine);
+
     app.set("views", "./src/views");
     app.set("view engine", "handlebars");
 
